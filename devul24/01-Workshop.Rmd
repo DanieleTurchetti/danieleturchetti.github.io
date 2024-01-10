@@ -1,0 +1,313 @@
+
+
+# Workshop: PCA
+
+
+
+
+```{r further1}
+```
+There are two commands for performing principal component analysis (PCA) in R:
+*princomp()* and *prcomp()* (see details in the
+lecture note). The main goal of PCA in the tasks today will be dimensionality reduction. We wish to produce a
+smaller set of uncorrelated variables from the larger set of correlated variables. The resulting variables are uncorrelated and can be used as input to other statistical procedures, e.g. principal component regression (PCR).
+
+\
+
+## Iris data
+
+Let us consider the popular Iris data set (the data set is on Blackboard in a csv file iris.csv). You can also get the data in R by typing `data(iris)` in the console. The data consists of 5 variables:
+
+* Species (with three levels: Setosa, Versicolor, Virginica)
+* Petal length (in mm)
+* Petal width (in mm)
+* Sepal length (in mm)
+* Sepal width (in mm) 
+
+
+
+
+1 This part involves the use of `spectral decomposition` to obtain principal components and make appropriate plots (this is the method implemented in *princomp()* function).
+
+
+[(i)] Read the data into R and print out the first six rows of the data. 
+
+<details>
+<summary>Click for solution</summary>
+```{r}
+head(iris)
+```
+</details>
+
+Look at the summary statistics using:
+
+`summary(iris[,-5])` # fifth column in the data is removed
+
+What can you say about the variables in the data set? We can plot a scatter plot matrix using `pairs.panels` function from *psych* package:
+
+
+```{r fig.align="center",message=FALSE,warning=FALSE}
+library(psych)
+pairs.panels(iris[,-5],
+             method = "pearson", # correlation method
+             hist.col = "#00AFBB",
+             density = TRUE,  # show density plots
+             ellipses = TRUE # show correlation ellipses
+             )
+```
+
+What can you say about the plot? Do the variables share sufficient information to warrant redundancy? 
+
+You can see that the Petal variables are highly correlated (correlation =0.96). They are also highly correlated with the Sepal length variable. This implies that the three variables share redundant information and the use of PCA can remove this redundancy, thereby reducing the dimension of the data.
+
+
+\
+
+[(ii)] Do we need to use Covariance matrix ($\Sigma$) or Correlation matrix (scale the data)? We can check this by assessing the standard deviation of the variables.
+
+
+```{r }
+sd <- apply(iris[,-5], 2, sd)
+sd
+```
+
+The variables should be scaled/correlation matrix used. 
+
+\
+
+Spectral decomposition can be obtained using the `eigen()` function
+
+```{r }
+S <- cor(iris[,-5])
+eigdec <- eigen(S)
+eigdec
+```
+
+\
+
+The *values* and *vectors* from the decomposition are the variances and the principal component loadings respectively.
+
+```{r}
+eig <-  eigdec$values
+eig
+```
+
+<p style="color:red">**Question:** Why is the sum of these eigenvalues 4?<p>
+
+
+<p style="color:red">**Answer:** We have four variables which are now scaled. The variance of each of them is 1. The total variance of all of them is therefore 4.<p>
+
+\
+
+The eigenvectors can be obtained as
+```{r}
+pc_loading <-  eigdec$vectors
+rownames(pc_loading) <- colnames(iris[,-5])
+pc_loading
+```
+\
+
+We can obtain the proportion of variance explained as follows:
+
+```{r}
+# Variances in percentage
+eig <-  eigdec$values
+variance <- eig*100/sum(eig)
+# Cumulative variances
+cumvar <- cumsum(variance)
+eig2<- data.frame(eig = eig, variance = variance,
+                  cumvariance = cumvar)
+eig2 
+```
+
+\
+
+
+We can supplement this result with a scree plot to decide the number of dimensions to keep.
+
+```{r fig.height = 4, fig.width=4, fig.align="center"}
+barplot(eig2[, 2], names.arg=1:nrow(eig2),
+        main = "Scree plot",
+        xlab = "Dimensions",
+        ylab = "Percentage of variances",
+        col ="steelblue")
+# Add connected line segments to the plot
+lines(x = 1:nrow(eig2), eig2[, 2],
+      type="b", pch=19, col = "red")
+
+```
+
+<p style="color:red"> Based on these (both the proportion of variance explained and the scree plot), how many dimensions should be kept for the Iris data set? The answer is that we have two dimensions that cumulatively explain about 96% of the variability in the data. This value is well beyond the rule of thumb which suggested retaining components that explain 80-90% of the variability in the original data set.<p>
+
+\
+
+
+[(iii)]
+Recall that we distinguished between PCA loadings and PCA scores in the lecture. We can derive the pc scores using the following codes:
+
+```{r}
+pc_score = as.matrix(scale(iris[,-5]))%*% pc_loading
+colnames(pc_score) <- paste0("PC", 1:4)
+pc_score[1:4,]
+```
+
+\
+
+
+We can now make a scatter plot matrix as before using pc_score as input. 
+
+Here's the plot:
+
+```{r message=FALSE,warning=FALSE}
+library(psych)
+pairs.panels(pc_score,
+             method = "pearson", # correlation method
+             hist.col = "#00AFBB",
+             density = TRUE,  # show density plots
+             ellipses = TRUE # show correlation ellipses
+)
+```
+
+
+
+The correlation between the PCs (which are the new coordinates) are essential zero as required.
+
+
+\
+
+From now on, we will keep the first two components. We can use the following codes to plot the scores:
+
+```{r  fig.height = 3.5, fig.width=6, fig.align="center"}
+pc_score2 <- as.data.frame(pc_score[,1:2])
+pc_score2$Species <- iris$Species
+rownames(pc_score2) <- seq(1:150)
+xlim <- range(pc_score2[,1])*1.1
+ylim <- range(pc_score2[,2])*1.1
+
+plot(pc_score2[,1:2], pch=19, xlim = xlim, ylim=ylim, main = "Plot of PC scores",
+     col=c("blue","red","green")[pc_score2$Species])
+text(pc_score2[,1:2], labels =rownames(pc_score2[,1:2]),
+     pos = 3, col=c("blue","red","green")[pc_score2$Species])
+abline(v=0, h=0, lty = 2)
+
+```
+
+**Question: Can you deduce the relationship between the scores and the PCs?** 
+
+<p style="color:red">Clearly the two species (on the right) look more similar than the other on the left. The data looks linearly separable (we can draw straight lines and separate the three species).<p>
+
+\
+
+We can also plot the PC loadings:
+
+```{r, fig.height = 3.5, fig.width=6, fig.align="center",echo=FALSE}
+colnames(pc_loading) <- paste0("PC", 1:4)
+pc_loading2 <- pc_loading[,1:2]
+
+par(bty = 'n')
+xlim <- range(pc_loading2[,1])*1.1
+ylim <- range(pc_loading2[,2])*1.1
+
+plot(pc_loading2[,1:2], pch=19, xlim = xlim, ylim=ylim, main = "Plot of PC loadings")
+abline(v=0, h=0, lty = 2)
+arrows(x0=0, y0=0, x1= pc_loading2[1,1],
+       y1 = pc_loading2[1,2],col="red",lwd=2)
+arrows(x0=0, y0=0, x1 = pc_loading2[2,1],
+       y1 = pc_loading2[2,2],col="blue",lwd=2)
+arrows(x0=0, y0=0, x1= pc_loading2[3,1],
+       y1 = pc_loading2[3,2],col="green",lwd=2)
+arrows(x0=0, y0=0, x1 = pc_loading2[4,1],
+       y1 = pc_loading2[4,2],col="grey",lwd=2)
+text(0.541, -0.477, "Sepal.Length",cex = .6,col="red" )
+text(-0.240, -0.99, "Sepal.Width",cex = .6,col="blue")
+text(0.580, -0.05, "Petal.Length",cex = .6,col="green" )
+text(0.564, -0.10, "Petal.Width",cex = .6,col="grey")
+
+```
+
+\
+
+
+
+
+As you probably observed, it is not straightforward to explain the plots separately. A biplot displays both the principal component scores and the principal component loadings. Click the link on  [biplot](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/biplot) to read more. We can now make this plot and explain our observation.
+
+\
+
+*pc_loading2 <- pc_loading[,1:2]*
+
+
+```{r}
+biplot(pc_score2[,1:2],pc_loading2, xlab="PC1 (73%)", ylab="PC2 (22.9%)")
+abline(v=0, h=0, lty = 2)
+```
+
+
+
+From the plot as well as from the factor loadings, first loading vector places approximately equal weight on Sepal length, Petal length and Petal width, with much less weight in Sepal width. The second loading vector places most of its weight on Sepal width. Overall, we see that Sepal length, Petal length and Petal width are located close to each other.
+
+\
+
+[(iv)] The correlation between the original variables and the selected PCs is given by
+
+```{r}
+cor(iris[,-5], pc_score[,1:2])
+```
+
+The output indicates that Sepal length, Petal length and Petal width are highly correlated with PC1 while Sepal width is highly correlated with PC2.
+
+\
+
+The quality of representation of the variables is called the squared cosine (cos2) or the squared correlations.
+
+```{r}
+cos2 <-  (cor(iris[,-5], pc_score[,1:2]))^2
+cos2
+```
+
+\
+
+The contribution of a variable to a given principal component is (in percentage) : (cos2 * 100) / (total cos2 of the component)
+
+
+```{r}
+comp.cos2 <- apply(cos2, 2, sum)
+contrib2 <- function(cos2, comp.cos2){cos2*100/comp.cos2}
+contrib <- t(apply(cos2,1, contrib2, comp.cos2))
+contrib
+```
+
+\
+
+The contribution can be displayed with a barplot:
+
+```{r, fig.height = 4, fig.width=6, fig.align="center",echo=TRUE}
+names1 = c("Petal.Length", "Petal.Width","Sepal.Length", "Sepal.Width")
+barplot(contrib[order(contrib[, 1],decreasing = T),1], names.arg=names1, 
+        main = "Contribution of variables to PC1",
+        xlab = " ",
+        ylab = "Percentage of variances",
+        col ="steelblue",las=2,cex.names=0.7)
+abline(h=25, col="red",lty=3, lwd =1)
+
+
+```
+*Think about how the codes for barplot above can be modified to show the contribution of variables to PC2.*
+
+\
+
+Notice that the horizontal red line is placed at 25. This is because we have 4 variables and 100/4 = 25. Any variable whose height is up to 25 and above is considered to have contributed significantly to the component.
+
+
+Observe that the interpretation of cor, cos2 and contrib are similar. 
+
+\
+
+
+
+In fact, the step-by-step process we have followed using various functions is what was packaged in the `princomp` function for principal component analysis, and it is based on `spectral` decomposition.
+
+
+\
+
+

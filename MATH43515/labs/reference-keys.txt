@@ -1,5 +1,4 @@
 welcome-to-multilevel-modelling
-including-plots
 multilevel-modelling-practical-1-week-2
 instructions-start-here
 exercises-1

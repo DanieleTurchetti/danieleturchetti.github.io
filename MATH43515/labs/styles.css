@@ -6,3 +6,29 @@
     font-size: 24px;
     font-weight: bold;
 }
+
+.book .book-summary {
+    background-color: #f4f4f9; /* Light gray background */
+    border-right: 2px solid #ccc; /* Add a border */
+    font-family: 'Arial', sans-serif; /* Change font */
+    padding: 10px; /* Add spacing */
+}
+
+.book .book-summary ul {
+    list-style: none; /* Remove default bullets */
+    padding-left: 0;
+}
+
+.book .book-summary li {
+    margin-bottom: 5px; /* Add spacing between items */
+}
+
+.book .book-summary a {
+    color: #007acc; /* Link color */
+    text-decoration: none; /* Remove underline */
+}
+
+.book .book-summary a:hover {
+    color: #005a99; /* Darker link color on hover */
+    text-decoration: underline; /* Underline on hover */
+}

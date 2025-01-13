@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>6 Multilevel Modelling Practical 5 (Week 6) | MLM_worksheets.knit</title>
+  <meta name="description" content="" />
+  <meta name="generator" content="bookdown 0.42 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="6 Multilevel Modelling Practical 5 (Week 6) | MLM_worksheets.knit" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="6 Multilevel Modelling Practical 5 (Week 6) | MLM_worksheets.knit" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="multilevel-modelling-practical-4-week-5.html"/>
+<link rel="next" href="multilevel-modelling-practical-6-week-7.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="styles.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Home</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Welcome to multilevel modelling</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#including-plots"><i class="fa fa-check"></i><b>1.1</b> Including Plots</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="multilevel-modelling-practical-1-week-2.html"><a href="multilevel-modelling-practical-1-week-2.html"><i class="fa fa-check"></i><b>2</b> Multilevel Modelling Practical 1 (Week 2)</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="multilevel-modelling-practical-1-week-2.html"><a href="multilevel-modelling-practical-1-week-2.html#instructions-start-here"><i class="fa fa-check"></i><b>2.1</b> Instructions – start here!</a></li>
+<li class="chapter" data-level="2.2" data-path="multilevel-modelling-practical-1-week-2.html"><a href="multilevel-modelling-practical-1-week-2.html#exercises-1"><i class="fa fa-check"></i><b>2.2</b> Exercises 1</a></li>
+<li class="chapter" data-level="2.3" data-path="multilevel-modelling-practical-1-week-2.html"><a href="multilevel-modelling-practical-1-week-2.html#exercises-2"><i class="fa fa-check"></i><b>2.3</b> Exercises 2</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="multilevel-modelling-practical-2-week-3.html"><a href="multilevel-modelling-practical-2-week-3.html"><i class="fa fa-check"></i><b>3</b> Multilevel Modelling Practical 2 (Week 3)</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="multilevel-modelling-practical-2-week-3.html"><a href="multilevel-modelling-practical-2-week-3.html#instructions-start-here-1"><i class="fa fa-check"></i><b>3.1</b> Instructions – start here!</a></li>
+<li class="chapter" data-level="3.2" data-path="multilevel-modelling-practical-2-week-3.html"><a href="multilevel-modelling-practical-2-week-3.html#exercises-1-1"><i class="fa fa-check"></i><b>3.2</b> Exercises 1</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="multilevel-modelling-practical-2-week-3.html"><a href="multilevel-modelling-practical-2-week-3.html#acquire-and-prepare-data"><i class="fa fa-check"></i><b>3.2.1</b> Acquire and prepare data</a></li>
+<li class="chapter" data-level="3.2.2" data-path="multilevel-modelling-practical-2-week-3.html"><a href="multilevel-modelling-practical-2-week-3.html#exploratory-analysis"><i class="fa fa-check"></i><b>3.2.2</b> Exploratory analysis</a></li>
+<li class="chapter" data-level="3.2.3" data-path="multilevel-modelling-practical-2-week-3.html"><a href="multilevel-modelling-practical-2-week-3.html#naive-simple-linear-regression-models"><i class="fa fa-check"></i><b>3.2.3</b> Naive simple linear regression models</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="multilevel-modelling-practical-2-week-3.html"><a href="multilevel-modelling-practical-2-week-3.html#exercise-2"><i class="fa fa-check"></i><b>3.3</b> Exercise 2</a></li>
+<li class="chapter" data-level="3.4" data-path="multilevel-modelling-practical-2-week-3.html"><a href="multilevel-modelling-practical-2-week-3.html#exercise-3-if-time"><i class="fa fa-check"></i><b>3.4</b> Exercise 3 (if time)</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="multilevel-modelling-practical-3-week-4.html"><a href="multilevel-modelling-practical-3-week-4.html"><i class="fa fa-check"></i><b>4</b> Multilevel Modelling Practical 3 (Week 4)</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="multilevel-modelling-practical-3-week-4.html"><a href="multilevel-modelling-practical-3-week-4.html#instructions-start-here-2"><i class="fa fa-check"></i><b>4.1</b> Instructions – start here!</a></li>
+<li class="chapter" data-level="4.2" data-path="multilevel-modelling-practical-3-week-4.html"><a href="multilevel-modelling-practical-3-week-4.html#exercise-1"><i class="fa fa-check"></i><b>4.2</b> Exercise 1</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="multilevel-modelling-practical-3-week-4.html"><a href="multilevel-modelling-practical-3-week-4.html#preparation-of-the-data-set"><i class="fa fa-check"></i><b>4.2.1</b> Preparation of the data set</a></li>
+<li class="chapter" data-level="4.2.2" data-path="multilevel-modelling-practical-3-week-4.html"><a href="multilevel-modelling-practical-3-week-4.html#fitting-the-random-intercept-and-slope-model"><i class="fa fa-check"></i><b>4.2.2</b> Fitting the random intercept and slope model</a></li>
+<li class="chapter" data-level="4.2.3" data-path="multilevel-modelling-practical-3-week-4.html"><a href="multilevel-modelling-practical-3-week-4.html#fitted-lines-by-class"><i class="fa fa-check"></i><b>4.2.3</b> Fitted lines by class</a></li>
+<li class="chapter" data-level="4.2.4" data-path="multilevel-modelling-practical-3-week-4.html"><a href="multilevel-modelling-practical-3-week-4.html#the-intercept-only-empty-model-and-icc"><i class="fa fa-check"></i><b>4.2.4</b> The intercept-only / empty model and ICC</a></li>
+<li class="chapter" data-level="4.2.5" data-path="multilevel-modelling-practical-3-week-4.html"><a href="multilevel-modelling-practical-3-week-4.html#the-random-intercept-model-with-covariate"><i class="fa fa-check"></i><b>4.2.5</b> The random intercept model (with covariate)</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="multilevel-modelling-practical-3-week-4.html"><a href="multilevel-modelling-practical-3-week-4.html#exercise-2-1"><i class="fa fa-check"></i><b>4.3</b> Exercise 2</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="multilevel-modelling-practical-3-week-4.html"><a href="multilevel-modelling-practical-3-week-4.html#preparation"><i class="fa fa-check"></i><b>4.3.1</b> Preparation</a></li>
+<li class="chapter" data-level="4.3.2" data-path="multilevel-modelling-practical-3-week-4.html"><a href="multilevel-modelling-practical-3-week-4.html#the-random-intercept-model"><i class="fa fa-check"></i><b>4.3.2</b> The random intercept model</a></li>
+<li class="chapter" data-level="4.3.3" data-path="multilevel-modelling-practical-3-week-4.html"><a href="multilevel-modelling-practical-3-week-4.html#diagnostics"><i class="fa fa-check"></i><b>4.3.3</b> Diagnostics</a></li>
+<li class="chapter" data-level="4.3.4" data-path="multilevel-modelling-practical-3-week-4.html"><a href="multilevel-modelling-practical-3-week-4.html#include-a-second-fixed-effect-variable-gender"><i class="fa fa-check"></i><b>4.3.4</b> Include a second fixed effect variable: gender</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="multilevel-modelling-practical-4-week-5.html"><a href="multilevel-modelling-practical-4-week-5.html"><i class="fa fa-check"></i><b>5</b> Multilevel Modelling Practical 4 (Week 5)</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="multilevel-modelling-practical-4-week-5.html"><a href="multilevel-modelling-practical-4-week-5.html#instructions-start-here-3"><i class="fa fa-check"></i><b>5.1</b> Instructions – start here!</a></li>
+<li class="chapter" data-level="5.2" data-path="multilevel-modelling-practical-4-week-5.html"><a href="multilevel-modelling-practical-4-week-5.html#exercise-1-analysis-of-the-active-time-study-data-lecture-5"><i class="fa fa-check"></i><b>5.2</b> Exercise 1: Analysis of the Active Time study data (lecture 5)</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="multilevel-modelling-practical-4-week-5.html"><a href="multilevel-modelling-practical-4-week-5.html#how-important-is-group-structure-vpcs-and-iccs"><i class="fa fa-check"></i><b>5.2.1</b> How important is group structure? (VPCs and ICCs)</a></li>
+<li class="chapter" data-level="5.2.2" data-path="multilevel-modelling-practical-4-week-5.html"><a href="multilevel-modelling-practical-4-week-5.html#three-level-model-with-explanatory-variables"><i class="fa fa-check"></i><b>5.2.2</b> Three level Model with explanatory variables</a></li>
+<li class="chapter" data-level="5.2.3" data-path="multilevel-modelling-practical-4-week-5.html"><a href="multilevel-modelling-practical-4-week-5.html#comparison-of-empty-model-with-model-with-explanatory-variables"><i class="fa fa-check"></i><b>5.2.3</b> Comparison of empty model with model with explanatory variables</a></li>
+<li class="chapter" data-level="5.2.4" data-path="multilevel-modelling-practical-4-week-5.html"><a href="multilevel-modelling-practical-4-week-5.html#further-analysis-bottom-up-approach"><i class="fa fa-check"></i><b>5.2.4</b> Further analysis (bottom up approach)</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="multilevel-modelling-practical-5-week-6.html"><a href="multilevel-modelling-practical-5-week-6.html"><i class="fa fa-check"></i><b>6</b> Multilevel Modelling Practical 5 (Week 6)</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="multilevel-modelling-practical-5-week-6.html"><a href="multilevel-modelling-practical-5-week-6.html#instructions---start-here"><i class="fa fa-check"></i><b>6.1</b> Instructions - start here!</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="multilevel-modelling-practical-5-week-6.html"><a href="multilevel-modelling-practical-5-week-6.html#overview"><i class="fa fa-check"></i><b>6.1.1</b> Overview</a></li>
+<li class="chapter" data-level="6.1.2" data-path="multilevel-modelling-practical-5-week-6.html"><a href="multilevel-modelling-practical-5-week-6.html#multilevel-modelling-with-longitudinal-data"><i class="fa fa-check"></i><b>6.1.2</b> Multilevel modelling with longitudinal data</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="multilevel-modelling-practical-6-week-7.html"><a href="multilevel-modelling-practical-6-week-7.html"><i class="fa fa-check"></i><b>7</b> Multilevel Modelling Practical 6 (Week 7)</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="multilevel-modelling-practical-6-week-7.html"><a href="multilevel-modelling-practical-6-week-7.html#instructions---start-here-1"><i class="fa fa-check"></i><b>7.1</b> Instructions - start here!</a></li>
+<li class="chapter" data-level="7.2" data-path="multilevel-modelling-practical-6-week-7.html"><a href="multilevel-modelling-practical-6-week-7.html#exercise-1-long-and-wide-data-shape"><i class="fa fa-check"></i><b>7.2</b> Exercise 1 (Long and wide data shape)</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="multilevel-modelling-practical-6-week-7.html"><a href="multilevel-modelling-practical-6-week-7.html#regression-vs-multilevel-analysis"><i class="fa fa-check"></i><b>7.2.1</b> Regression vs multilevel analysis</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="multilevel-modelling-practical-6-week-7.html"><a href="multilevel-modelling-practical-6-week-7.html#exercise-2-simulation-from-the-two-level-longitudinal-model"><i class="fa fa-check"></i><b>7.3</b> Exercise 2 (simulation from the two-level longitudinal model)</a></li>
+<li class="chapter" data-level="7.4" data-path="multilevel-modelling-practical-6-week-7.html"><a href="multilevel-modelling-practical-6-week-7.html#end-of-lab"><i class="fa fa-check"></i><b>7.4</b> End of lab!</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="multilevel-modelling-practical-7-week-8.html"><a href="multilevel-modelling-practical-7-week-8.html"><i class="fa fa-check"></i><b>8</b> Multilevel Modelling Practical 7 (Week 8)</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="multilevel-modelling-practical-7-week-8.html"><a href="multilevel-modelling-practical-7-week-8.html#instructions---start-here-2"><i class="fa fa-check"></i><b>8.1</b> Instructions - start here!</a></li>
+<li class="chapter" data-level="8.2" data-path="multilevel-modelling-practical-7-week-8.html"><a href="multilevel-modelling-practical-7-week-8.html#exercise-1-aids-data-example-2-from-lecture-7"><i class="fa fa-check"></i><b>8.2</b> Exercise 1 (Aids data: Example 2 from lecture 7)</a></li>
+<li class="chapter" data-level="8.3" data-path="multilevel-modelling-practical-7-week-8.html"><a href="multilevel-modelling-practical-7-week-8.html#exercise-2-leukaemia-data-example-3-from-lecture-7"><i class="fa fa-check"></i><b>8.3</b> Exercise 2 (Leukaemia data: Example 3 from lecture 7)</a></li>
+<li class="chapter" data-level="8.4" data-path="multilevel-modelling-practical-7-week-8.html"><a href="multilevel-modelling-practical-7-week-8.html#exercise-3-toxoplasmosis-data-binomial-logistic-regression"><i class="fa fa-check"></i><b>8.4</b> Exercise 3: Toxoplasmosis data (Binomial logistic regression)</a></li>
+<li class="chapter" data-level="8.5" data-path="multilevel-modelling-practical-7-week-8.html"><a href="multilevel-modelling-practical-7-week-8.html#end-of-lab-1"><i class="fa fa-check"></i><b>8.5</b> ## End of lab!</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="multilevel-modelling-practical-8-week-9.html"><a href="multilevel-modelling-practical-8-week-9.html"><i class="fa fa-check"></i><b>9</b> Multilevel Modelling Practical 8 (Week 9)</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="multilevel-modelling-practical-8-week-9.html"><a href="multilevel-modelling-practical-8-week-9.html#instructions---start-here-3"><i class="fa fa-check"></i><b>9.1</b> Instructions - start here!</a></li>
+<li class="chapter" data-level="9.2" data-path="multilevel-modelling-practical-8-week-9.html"><a href="multilevel-modelling-practical-8-week-9.html#preliminaries"><i class="fa fa-check"></i><b>9.2</b> Preliminaries</a></li>
+<li class="chapter" data-level="9.3" data-path="multilevel-modelling-practical-8-week-9.html"><a href="multilevel-modelling-practical-8-week-9.html#exercise-1-betablocker-data"><i class="fa fa-check"></i><b>9.3</b> Exercise 1: Betablocker data</a></li>
+<li class="chapter" data-level="9.4" data-path="multilevel-modelling-practical-8-week-9.html"><a href="multilevel-modelling-practical-8-week-9.html#exercise-2-digging-deeper"><i class="fa fa-check"></i><b>9.4</b> Exercise 2 (digging deeper)</a></li>
+<li class="chapter" data-level="9.5" data-path="multilevel-modelling-practical-8-week-9.html"><a href="multilevel-modelling-practical-8-week-9.html#exercise-3-optional-toxoplasmosis-data-revisited"><i class="fa fa-check"></i><b>9.5</b> Exercise 3 (optional): Toxoplasmosis data revisited</a></li>
+<li class="chapter" data-level="9.6" data-path="multilevel-modelling-practical-8-week-9.html"><a href="multilevel-modelling-practical-8-week-9.html#summative-assessment"><i class="fa fa-check"></i><b>9.6</b> Summative assessment</a></li>
+<li class="chapter" data-level="9.7" data-path="multilevel-modelling-practical-8-week-9.html"><a href="multilevel-modelling-practical-8-week-9.html#end-of-lab-2"><i class="fa fa-check"></i><b>9.7</b> ## End of lab!</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="multilevel-modelling-practical-9-week-10.html"><a href="multilevel-modelling-practical-9-week-10.html"><i class="fa fa-check"></i><b>10</b> Multilevel Modelling Practical 9 (Week 10)</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="multilevel-modelling-practical-9-week-10.html"><a href="multilevel-modelling-practical-9-week-10.html#dealing-with-missing-values"><i class="fa fa-check"></i><b>10.1</b> Dealing with missing values</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="multilevel-modelling-practical-5-week-6" class="section level1 hasAnchor" number="6">
+<h1><span class="header-section-number">6</span> Multilevel Modelling Practical 5 (Week 6)<a href="multilevel-modelling-practical-5-week-6.html#multilevel-modelling-practical-5-week-6" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="instructions---start-here" class="section level2 hasAnchor" number="6.1">
+<h2><span class="header-section-number">6.1</span> Instructions - start here!<a href="multilevel-modelling-practical-5-week-6.html#instructions---start-here" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>This lab involves the analysis of a longitudinal data set (full details below).</p>
+<p>Let’s begin by loading the necessary packages and data:</p>
+<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="multilevel-modelling-practical-5-week-6.html#cb156-1" tabindex="-1"></a><span class="fu">require</span>(lme4)</span>
+<span id="cb156-2"><a href="multilevel-modelling-practical-5-week-6.html#cb156-2" tabindex="-1"></a><span class="fu">require</span>(lmerTest)</span>
+<span id="cb156-3"><a href="multilevel-modelling-practical-5-week-6.html#cb156-3" tabindex="-1"></a><span class="fu">require</span>(ggplot2)</span>
+<span id="cb156-4"><a href="multilevel-modelling-practical-5-week-6.html#cb156-4" tabindex="-1"></a><span class="fu">require</span>(haven)</span></code></pre></div>
+<div id="overview" class="section level3 hasAnchor" number="6.1.1">
+<h3><span class="header-section-number">6.1.1</span> Overview<a href="multilevel-modelling-practical-5-week-6.html#overview" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The analysis starts by introducing the longitudinal data and some visual representations. This particular dataset was chosen for three primary reasons:</p>
+<ul>
+<li><p>It illustrates the basic notion of “time” in a slightly different context with the hope of a more intuitive understanding. The time variable is age and is continuous (contrary to most cases where it is presented as discrete) to showcase that what defines time is the repeated values within children, rather than a discrete definition and format.</p></li>
+<li><p>It binds well to the notion of covariance. When defined as a random intercept and random slope model, it has a fanning-out form that is distinct enough to produce a positive covariance, allowing for an intuitive explanation both illustratively and quantitatively of what the sign on a covariance implies.</p></li>
+<li><p>There is a non-linear relationship between the response and time, which presents us with an opportunity to showcase how to deal with it.</p></li>
+</ul>
+<p>The practical continues by comparing the random intercept and full random effects models, again using <code>ggplot2</code>.</p>
+<p>It then uses the full random effects model as the primary model to conduct diagnostic checks where non-linearity is discovered in the residuals plot and then countered using a squared age variable.</p>
+<p>It is also shown how one can extract the variance-covariance matrix for inspection and how to use it to build the Intraclass Correlation Coefficient.</p>
+<p>Some basic model assumptions are also tested using visual representations.</p>
+</div>
+<div id="multilevel-modelling-with-longitudinal-data" class="section level3 hasAnchor" number="6.1.2">
+<h3><span class="header-section-number">6.1.2</span> Multilevel modelling with longitudinal data<a href="multilevel-modelling-practical-5-week-6.html#multilevel-modelling-with-longitudinal-data" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The data set is comprised of child weight for children in a British community who were weighed up to four times, roughly between the ages of 6 weeks and 27 months. (It represents a random sample of data previously analyzed by Goldstein (1986) and Prosser, Rasbash, and Goldstein (1991).)</p>
+<p>Download the file childweight.RData from Ultra and place it into your working directory. (Consult Practical 3 if you need further instructions on how to do this.) Then load it into your workspace via
+`
+<span class="math inline">\(~\)</span></p>
+<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="multilevel-modelling-practical-5-week-6.html#cb157-1" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;childweight.RData&quot;</span>) <span class="co"># Insert directory as needed</span></span>
+<span id="cb157-2"><a href="multilevel-modelling-practical-5-week-6.html#cb157-2" tabindex="-1"></a>data <span class="ot">&lt;-</span> childweight</span>
+<span id="cb157-3"><a href="multilevel-modelling-practical-5-week-6.html#cb157-3" tabindex="-1"></a><span class="co">#Or uncomment the following if there are issues loading the workspace</span></span>
+<span id="cb157-4"><a href="multilevel-modelling-practical-5-week-6.html#cb157-4" tabindex="-1"></a><span class="co">#data &lt;- read.csv(&quot;https://andygolightly.github.io/teaching/MATH43515/childweight.csv&quot;)[,-1]</span></span>
+<span id="cb157-5"><a href="multilevel-modelling-practical-5-week-6.html#cb157-5" tabindex="-1"></a></span>
+<span id="cb157-6"><a href="multilevel-modelling-practical-5-week-6.html#cb157-6" tabindex="-1"></a>weight <span class="ot">&lt;-</span> data<span class="sc">$</span>weight</span>
+<span id="cb157-7"><a href="multilevel-modelling-practical-5-week-6.html#cb157-7" tabindex="-1"></a>age <span class="ot">&lt;-</span> data<span class="sc">$</span>age</span>
+<span id="cb157-8"><a href="multilevel-modelling-practical-5-week-6.html#cb157-8" tabindex="-1"></a>birthw <span class="ot">&lt;-</span> data<span class="sc">$</span>brthwt</span>
+<span id="cb157-9"><a href="multilevel-modelling-practical-5-week-6.html#cb157-9" tabindex="-1"></a>girl <span class="ot">&lt;-</span> data<span class="sc">$</span>girl</span>
+<span id="cb157-10"><a href="multilevel-modelling-practical-5-week-6.html#cb157-10" tabindex="-1"></a>id.f <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(data<span class="sc">$</span>id)</span></code></pre></div>
+<div id="brief-exploratory-analysis" class="section level4 hasAnchor" number="6.1.2.1">
+<h4><span class="header-section-number">6.1.2.1</span> Brief exploratory analysis<a href="multilevel-modelling-practical-5-week-6.html#brief-exploratory-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Data summary and inspection:</p>
+<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="multilevel-modelling-practical-5-week-6.html#cb158-1" tabindex="-1"></a><span class="fu">head</span>(data)</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 5
+##      id   age weight brthwt girl     
+##   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl+lbl&gt;
+## 1    45 0.137   5.17   4140 0 [boy]  
+## 2    45 0.657  10.9    4140 0 [boy]  
+## 3    45 1.22   13.1    4140 0 [boy]  
+## 4    45 1.43   13.2    4140 0 [boy]  
+## 5    45 2.27   15.9    4140 0 [boy]  
+## 6   258 0.192   5.30   3155 1 [girl]</code></pre>
+<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="multilevel-modelling-practical-5-week-6.html#cb160-1" tabindex="-1"></a><span class="fu">summary</span>(data)</span></code></pre></div>
+<pre><code>##        id            age             weight           brthwt          girl       
+##  Min.   :  45   Min.   :0.1150   Min.   : 3.100   Min.   :1575   Min.   :0.0000  
+##  1st Qu.:1271   1st Qu.:0.6461   1st Qu.: 7.008   1st Qu.:2807   1st Qu.:0.0000  
+##  Median :2351   Median :0.9966   Median : 9.071   Median :3120   Median :0.0000  
+##  Mean   :2491   Mean   :1.0806   Mean   : 8.837   Mean   :3106   Mean   :0.4949  
+##  3rd Qu.:3704   3rd Qu.:1.4709   3rd Qu.:10.890   3rd Qu.:3390   3rd Qu.:1.0000  
+##  Max.   :4975   Max.   :2.5462   Max.   :17.200   Max.   :4270   Max.   :1.0000</code></pre>
+<p>Although in most cases of longitudinal analysis you will encounter discrete categorical time values (i.e. 1, 2, 3,…) in this setting, time is not discrete but continuous with differing values between children. This feature however, does not necessarily imply that any additional methodology is needed to handle this.</p>
+<p><span class="math inline">\(~\)</span></p>
+<p>Let’s plot the data by visualising the linear relationship.</p>
+<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="multilevel-modelling-practical-5-week-6.html#cb162-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data  =</span> data,</span>
+<span id="cb162-2"><a href="multilevel-modelling-practical-5-week-6.html#cb162-2" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> age,</span>
+<span id="cb162-3"><a href="multilevel-modelling-practical-5-week-6.html#cb162-3" tabindex="-1"></a>           <span class="at">y =</span> weight))<span class="sc">+</span></span>
+<span id="cb162-4"><a href="multilevel-modelling-practical-5-week-6.html#cb162-4" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">1.2</span>,</span>
+<span id="cb162-5"><a href="multilevel-modelling-practical-5-week-6.html#cb162-5" tabindex="-1"></a>             <span class="at">alpha =</span> .<span class="dv">8</span>)<span class="sc">+</span></span>
+<span id="cb162-6"><a href="multilevel-modelling-practical-5-week-6.html#cb162-6" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">&quot;lm&quot;</span>, </span>
+<span id="cb162-7"><a href="multilevel-modelling-practical-5-week-6.html#cb162-7" tabindex="-1"></a>              <span class="at">se=</span><span class="cn">FALSE</span>, </span>
+<span id="cb162-8"><a href="multilevel-modelling-practical-5-week-6.html#cb162-8" tabindex="-1"></a>              <span class="at">col=</span><span class="st">&quot;Red&quot;</span>)<span class="sc">+</span></span>
+<span id="cb162-9"><a href="multilevel-modelling-practical-5-week-6.html#cb162-9" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Weight vs. Age&quot;</span>)</span></code></pre></div>
+<p><img src="MLM_worksheets_files/figure-html/unnamed-chunk-107-1.png" width="672" /></p>
+<p><span class="math inline">\(~\)</span></p>
+<p>We can also re-plot the relationship, this time inspecting group effects and the potential need for a multilevel model.
+<img src="MLM_worksheets_files/figure-html/unnamed-chunk-108-1.png" width="672" /></p>
+<p><strong>TASK:</strong> Identify the number of levels in this data set, and the covariate(s) at each level.</p>
+<details>
+<summary>
+Click for solution
+</summary>
+We have two levels (time nested inside individuals). The <code>age</code> variable is playing the role of time here. Hence, <code>weight</code>, <code>birthw</code> and <code>girl</code> are all at the individual level (top level of the hierarchy).
+</details>
+</div>
+<div id="random-intercept-model" class="section level4 hasAnchor" number="6.1.2.2">
+<h4><span class="header-section-number">6.1.2.2</span> Random intercept model<a href="multilevel-modelling-practical-5-week-6.html#random-intercept-model" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Let’s fit a multilevel model with random intercepts and a binary coavriate <code>girl</code>. The model takes the form</p>
+<p><span class="math display">\[y_{ti} = a+u_i+ b_1 T_{ti}+b_2\text{girl}_{i} +\epsilon_{ti}\]</span></p>
+<p>We fit the model via:</p>
+<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="multilevel-modelling-practical-5-week-6.html#cb163-1" tabindex="-1"></a>lmodel <span class="ot">&lt;-</span> <span class="fu">lmer</span>(weight <span class="sc">~</span> age  <span class="sc">+</span> girl <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> id), <span class="at">data=</span>data)</span>
+<span id="cb163-2"><a href="multilevel-modelling-practical-5-week-6.html#cb163-2" tabindex="-1"></a><span class="fu">summary</span>(lmodel)</span></code></pre></div>
+<pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [&#39;lmerModLmerTest&#39;]
+## Formula: weight ~ age + girl + (1 | id)
+##    Data: data
+## 
+## REML criterion at convergence: 694.5
+## 
+## Scaled residuals: 
+##      Min       1Q   Median       3Q      Max 
+## -2.26782 -0.64129 -0.02437  0.72794  2.35999 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  id       (Intercept) 0.5035   0.7095  
+##  Residual             1.5378   1.2401  
+## Number of obs: 198, groups:  id, 68
+## 
+## Fixed effects:
+##             Estimate Std. Error       df t value Pr(&gt;|t|)    
+## (Intercept)   5.5149     0.2152 123.2548  25.630  &lt; 2e-16 ***
+## age           3.3888     0.1153 148.5110  29.389  &lt; 2e-16 ***
+## girl         -0.7159     0.2499  64.9110  -2.865  0.00562 ** 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##      (Intr) age   
+## age  -0.573       
+## girl -0.575 -0.006</code></pre>
+<p><span class="math inline">\(~\)</span></p>
+<p>Now extract and visualize the fitted values vs. the linear model:</p>
+<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="multilevel-modelling-practical-5-week-6.html#cb165-1" tabindex="-1"></a>data<span class="sc">$</span>pred1 <span class="ot">&lt;-</span> <span class="fu">predict</span>(lmodel)</span>
+<span id="cb165-2"><a href="multilevel-modelling-practical-5-week-6.html#cb165-2" tabindex="-1"></a></span>
+<span id="cb165-3"><a href="multilevel-modelling-practical-5-week-6.html#cb165-3" tabindex="-1"></a>lmodel_int <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data, <span class="fu">aes</span>(age,weight)) <span class="sc">+</span></span>
+<span id="cb165-4"><a href="multilevel-modelling-practical-5-week-6.html#cb165-4" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y=</span>pred1,<span class="at">group=</span>id.f, <span class="at">col=</span>id.f)) <span class="sc">+</span></span>
+<span id="cb165-5"><a href="multilevel-modelling-practical-5-week-6.html#cb165-5" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(age,weight,<span class="at">col=</span>id.f)) <span class="sc">+</span> </span>
+<span id="cb165-6"><a href="multilevel-modelling-practical-5-week-6.html#cb165-6" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">&quot;lm&quot;</span>,</span>
+<span id="cb165-7"><a href="multilevel-modelling-practical-5-week-6.html#cb165-7" tabindex="-1"></a>              <span class="at">se=</span><span class="cn">FALSE</span>, </span>
+<span id="cb165-8"><a href="multilevel-modelling-practical-5-week-6.html#cb165-8" tabindex="-1"></a>              <span class="at">col=</span><span class="st">&quot;Red&quot;</span>) <span class="sc">+</span></span>
+<span id="cb165-9"><a href="multilevel-modelling-practical-5-week-6.html#cb165-9" tabindex="-1"></a>   <span class="fu">ggtitle</span>(<span class="st">&quot;Multilevel Model&quot;</span>, </span>
+<span id="cb165-10"><a href="multilevel-modelling-practical-5-week-6.html#cb165-10" tabindex="-1"></a>           <span class="at">subtitle=</span><span class="st">&quot;Random Intercept-only&quot;</span>) <span class="sc">+</span></span>
+<span id="cb165-11"><a href="multilevel-modelling-practical-5-week-6.html#cb165-11" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Age (Time)&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb165-12"><a href="multilevel-modelling-practical-5-week-6.html#cb165-12" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Weight&quot;</span>) <span class="sc">+</span></span>
+<span id="cb165-13"><a href="multilevel-modelling-practical-5-week-6.html#cb165-13" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span>
+<span id="cb165-14"><a href="multilevel-modelling-practical-5-week-6.html#cb165-14" tabindex="-1"></a>lmodel_int</span></code></pre></div>
+<p><img src="MLM_worksheets_files/figure-html/unnamed-chunk-110-1.png" width="672" /></p>
+</div>
+<div id="adding-a-random-slope-for-time" class="section level4 hasAnchor" number="6.1.2.3">
+<h4><span class="header-section-number">6.1.2.3</span> Adding a random slope for time<a href="multilevel-modelling-practical-5-week-6.html#adding-a-random-slope-for-time" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>A multilevel model with both random intercepts and a random slope for time can be fitted thus:</p>
+<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="multilevel-modelling-practical-5-week-6.html#cb166-1" tabindex="-1"></a>lmodel2 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(weight <span class="sc">~</span> age <span class="sc">+</span> girl <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> age <span class="sc">|</span> id), <span class="at">data=</span>data)</span>
+<span id="cb166-2"><a href="multilevel-modelling-practical-5-week-6.html#cb166-2" tabindex="-1"></a><span class="fu">summary</span>(lmodel2)</span></code></pre></div>
+<pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [&#39;lmerModLmerTest&#39;]
+## Formula: weight ~ age + girl + (1 + age | id)
+##    Data: data
+## 
+## REML criterion at convergence: 684.1
+## 
+## Scaled residuals: 
+##      Min       1Q   Median       3Q      Max 
+## -2.38416 -0.69583 -0.04232  0.73479  2.13691 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev. Corr
+##  id       (Intercept) 0.05702  0.2388       
+##           age         0.20709  0.4551   1.00
+##  Residual             1.36994  1.1704       
+## Number of obs: 198, groups:  id, 68
+## 
+## Fixed effects:
+##             Estimate Std. Error       df t value Pr(&gt;|t|)    
+## (Intercept)   5.4293     0.1869 121.3239  29.051  &lt; 2e-16 ***
+## age           3.4593     0.1264  70.9320  27.362  &lt; 2e-16 ***
+## girl         -0.6354     0.2316  71.3148  -2.744  0.00767 ** 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##      (Intr) age   
+## age  -0.488       
+## girl -0.612 -0.006</code></pre>
+<p><span class="math inline">\(~\)</span></p>
+<p>We visualize the fitted values:</p>
+<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb168-1"><a href="multilevel-modelling-practical-5-week-6.html#cb168-1" tabindex="-1"></a>data<span class="sc">$</span>pred2 <span class="ot">&lt;-</span> <span class="fu">predict</span>(lmodel2)</span>
+<span id="cb168-2"><a href="multilevel-modelling-practical-5-week-6.html#cb168-2" tabindex="-1"></a></span>
+<span id="cb168-3"><a href="multilevel-modelling-practical-5-week-6.html#cb168-3" tabindex="-1"></a>lmodel_int_sl <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data,<span class="fu">aes</span>(age,weight)) <span class="sc">+</span></span>
+<span id="cb168-4"><a href="multilevel-modelling-practical-5-week-6.html#cb168-4" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y=</span>pred2,<span class="at">group=</span>id.f, <span class="at">col=</span>id.f)) <span class="sc">+</span></span>
+<span id="cb168-5"><a href="multilevel-modelling-practical-5-week-6.html#cb168-5" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(age,weight, <span class="at">col=</span>id.f)) <span class="sc">+</span> </span>
+<span id="cb168-6"><a href="multilevel-modelling-practical-5-week-6.html#cb168-6" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">&quot;lm&quot;</span>, </span>
+<span id="cb168-7"><a href="multilevel-modelling-practical-5-week-6.html#cb168-7" tabindex="-1"></a>              <span class="at">se=</span><span class="cn">FALSE</span>, </span>
+<span id="cb168-8"><a href="multilevel-modelling-practical-5-week-6.html#cb168-8" tabindex="-1"></a>              <span class="at">col=</span><span class="st">&quot;Red&quot;</span>)<span class="sc">+</span></span>
+<span id="cb168-9"><a href="multilevel-modelling-practical-5-week-6.html#cb168-9" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Multilevel model (lmodel2)&quot;</span>, </span>
+<span id="cb168-10"><a href="multilevel-modelling-practical-5-week-6.html#cb168-10" tabindex="-1"></a>          <span class="at">subtitle=</span><span class="st">&quot;Random Intercept and Slope&quot;</span>) <span class="sc">+</span></span>
+<span id="cb168-11"><a href="multilevel-modelling-practical-5-week-6.html#cb168-11" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Age (Time)&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb168-12"><a href="multilevel-modelling-practical-5-week-6.html#cb168-12" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Weight&quot;</span>)<span class="sc">+</span></span>
+<span id="cb168-13"><a href="multilevel-modelling-practical-5-week-6.html#cb168-13" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span>
+<span id="cb168-14"><a href="multilevel-modelling-practical-5-week-6.html#cb168-14" tabindex="-1"></a>lmodel_int_sl</span></code></pre></div>
+<p><img src="MLM_worksheets_files/figure-html/unnamed-chunk-112-1.png" width="672" /></p>
+<p><span class="math inline">\(~\)</span></p>
+<p>Let’s extract and inspect the variance-covariance matrix.</p>
+<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="multilevel-modelling-practical-5-week-6.html#cb169-1" tabindex="-1"></a>Var_Cov_matrix <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">VarCorr</span>(lmodel2))</span>
+<span id="cb169-2"><a href="multilevel-modelling-practical-5-week-6.html#cb169-2" tabindex="-1"></a>Var_Cov_matrix</span></code></pre></div>
+<pre><code>##        grp        var1 var2       vcov     sdcor
+## 1       id (Intercept) &lt;NA&gt; 0.05701865 0.2387858
+## 2       id         age &lt;NA&gt; 0.20708864 0.4550699
+## 3       id (Intercept)  age 0.10866423 0.9999999
+## 4 Residual        &lt;NA&gt; &lt;NA&gt; 1.36994491 1.1704465</code></pre>
+<p>The positive covariance re-affirms the fanning out pattern observed. The higher the predicted weight at baseline time (that is, higher child intercept), the higher the weight will be as time passes (i.e. a steeper child time slope).</p>
+<p><span class="math inline">\(~\)</span></p>
+<p>Let’s look at a visual comparison between the random intercept vs random intercept and slope model. Make sure you understand the following code:</p>
+<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="multilevel-modelling-practical-5-week-6.html#cb171-1" tabindex="-1"></a>vars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;id&quot;</span>,<span class="st">&quot;age&quot;</span>,<span class="st">&quot;weight&quot;</span>)</span>
+<span id="cb171-2"><a href="multilevel-modelling-practical-5-week-6.html#cb171-2" tabindex="-1"></a></span>
+<span id="cb171-3"><a href="multilevel-modelling-practical-5-week-6.html#cb171-3" tabindex="-1"></a>data_pred1 <span class="ot">&lt;-</span> <span class="fu">cbind</span>(data[,vars],data[,<span class="st">&quot;pred1&quot;</span>],<span class="at">group=</span><span class="dv">1</span>)</span>
+<span id="cb171-4"><a href="multilevel-modelling-practical-5-week-6.html#cb171-4" tabindex="-1"></a><span class="fu">names</span>(data_pred1)[<span class="dv">4</span>] <span class="ot">&lt;-</span> <span class="st">&quot;pred&quot;</span></span>
+<span id="cb171-5"><a href="multilevel-modelling-practical-5-week-6.html#cb171-5" tabindex="-1"></a>data_pred2 <span class="ot">&lt;-</span> <span class="fu">cbind</span>(data[,vars],data[,<span class="st">&quot;pred2&quot;</span>],<span class="at">group=</span><span class="dv">2</span>)</span>
+<span id="cb171-6"><a href="multilevel-modelling-practical-5-week-6.html#cb171-6" tabindex="-1"></a><span class="fu">names</span>(data_pred2)[<span class="dv">4</span>] <span class="ot">&lt;-</span> <span class="st">&quot;pred&quot;</span></span>
+<span id="cb171-7"><a href="multilevel-modelling-practical-5-week-6.html#cb171-7" tabindex="-1"></a>data_comp <span class="ot">&lt;-</span> <span class="fu">rbind</span>(data_pred1,data_pred2)</span>
+<span id="cb171-8"><a href="multilevel-modelling-practical-5-week-6.html#cb171-8" tabindex="-1"></a></span>
+<span id="cb171-9"><a href="multilevel-modelling-practical-5-week-6.html#cb171-9" tabindex="-1"></a>model_names <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;1&quot;</span><span class="ot">=</span><span class="st">&quot;Random Intercept-only&quot;</span>,<span class="st">&quot;2&quot;</span><span class="ot">=</span><span class="st">&quot;Random Intercept and Slope&quot;</span>)</span>
+<span id="cb171-10"><a href="multilevel-modelling-practical-5-week-6.html#cb171-10" tabindex="-1"></a></span>
+<span id="cb171-11"><a href="multilevel-modelling-practical-5-week-6.html#cb171-11" tabindex="-1"></a><span class="fu">ggplot</span>(data_comp, <span class="fu">aes</span>(age,weight)) <span class="sc">+</span></span>
+<span id="cb171-12"><a href="multilevel-modelling-practical-5-week-6.html#cb171-12" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y=</span>pred,<span class="at">group=</span><span class="fu">as.factor</span>(id),</span>
+<span id="cb171-13"><a href="multilevel-modelling-practical-5-week-6.html#cb171-13" tabindex="-1"></a>                <span class="at">col=</span><span class="fu">as.factor</span>(id))) <span class="sc">+</span></span>
+<span id="cb171-14"><a href="multilevel-modelling-practical-5-week-6.html#cb171-14" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(age,weight, </span>
+<span id="cb171-15"><a href="multilevel-modelling-practical-5-week-6.html#cb171-15" tabindex="-1"></a>                 <span class="at">col=</span><span class="fu">as.factor</span>(id))) <span class="sc">+</span> </span>
+<span id="cb171-16"><a href="multilevel-modelling-practical-5-week-6.html#cb171-16" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">&quot;lm&quot;</span>, </span>
+<span id="cb171-17"><a href="multilevel-modelling-practical-5-week-6.html#cb171-17" tabindex="-1"></a>              <span class="at">se=</span><span class="cn">FALSE</span>, </span>
+<span id="cb171-18"><a href="multilevel-modelling-practical-5-week-6.html#cb171-18" tabindex="-1"></a>              <span class="at">col=</span><span class="st">&quot;Red&quot;</span>)<span class="sc">+</span></span>
+<span id="cb171-19"><a href="multilevel-modelling-practical-5-week-6.html#cb171-19" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>group, </span>
+<span id="cb171-20"><a href="multilevel-modelling-practical-5-week-6.html#cb171-20" tabindex="-1"></a>             <span class="at">labeller =</span> <span class="fu">as_labeller</span>(model_names)) <span class="sc">+</span></span>
+<span id="cb171-21"><a href="multilevel-modelling-practical-5-week-6.html#cb171-21" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Multilevel Model Comparison&quot;</span>) <span class="sc">+</span></span>
+<span id="cb171-22"><a href="multilevel-modelling-practical-5-week-6.html#cb171-22" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Age (Time)&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb171-23"><a href="multilevel-modelling-practical-5-week-6.html#cb171-23" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Weight&quot;</span>) <span class="sc">+</span></span>
+<span id="cb171-24"><a href="multilevel-modelling-practical-5-week-6.html#cb171-24" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
+<p><img src="MLM_worksheets_files/figure-html/unnamed-chunk-114-1.png" width="672" /></p>
+<p><strong>TASK:</strong> Is the random slope on time needed? Perform an appropriate test.</p>
+<details>
+<summary>
+Click for solution
+</summary>
+<div class="sourceCode" id="cb172"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb172-1"><a href="multilevel-modelling-practical-5-week-6.html#cb172-1" tabindex="-1"></a><span class="fu">ranova</span>(lmodel2)</span></code></pre></div>
+<pre><code>## ANOVA-like table for random-effects: Single term deletions
+## 
+## Model:
+## weight ~ age + girl + (1 + age | id)
+##                       npar  logLik    AIC    LRT Df Pr(&gt;Chisq)   
+## &lt;none&gt;                   7 -342.05 698.10                        
+## age in (1 + age | id)    5 -347.24 704.48 10.389  2   0.005547 **
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+There is strong) evidence to reject the null hypothesis that the slope variance is zero. We need the random slopes!
+</details>
+<p><span class="math inline">\(~\)</span></p>
+</div>
+<div id="dealing-with-the-nonlinear-relationship" class="section level4 hasAnchor" number="6.1.2.4">
+<h4><span class="header-section-number">6.1.2.4</span> Dealing with the nonlinear relationship<a href="multilevel-modelling-practical-5-week-6.html#dealing-with-the-nonlinear-relationship" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Given that the more complex model <code>lmodel2</code> captures non-zero variance in random intercept and slope parameters, we will continue with it as our main model.</p>
+<p>Are the model assumptions valid? We will begin by inspecting the residuals.</p>
+<div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="multilevel-modelling-practical-5-week-6.html#cb174-1" tabindex="-1"></a><span class="fu">plot</span>(lmodel2)</span></code></pre></div>
+<p><img src="MLM_worksheets_files/figure-html/unnamed-chunk-116-1.png" width="672" /></p>
+<p>It is evident that the plot suggests an underlying non-linear structure.</p>
+<p><span class="math inline">\(~\)</span></p>
+<p>In order to correct the non-linearity observed, we perform multilevel modelling again, this time including a non-linear term for age.</p>
+<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="multilevel-modelling-practical-5-week-6.html#cb175-1" tabindex="-1"></a>lmodel3 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(weight <span class="sc">~</span> age <span class="sc">+</span> <span class="fu">c</span>(age<span class="sc">*</span>age) <span class="sc">+</span> girl  <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> age <span class="sc">|</span> id), <span class="at">data=</span>data)</span>
+<span id="cb175-2"><a href="multilevel-modelling-practical-5-week-6.html#cb175-2" tabindex="-1"></a></span>
+<span id="cb175-3"><a href="multilevel-modelling-practical-5-week-6.html#cb175-3" tabindex="-1"></a><span class="fu">summary</span>(lmodel3)</span></code></pre></div>
+<pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [&#39;lmerModLmerTest&#39;]
+## Formula: weight ~ age + c(age * age) + girl + (1 + age | id)
+##    Data: data
+## 
+## REML criterion at convergence: 518
+## 
+## Scaled residuals: 
+##      Min       1Q   Median       3Q      Max 
+## -2.04189 -0.44260 -0.03241  0.41940  2.66968 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev. Corr
+##  id       (Intercept) 0.3781   0.6149       
+##           age         0.2681   0.5178   0.14
+##  Residual             0.3296   0.5741       
+## Number of obs: 198, groups:  id, 68
+## 
+## Fixed effects:
+##               Estimate Std. Error        df t value Pr(&gt;|t|)    
+## (Intercept)    3.79550    0.16815  85.13224  22.573  &lt; 2e-16 ***
+## age            7.69844    0.23985 130.74444  32.096  &lt; 2e-16 ***
+## c(age * age)  -1.65773    0.08859 111.71023 -18.711  &lt; 2e-16 ***
+## girl          -0.59838    0.19997  57.23067  -2.992  0.00408 ** 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##            (Intr) age    c(*ag)
+## age        -0.543              
+## c(age*age)  0.502 -0.929       
+## girl       -0.588 -0.008  0.007</code></pre>
+<p><span class="math inline">\(~\)</span></p>
+<p>We again inspect the residuals vs fitted values.</p>
+<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="multilevel-modelling-practical-5-week-6.html#cb177-1" tabindex="-1"></a><span class="fu">plot</span>(lmodel3)</span></code></pre></div>
+<p><img src="MLM_worksheets_files/figure-html/unnamed-chunk-118-1.png" width="672" /></p>
+<p>It is evident that the non-linearity has been controlled for and residuals look much more acceptable.</p>
+<p><span class="math inline">\(~\)</span></p>
+<p>We continue with inspection of model assumptions. i.e. normally distributed residuals and random effects.</p>
+<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb178-1"><a href="multilevel-modelling-practical-5-week-6.html#cb178-1" tabindex="-1"></a><span class="fu">qqnorm</span>(<span class="fu">resid</span>(lmodel3))</span>
+<span id="cb178-2"><a href="multilevel-modelling-practical-5-week-6.html#cb178-2" tabindex="-1"></a><span class="fu">qqline</span>(<span class="fu">resid</span>(lmodel3), </span>
+<span id="cb178-3"><a href="multilevel-modelling-practical-5-week-6.html#cb178-3" tabindex="-1"></a>       <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<p><img src="MLM_worksheets_files/figure-html/unnamed-chunk-119-1.png" width="672" /></p>
+<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb179-1"><a href="multilevel-modelling-practical-5-week-6.html#cb179-1" tabindex="-1"></a><span class="fu">qqnorm</span>(<span class="fu">ranef</span>(lmodel3)<span class="sc">$</span>id[,<span class="dv">1</span>])</span>
+<span id="cb179-2"><a href="multilevel-modelling-practical-5-week-6.html#cb179-2" tabindex="-1"></a><span class="fu">qqline</span>(<span class="fu">ranef</span>(lmodel3)<span class="sc">$</span>id[,<span class="dv">1</span>], </span>
+<span id="cb179-3"><a href="multilevel-modelling-practical-5-week-6.html#cb179-3" tabindex="-1"></a>       <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<p><img src="MLM_worksheets_files/figure-html/unnamed-chunk-119-2.png" width="672" /></p>
+<p>The QQ Plots also look fairly acceptable (close to y=x line).</p>
+<p><strong>TASK:</strong> Visualise the fit of <code>lmodel3</code>, with separate plots for girls vs boys. Hint: first use <code>predict(lmodel3)</code> to create a new column in <code>data</code>.</p>
+<details>
+<summary>
+Click for solution
+</summary>
+<div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb180-1"><a href="multilevel-modelling-practical-5-week-6.html#cb180-1" tabindex="-1"></a>data<span class="sc">$</span>pred3 <span class="ot">&lt;-</span> <span class="fu">predict</span>(lmodel3)</span>
+<span id="cb180-2"><a href="multilevel-modelling-practical-5-week-6.html#cb180-2" tabindex="-1"></a></span>
+<span id="cb180-3"><a href="multilevel-modelling-practical-5-week-6.html#cb180-3" tabindex="-1"></a>lmodel_int_s2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data,<span class="fu">aes</span>(age,weight)) <span class="sc">+</span></span>
+<span id="cb180-4"><a href="multilevel-modelling-practical-5-week-6.html#cb180-4" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y=</span>pred3,<span class="at">group=</span>id.f, <span class="at">col=</span>id.f)) <span class="sc">+</span></span>
+<span id="cb180-5"><a href="multilevel-modelling-practical-5-week-6.html#cb180-5" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(age,weight,<span class="at">col=</span>id.f)) <span class="sc">+</span> </span>
+<span id="cb180-6"><a href="multilevel-modelling-practical-5-week-6.html#cb180-6" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">&quot;lm&quot;</span>, </span>
+<span id="cb180-7"><a href="multilevel-modelling-practical-5-week-6.html#cb180-7" tabindex="-1"></a>              <span class="at">se=</span><span class="cn">FALSE</span>, </span>
+<span id="cb180-8"><a href="multilevel-modelling-practical-5-week-6.html#cb180-8" tabindex="-1"></a>              <span class="at">col=</span><span class="st">&quot;Red&quot;</span>)<span class="sc">+</span></span>
+<span id="cb180-9"><a href="multilevel-modelling-practical-5-week-6.html#cb180-9" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>girl, </span>
+<span id="cb180-10"><a href="multilevel-modelling-practical-5-week-6.html#cb180-10" tabindex="-1"></a>             <span class="at">labeller =</span> <span class="fu">as_labeller</span>(<span class="fu">c</span>(<span class="st">&quot;0&quot;</span><span class="ot">=</span><span class="st">&quot;Boy&quot;</span>,<span class="st">&quot;1&quot;</span><span class="ot">=</span><span class="st">&quot;Girl&quot;</span>)))<span class="sc">+</span></span>
+<span id="cb180-11"><a href="multilevel-modelling-practical-5-week-6.html#cb180-11" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Multilevel model (lmodel3)&quot;</span>, </span>
+<span id="cb180-12"><a href="multilevel-modelling-practical-5-week-6.html#cb180-12" tabindex="-1"></a>          <span class="at">subtitle=</span><span class="st">&quot;Random Intercept and Slope, nonlinear age&quot;</span>) <span class="sc">+</span></span>
+<span id="cb180-13"><a href="multilevel-modelling-practical-5-week-6.html#cb180-13" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Age (Time)&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb180-14"><a href="multilevel-modelling-practical-5-week-6.html#cb180-14" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Weight&quot;</span>)<span class="sc">+</span></span>
+<span id="cb180-15"><a href="multilevel-modelling-practical-5-week-6.html#cb180-15" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span>
+<span id="cb180-16"><a href="multilevel-modelling-practical-5-week-6.html#cb180-16" tabindex="-1"></a>lmodel_int_s2</span></code></pre></div>
+<pre><code>## `geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
+<img src="MLM_worksheets_files/figure-html/unnamed-chunk-120-1.png" width="672" />
+</details>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Harder:</strong> We have not yet included the birth weight <code>birthw</code> variable in the model. How should we interpret the inclusion of <code>birthw</code> as a fixed effect? What would you expect to happen when you include it? Confirm (or deny) your intuition!</p>
+<details>
+<summary>
+Click for solution
+</summary>
+<code>birthw</code> is an individual level covariate. Hence, it’s inclusion as a fixed effect may help to explain some of the variability in the random intercept terms. I’d expect that adding it in will result in a reduction in the random intercept variance and (probably) an insignificant overall intercept term (since for each individiual, <code>birthw</code> and the random intercept will effectively capture most of the baseline variation.)
+</details>
+<p><span class="math inline">\(~\)</span></p>
+<p>End of lab!</p>
+
+</div>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="multilevel-modelling-practical-4-week-5.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="multilevel-modelling-practical-6-week-7.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "section"
+},
+"sidebar": true
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

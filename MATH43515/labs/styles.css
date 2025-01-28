@@ -1,10 +1,11 @@
 .title-bar {
-    background-color: #4CAF50; /* Choose your color */
-    color: white;
-    text-align: center;
-    padding: 10px 0;
-    font-size: 24px;
-    font-weight: bold;
+    background-color: #007acc; /* Title bar background */
+    color: white; /* Title text color */
+    text-align: center; /* Center-align text */
+    padding: 10px; /* Add padding for spacing */
+    font-family: 'Arial', sans-serif; /* Use a clean font */
+    font-size: 24px; /* Adjust font size */
+    border-bottom: 2px solid #005a99; /* Optional border */
 }
 
 .book .book-summary {

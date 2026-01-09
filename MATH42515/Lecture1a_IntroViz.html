@@ -1,0 +1,1624 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>lecture1a_introviz – course-notes</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-5b4ad623e5705c0698d39aec6f10cf02.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">course-notes</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#lecture-1a---introduction-to-data-visualisation" id="toc-lecture-1a---introduction-to-data-visualisation" class="nav-link active" data-scroll-target="#lecture-1a---introduction-to-data-visualisation">Lecture 1a - Introduction to Data Visualisation</a>
+  <ul class="collapse">
+  <li><a href="#exploratory-data-analysis" id="toc-exploratory-data-analysis" class="nav-link" data-scroll-target="#exploratory-data-analysis">Exploratory Data Analysis</a></li>
+  <li><a href="#data-visualisation" id="toc-data-visualisation" class="nav-link" data-scroll-target="#data-visualisation">Data Visualisation</a></li>
+  <li><a href="#making-effective-data-visualisation" id="toc-making-effective-data-visualisation" class="nav-link" data-scroll-target="#making-effective-data-visualisation">Making Effective Data Visualisation</a></li>
+  <li><a href="#encoding-data" id="toc-encoding-data" class="nav-link" data-scroll-target="#encoding-data">Encoding Data</a>
+  <ul class="collapse">
+  <li><a href="#position---along-a-common-scale" id="toc-position---along-a-common-scale" class="nav-link" data-scroll-target="#position---along-a-common-scale">Position - Along a Common Scale</a></li>
+  <li><a href="#position---along-nonaligned-identical-scales" id="toc-position---along-nonaligned-identical-scales" class="nav-link" data-scroll-target="#position---along-nonaligned-identical-scales">Position - Along Nonaligned, Identical Scales</a></li>
+  <li><a href="#length" id="toc-length" class="nav-link" data-scroll-target="#length">Length</a></li>
+  <li><a href="#angle" id="toc-angle" class="nav-link" data-scroll-target="#angle">Angle</a></li>
+  <li><a href="#area" id="toc-area" class="nav-link" data-scroll-target="#area">Area</a></li>
+  <li><a href="#colour---hue" id="toc-colour---hue" class="nav-link" data-scroll-target="#colour---hue">Colour - Hue</a></li>
+  <li><a href="#colour---saturation" id="toc-colour---saturation" class="nav-link" data-scroll-target="#colour---saturation">Colour - Saturation</a></li>
+  <li><a href="#shape" id="toc-shape" class="nav-link" data-scroll-target="#shape">Shape</a></li>
+  <li><a href="#texture" id="toc-texture" class="nav-link" data-scroll-target="#texture">Texture</a></li>
+  <li><a href="#volume" id="toc-volume" class="nav-link" data-scroll-target="#volume">Volume</a></li>
+  <li><a href="#scale-of-accuracy" id="toc-scale-of-accuracy" class="nav-link" data-scroll-target="#scale-of-accuracy">Scale of accuracy</a></li>
+  <li><a href="#integral-and-separable-encodings" id="toc-integral-and-separable-encodings" class="nav-link" data-scroll-target="#integral-and-separable-encodings">Integral and separable encodings</a></li>
+  </ul></li>
+  <li><a href="#gestalt-principles" id="toc-gestalt-principles" class="nav-link" data-scroll-target="#gestalt-principles">Gestalt principles</a>
+  <ul class="collapse">
+  <li><a href="#proximity" id="toc-proximity" class="nav-link" data-scroll-target="#proximity">Proximity</a></li>
+  <li><a href="#similarity" id="toc-similarity" class="nav-link" data-scroll-target="#similarity">Similarity</a></li>
+  <li><a href="#enclosure" id="toc-enclosure" class="nav-link" data-scroll-target="#enclosure">Enclosure</a></li>
+  <li><a href="#connectedness" id="toc-connectedness" class="nav-link" data-scroll-target="#connectedness">Connectedness</a></li>
+  <li><a href="#closure" id="toc-closure" class="nav-link" data-scroll-target="#closure">Closure</a></li>
+  <li><a href="#continuity" id="toc-continuity" class="nav-link" data-scroll-target="#continuity">Continuity</a></li>
+  <li><a href="#figure-and-ground" id="toc-figure-and-ground" class="nav-link" data-scroll-target="#figure-and-ground">Figure and Ground</a></li>
+  <li><a href="#focal-point" id="toc-focal-point" class="nav-link" data-scroll-target="#focal-point">Focal point</a></li>
+  </ul></li>
+  <li><a href="#what-to-avoid" id="toc-what-to-avoid" class="nav-link" data-scroll-target="#what-to-avoid">What to avoid</a>
+  <ul class="collapse">
+  <li><a href="#graphics-reveal-data" id="toc-graphics-reveal-data" class="nav-link" data-scroll-target="#graphics-reveal-data">Graphics reveal data</a></li>
+  <li><a href="#garbage-in-garbage-out" id="toc-garbage-in-garbage-out" class="nav-link" data-scroll-target="#garbage-in-garbage-out">Garbage in, garbage out</a></li>
+  <li><a href="#dont-lie" id="toc-dont-lie" class="nav-link" data-scroll-target="#dont-lie">Don’t Lie!</a></li>
+  <li><a href="#dont-distort" id="toc-dont-distort" class="nav-link" data-scroll-target="#dont-distort">Don’t Distort</a></li>
+  <li><a href="#bad-perception" id="toc-bad-perception" class="nav-link" data-scroll-target="#bad-perception">Bad perception</a></li>
+  <li><a href="#avoid-chartjunk" id="toc-avoid-chartjunk" class="nav-link" data-scroll-target="#avoid-chartjunk">Avoid chartjunk</a></li>
+  <li><a href="#have-something-to-say" id="toc-have-something-to-say" class="nav-link" data-scroll-target="#have-something-to-say">Have Something to Say</a></li>
+  </ul></li>
+  <li><a href="#bonus-content-using-colour-effectively" id="toc-bonus-content-using-colour-effectively" class="nav-link" data-scroll-target="#bonus-content-using-colour-effectively">Bonus content: Using Colour Effectively</a>
+  <ul class="collapse">
+  <li><a href="#colour-encodings" id="toc-colour-encodings" class="nav-link" data-scroll-target="#colour-encodings">Colour encodings</a></li>
+  <li><a href="#colour-in-r" id="toc-colour-in-r" class="nav-link" data-scroll-target="#colour-in-r">Colour in R</a></li>
+  </ul></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+
+
+
+
+<section id="lecture-1a---introduction-to-data-visualisation" class="level1">
+<h1>Lecture 1a - Introduction to Data Visualisation</h1>
+<p>In this lecture, we look into the concept of <em>exploratory data analysis</em> and learn what makes good (and bad) data visualisation.</p>
+<section id="exploratory-data-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="exploratory-data-analysis">Exploratory Data Analysis</h2>
+<ul>
+<li>Exploratory data analysis (EDA) should be one of the first steps in analysing any data set and was pioneered as a discipline of its own by John Tukey in the 1960s and 1970s.</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="workflow.png" class="img-fluid figure-img"></p>
+<figcaption>Exploratory Data Analysis chart</figcaption>
+</figure>
+</div>
+<ul>
+<li><p>In the words of Tukey:</p>
+<ul>
+<li><strong>“Exploratory data analysis is detective work — in the purest sense — finding and revealing the clues.”</strong></li>
+<li><strong>“Exploratory data analysis can never be the whole story, but nothing else can serve as the foundation stone — as the first step.”</strong></li>
+</ul></li>
+<li><p>So, the definition of EDA is fairly self-explanatory. We seek to explore the data, by asking questions and looking for clues to help us better understand the data. The purpose is generally to gain sufficient information to make reasoned and justifiable hypotheses to explore with more formal methods, or to identify sensible modelling approaches (and exclude others). The features and insights we gather while exploring will suggest what appropriate strategies for our subsequent analysis.</p></li>
+<li><p>Therefore, it is simply good practice to try to understand and gather as many insights from the data as possible before even attempting before any modelling or inference. Without a solid understanding of the data, we do not know if the techniques we apply are appropriate, and so we risk our inferences and conclusions being invalid.</p></li>
+<li><p>That said, EDA is not a one-off process. It is often iterative, going back and forth between exploration and modelling/analysis as each part of the process can suggest new questions or hypotheses to investigate.</p></li>
+<li><p>Exploratory Data Analysis is not a formal process and it does not have strict rules to follow or methods to apply: the overarching goal is simply to develop an understanding of the data set. However, typically we do try and do this without fitting any complex models or making assumptions about our data. We’re looking to see what the data tell us, not what our choice of technique or model says. We have insufficient knowledge of the properties of our data to exploit sophisticated techniques.</p></li>
+<li><p>The “detective work” of EDA is essentially looking for clues in the data that will reveal insights about what is actually going on with the problem from which they come — but this requires looking both in the right places and with the right magnifying glass.</p></li>
+<li><p>Data sets rarely arrive with a manual, or a shopping list of specific features to investigate. Absent any formal structure, the best approach is to pursue any lead that occurs to you, and ask questions - lots of them — some will lead to insights, others will be dead ends.</p></li>
+<li><p>Some obvious ‘clues’ and features to investigate in an unseen data set are: 1 Features and properties of individual variables and collections 2 Identifying important and unimportant variables 3 Identifying structure, patterns and relationships between variables 4 Anomalies, errors, and outliers 5 Variation and distributions 6 Missing values</p></li>
+<li><p>As we’re only exploring the data with minimal assumptions, the tools of EDA must be mathematically quite simple and robust as we should not be relying on assumptions of distributions or structure that may not be justified. We rely primarily on:</p>
+<ul>
+<li>Statistical summaries</li>
+<li>Graphics and visualisations</li>
+</ul></li>
+<li><p>Our focus will be extensively on making a graphical exploration of the data.</p></li>
+</ul>
+</section>
+<section id="data-visualisation" class="level2">
+<h2 class="anchored" data-anchor-id="data-visualisation">Data Visualisation</h2>
+<ul>
+<li><p><strong>Data visualisation</strong> is the creation and study of the visual representation of data.</p></li>
+<li><p>Like EDA, there is no complex theory about graphics — in fact, there is not much theory at all! The topics are not usually covered in depth in books or lectures as they build on relatively simple statistical concepts. Once the basic graphical forms have been described, textbooks usually move on to more mathematical ideas such as proving the central limit theorem.</p></li>
+<li><p>Exploratory Data Analysis through investigation of data graphics is sometimes called Graphical Data Analysis (GDA).</p></li>
+<li><p>There are some standard plots and graphics that are applicable in some fairly generaly situations, but</p></li>
+<li><p>A good visualisation reveals the data, and communicates complex ideas with clarity, precision and efficiency. Some features of a good data visualisation would be</p>
+<ul>
+<li>Show the data!</li>
+<li>Induce the viewer to think about the substance rather than the methodology, design, etc.</li>
+<li>Avoid distorting what the data have to say</li>
+<li>Present many numbers in a small space</li>
+<li>Make large data sets coherent</li>
+<li>Encourage comparisons between different pieces of data</li>
+</ul></li>
+</ul>
+<p>Good data visualisations can communicate the key features of complex data sets more convincingly and more effectively than the raw data often can achieve.</p>
+<p>Typically, data visualisation is used for one of two purposes:</p>
+<p>1- <strong>Analysis</strong> - used to find patterns, trends, aid in data description, interpretation * Goal: the “Eureka!” moment * Many images for the analyst only, linked to analysis/modelling * Typically many rough and simple plots used to detect interesting features of the data and suggest directions for future investigation, analysis or modelling</p>
+<p>2- <strong>Presentation</strong> - used to attract attention, make a point, illustrate a conclusion * Goal: The “Wow!” moment. * A single image suitable for a large audience which tells a clear story * Once the key features and behaviours of the data are known, the best graphic can be produced to show those features in a clear way. Often targetting a less technical audience.</p>
+<p>For example, the visualisation below shows a presentation of the <a href="http://graphics.wsj.com/infectious-diseases-and-vaccines/">number of cases of measles</a> per 100,000 for the 50 US states over time. The impact of vaccination on the levels of measles is striking and clear.</p>
+<p><img src="measles.png" class="img-fluid"></p>
+<p>Presentation quality graphics can venture into the realm of <em>data art</em>, but this is rather beyond what we could hope to achieve in our short course. These visualisations, often called <em>infographics</em>, try to present data in a non-technical way that can easily be understood by non-experts. For example, the following graph illustrates <a href="https://www.reuters.com/graphics/ENVIRONMENT-PLASTIC/0100B275155/index.html">the scale of the amount of waste plastic</a> from plastic bottle sales over 10 years, relative to New York.</p>
+<p><img src="wasteplastic.png" class="img-fluid"></p>
+</section>
+<section id="making-effective-data-visualisation" class="level2">
+<h2 class="anchored" data-anchor-id="making-effective-data-visualisation">Making Effective Data Visualisation</h2>
+<p>First, a little bit of historical context. Data visualisation (and statistics) are relatively new disciplines - relative to the rest of mathematics. For data visualisation, William Playfair (1759-1823) is often credited for pioneering many of the graphical forms we still use today. Slightly later, Florence Nightingale (1820-1910) became one of the first people to persuade the public and influence public policy with data visualisation. Despite being better known for her achievements in nursing, Florence was the first female member of the Royal Statistical Society. Her <em>rose diagrams</em> were an innovative combination of pie chart and time series, and were used to illustrate the terrible conditions suffered by soldiers in the Crimean war.</p>
+<p>These early visualisations were difficult to produce and required a combination of art and intuition. The 20th century brought computers and the ability to process and visualise increasing amounts of data with ease. Ultimately, a number of standard graphics were developed that exploit our visual perception to interpret complex data - most of which we have seen in the course so far.</p>
+<p>So, despite having a long history, what is it about data visualisation that is so effective that we continue to do it? The answer is that depicting data graphically can be extremely effective as it takes advantage of the human brain’s natural strengths at quickly and efficiently processing visual information. Understanding this will help you make better visualisations!</p>
+<p>The human brain has developed many subconscious natural abilities to process visual information and make sense of the world around us. We are constantly processing and interpreting the visual signals from our eyes and much of this happens sub-consciously without any actual effort. The reason for this is that this analysis relies on the visual perception part of our brain, rather than cognitive “thinking” part.</p>
+<p>Visual perception is the ability to see, interpret, and organise our environment. It’s fast and efficient, and happens automatically. Cognition, which is handled by the cerebral cortex, is much slower and requires more effort to process information. So, presenting data visually exploits our quick perception capabilities and helps to reduce cognitive load.</p>
+<p>To illustrate these difference consider the following table and plots. From which of the three presentations of the data is it easiest to identify which 3 regions have the highest available renewable water resources?</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<table class="table caption-top table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">region</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">km3</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Central America and Caribbean</td>
+<td style="text-align: right;">735</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Central Asia</td>
+<td style="text-align: right;">242</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">East Asia</td>
+<td style="text-align: right;">3410</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Eastern Europe</td>
+<td style="text-align: right;">4448</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Middle East</td>
+<td style="text-align: right;">484</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">North America</td>
+<td style="text-align: right;">6077</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Northern Africa</td>
+<td style="text-align: right;">47</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Oceania</td>
+<td style="text-align: right;">902</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">South America</td>
+<td style="text-align: right;">12724</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">South Asia</td>
+<td style="text-align: right;">1935</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Sub-Saharan Africa</td>
+<td style="text-align: right;">3884</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Western &amp; Central Europe</td>
+<td style="text-align: right;">2129</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture1a_IntroViz_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The table takes longer to process, as we must read each row, process that information into numbers, that we then compare. The first plot abstracts this for us by using bigger bars for bigger numbers - this makes it much easier to assess the sizes, but we must compare many sets of bars to decide which are the largest. The final plot simplifies this for us, by sorting the bars by size.</p>
+<p>The difference in speeds at which our human senses can process information was compared by Danish physicist Tor Nørretranders to standard computer throughputs.</p>
+<p><img src="senses-bw.jpg" class="img-fluid" style="width:50.0%"></p>
+<p>Notice how sight comes out on top as it has the same bandwidth as a computer network. This is followed by touch, and hearing, with taste having the same processing power as a pocket calculator. The small white square in the bottom-right corner is the portion of this processing of which we are cognitively aware.</p>
+<p>Not only do our visual senses dominate our sensory processing, but the amount of data and the speed with which we process are far higher than we are aware of. This is known as <em>pre-attentive processing</em>. Pre-attentive processing is subconscious and fast - it take 50-500ms for the eye and brain to process and react to simple visual stimuli. This is clearly much faster thanour brain could process the data table in the small example above. So, turning our data into visual representations means we can process far more information much more quickly.</p>
+</section>
+<section id="encoding-data" class="level2">
+<h2 class="anchored" data-anchor-id="encoding-data">Encoding Data</h2>
+<p>The key idea of data visualisation is that quantitative and categorical information is <em>encoded</em> by visual variables that can be easily perceived. <em>Visual variables</em> are “the differences in elements of a visual as perceived by the human eye”. Essentially these are the fundamental ways in which graphic symbols can be distinguished. When we view a graph, the goal is to decode the graphical attributes and extract information about the data that was encoded</p>
+<p>A number of authors have proposed sets of visual variables that are easy to detect visually:</p>
+<ul>
+<li>Position</li>
+<li>Length</li>
+<li>Direction</li>
+<li>Angle</li>
+<li>Area</li>
+<li>Shape</li>
+<li>Colour, Texture</li>
+<li>Volume</li>
+</ul>
+<section id="position---along-a-common-scale" class="level3">
+<h3 class="anchored" data-anchor-id="position---along-a-common-scale">Position - Along a Common Scale</h3>
+<p>When using a common coordinate system, position is the easiest feature to recognise and evaluate with regard to elements in space.</p>
+<p><strong>Example:</strong> Scatter plots, boxplots</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture1a_IntroViz_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="position---along-nonaligned-identical-scales" class="level3">
+<h3 class="anchored" data-anchor-id="position---along-nonaligned-identical-scales">Position - Along Nonaligned, Identical Scales</h3>
+<p>It’s easy to compare separate scales repeated with the same axis even if they are not aligned.</p>
+<p><strong>Example:</strong> Lattice/Grid/Facet plots</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture1a_IntroViz_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="length" class="level3">
+<h3 class="anchored" data-anchor-id="length">Length</h3>
+<p>Length can effectively represent quantitative information. The human brain easily recognises proportions and evaluates length, even if the objects are not aligned.</p>
+<p><strong>Example:</strong> Bar charts, boxplots</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture1a_IntroViz_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="angle" class="level3">
+<h3 class="anchored" data-anchor-id="angle">Angle</h3>
+<p>Angles help to make comparisons by providing a sense of proportion. Angles are harder to evaluate than length or position, but pie charts are as efficient with small numbers of categories.</p>
+<p><strong>Example:</strong> Pie charts</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture1a_IntroViz_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="area" class="level3">
+<h3 class="anchored" data-anchor-id="area">Area</h3>
+<p>The relative magnitude of areas is harder to compare versus the length of lines. The second direction requires more effort to process and interpret.</p>
+<p><strong>Example:</strong> Bubble plots, Treemaps, Mosaic plots, Corrplots</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture1a_IntroViz_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="colour---hue" class="level3">
+<h3 class="anchored" data-anchor-id="colour---hue">Colour - Hue</h3>
+<p>Hue is what we usually mean by ‘colour’. Hue can be used to highlight, identify, and group elements in a visual display.</p>
+<p><strong>Example:</strong> any</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture1a_IntroViz_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="colour---saturation" class="level3">
+<h3 class="anchored" data-anchor-id="colour---saturation">Colour - Saturation</h3>
+<p>Colour has many aspects. Saturation is the intensity of a single hue. Increasing intensities of colour can be perceived intuitively as numbers of increasing value.</p>
+<p><strong>Example:</strong> Heatmaps</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture1a_IntroViz_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="shape" class="level3">
+<h3 class="anchored" data-anchor-id="shape">Shape</h3>
+<p>Groups can be distinguished by different shapes, though comparison requires cognition which makes it less effective than with colour.</p>
+<p><strong>Example:</strong> Glyph plots, Scatterplots</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: The `&lt;scale&gt;` argument of `guides()` cannot be `FALSE`. Use "none" instead as
+of ggplot2 3.3.4.</code></pre>
+</div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture1a_IntroViz_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="texture" class="level3">
+<h3 class="anchored" data-anchor-id="texture">Texture</h3>
+<p>When colour is not available, different shadings or fills can be applied where previously we would use hue. Generally, these textures are seldom used in modern visualisations as they are less effective than colour.</p>
+<p><strong>Example:</strong> any</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture1a_IntroViz_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="volume" class="level3">
+<h3 class="anchored" data-anchor-id="volume">Volume</h3>
+<p>Volume refers to using 3D shapes to represent information. But 3D objects are hard to evaluate in a 2D space, making them particularly difficult to read effectively.</p>
+<p><strong>Example:</strong> 3D charts</p>
+<p><img src="3dchart-1.jpg" class="img-fluid"> To make plots appear 3D in a 2D plot, we must introduce a forced perspective, which distorts the quantitative information that we’re trying to present. For example, consider the following 3D barplot:</p>
+<p><img src="3dchart-2.jpg" class="img-fluid" style="width:50.0%"></p>
+<ul>
+<li>Some bars get hidden behind others</li>
+<li>The perspective effect makes bars at the front appear taller than those at the back</li>
+<li>Its difficult to read the numerical values</li>
+<li>The quantitative data is only 1D -the vertical axis. The 3D chart has added 2 un-needed dimensions to the plot, which has compromised its ability to present the data without distortion.</li>
+</ul>
+<p><img src="3dchart-3.jpg" class="img-fluid" style="width:50.0%"></p>
+<p><strong>3D pie charts are even worse</strong></p>
+</section>
+<section id="scale-of-accuracy" class="level3">
+<h3 class="anchored" data-anchor-id="scale-of-accuracy">Scale of accuracy</h3>
+<p>The different visual variables have different levels of efficiency when visually interpreting values of different size. Different tasks will have different rankings. In general, we should use encodings at the top of the scale where possible (and sensible). For instance, when assessing the magnitude of a quantitative variable, we would rank the encodings something like this:</p>
+<ol type="1">
+<li>Position: Common Scale</li>
+<li>Position: Non-aligned Scale</li>
+<li>Length</li>
+<li>Direction</li>
+<li>Angle</li>
+<li>Area</li>
+<li>Colour: Hue</li>
+<li>Colour: Saturation</li>
+<li>Shape</li>
+<li>Texture</li>
+<li>Volume</li>
+</ol>
+</section>
+<section id="integral-and-separable-encodings" class="level3">
+<h3 class="anchored" data-anchor-id="integral-and-separable-encodings">Integral and separable encodings</h3>
+<p>When displaying multiple quantities, we can combine encodings:</p>
+<ul>
+<li>Some encodings can be combined and visually decoded separately. These are <em>separable</em> encodings.</li>
+<li>Other combinations cannot be easily decoded separately, and are <em>integral</em> encodings.</li>
+</ul>
+<ol type="1">
+<li>Suppose the red point is of interest - finding it among a low number of points is relatively easy (top left). With only two encodings and low density, it is easy to spot the unusual point.</li>
+<li>Increasing the number of points makes it a little harder to find, but the contrast between colours helps (top centre). Position and hue are clearly separable encodings.</li>
+<li>If we repeat the same experiment but changing point shape instead, the task becomes harder (top right). Shape requires more effor to process as an encoding.</li>
+<li>Among 100 points, the triangle is almost lost. Shape is a more challenging feature to distinguish. (bottom left)</li>
+<li>Mixing colour and shape compounds the problem further! (bottom centre)</li>
+</ol>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture1a_IntroViz_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Here, we are juggling many data encodings at once. Horizontal and vertical position of the points indicate numerical values of two variables Colour and point shape indicating values of two categorical variables. Clearly, some aspects are more separable than others (e.g.&nbsp;x and y postition). Using many encodings with multiple different options to show your data become rapidly uninterpretable (below left), unless your data has a great deal of structure to help make sense of things (below right).</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">150</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mvtnorm)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>xs <span class="ot">&lt;-</span> <span class="fu">rmvnorm</span>(<span class="dv">150</span>, <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>),<span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="fl">0.5</span>,<span class="fl">0.5</span>,<span class="dv">1</span>),<span class="at">nr=</span><span class="dv">2</span>))</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>cs <span class="ot">&lt;-</span> cols[<span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,N,<span class="at">replace=</span><span class="cn">TRUE</span>)]</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>ps <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">15</span>,<span class="dv">16</span>,<span class="dv">17</span>)[<span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,N,<span class="at">replace=</span><span class="cn">TRUE</span>)]</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x=</span>xs[,<span class="dv">1</span>],<span class="at">y=</span>xs[,<span class="dv">2</span>],<span class="at">axes=</span><span class="cn">FALSE</span>,<span class="at">xlab=</span><span class="st">''</span>,<span class="at">ylab=</span><span class="st">''</span>,<span class="at">pch=</span>ps,<span class="at">col=</span>cs);graphics<span class="sc">::</span><span class="fu">box</span>()</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x=</span>xs[,<span class="dv">1</span>],<span class="at">y=</span>xs[,<span class="dv">2</span>],<span class="at">axes=</span><span class="cn">FALSE</span>,<span class="at">xlab=</span><span class="st">''</span>,<span class="at">ylab=</span><span class="st">''</span>,<span class="at">pch=</span><span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">15</span>,<span class="dv">16</span>,<span class="dv">17</span>)[<span class="fu">cut</span>(xs[,<span class="dv">2</span>],<span class="dv">4</span>)],<span class="at">col=</span>cols[<span class="fu">cut</span>(xs[,<span class="dv">1</span>],<span class="dv">4</span>)]);graphics<span class="sc">::</span><span class="fu">box</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture1a_IntroViz_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The plot below shows the prevalence of Diabetes and Obesity by county in the USA. Here, multiple inseparable encodings have been used, namely two colour hues with blue indicating obesity, and red indicating Diabetes, with intensity of the colours and their combinations showing the level of prevalance in each county. It is almost impossible to disentangle the obesity information from the diabetes information - these are integral encodings. The only obvious features are dark vs light shades of colour - the saturation.</p>
+<p><img src="cdc-encodings.jpg" class="img-fluid"></p>
+</section>
+</section>
+<section id="gestalt-principles" class="level2">
+<h2 class="anchored" data-anchor-id="gestalt-principles">Gestalt principles</h2>
+<p>The human brain is wired to see structure, logic, and patterns. It attempts to simplify what it sees by subconsciously arranging parts of an image into an organised whole, rather than just a series of disparate elements. The <em>Gestalt principles</em> were developed to explain how the brain does this, and can be used to aid (and break) data visualisation.</p>
+<ul>
+<li>Proximity</li>
+<li>Similarity</li>
+<li>Enclosure</li>
+<li>Connectedness</li>
+<li>Closure</li>
+<li>Continuity</li>
+<li>Figure and Ground</li>
+<li>Focal Point</li>
+</ul>
+<section id="proximity" class="level3">
+<h3 class="anchored" data-anchor-id="proximity">Proximity</h3>
+<p>The Proximity principle says that we perceive visual elements which are close together as belonging to the same group. This is easily seen in scatterplots, where we associatethe proximity in the plot with similarity of the object.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture1a_IntroViz_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The same idea applies more generally and can be applied to other plots, where we can arrange the plot to group items we want to perceive as belonging together. Which of the two plots below best compares the sales per country?</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture1a_IntroViz_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Recommendations to aid effective data visualisation:</p>
+<ul>
+<li>Spatial proximity takes precedence over all other principles of grouping.</li>
+<li>Use proximity to focus on the visualisation goal, by keeping the main data points closer together.</li>
+</ul>
+</section>
+<section id="similarity" class="level3">
+<h3 class="anchored" data-anchor-id="similarity">Similarity</h3>
+<p>We perceive elements with shared visual properties as being “similar”. Objects of similar colors, similar shapes, similar sizes, and similar orientations are instinctively perceived as a group. For example, in the scatterplots below the use of colour reinforces a sense of commonality with points of the same colour that is stronger than the three loose clusters we observe with proximity alone.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture1a_IntroViz_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture1a_IntroViz_files/figure-html/unnamed-chunk-16-2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Recommendations to aid effective data visualisation:</p>
+<ul>
+<li>Use colour, shape, or size to group visual objects together.</li>
+<li>The Similarity Principle can help you more readily identify which groups the displayed data belong to.</li>
+<li>Colour can be used effectively when associated with intuitive quantities, e.g.&nbsp;red=financial loss, blue=negative temperature. Beware that association of colour with particular concepts varies around the world. An important example is that in Europe and the Americas coloring an upward trend in finanical markets usually uses green or blue is used to denote an upward trend and red is used to denote a downward trend, but in mainland China, Japan, South Korea, and Taiwan, the reverse is true.</li>
+<li>The idea can be useful when similar colours, shapes, sizes are used consistently across multiple graphics.</li>
+</ul>
+</section>
+<section id="enclosure" class="level3">
+<h3 class="anchored" data-anchor-id="enclosure">Enclosure</h3>
+<p>The enclosure principle addresses the fact that enclosing a group of objects brings our attention to them, they are processed together, and our mind perceives them as connected.</p>
+<p><img src="enclosure.jpg" class="img-fluid"></p>
+<p>Recommendations to aid effective data visualisation:</p>
+<ul>
+<li>Enclose objects that you want to be perceived as grouped in a container.</li>
+<li>Enclosures can be used to highlight regions of a visualisation that can be “zoomed in” to give extra detail.</li>
+</ul>
+</section>
+<section id="connectedness" class="level3">
+<h3 class="anchored" data-anchor-id="connectedness">Connectedness</h3>
+<p>Connectedness says that objects that are connected in some way, such as by a line, are seen as part of the same group. This <em>supersedes</em> other principles like proximity and similarity in terms of visual grouping perception because putting a direct connection between objects is a strong factor in determining the grouping of objects.</p>
+<p>Recommendations to aid effective data visualisation:</p>
+<ul>
+<li>Connecting grouped elements by lines is one of the strongest ways to visualise a grouping in the data</li>
+<li>This is particularly natural with time series, but generally should be avoided unless the x-axis has a similar meaning</li>
+<li>Parallel coordinate plots exploit this principle to connect individual data observations</li>
+</ul>
+</section>
+<section id="closure" class="level3">
+<h3 class="anchored" data-anchor-id="closure">Closure</h3>
+<p>Closure states that when the brain sees complex arrangements of elements, it organises them into recognisable patterns. While this is usually helpful, it can occasionally cause problems. When the human brain is confronted with an incomplete image, it will fill in the blanks to complete the image and make it make sense.</p>
+<p>Consider the three plots of a time series below. The first plot is incomplete, showing a gap around 2013. Absent any other information, our brains would intuitively connect the lines on either side to give the impression of a behaviour like the plot in the middle. The true data actually followed the right plot. If we ignored the gap entirely and plotted all the data, we would draw a time series like the middle curve which would be highly misleading.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture1a_IntroViz_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Recommendations to aid effective data visualisation:</p>
+<ul>
+<li>Be careful when showing graphs with breaks because the human mind tends to form complete shapes even if the shape is incomplete.</li>
+<li>Similarly, beware joining all points up with lines when there are large gaps in the data - this is just falling into the same trap!</li>
+<li>If your data have a lot of gaps, use points not lines.</li>
+</ul>
+</section>
+<section id="continuity" class="level3">
+<h3 class="anchored" data-anchor-id="continuity">Continuity</h3>
+<p>Continuity states that human brains tend to perceive any line or trend as continuing its established direction. The eye follows lines, curves, or a sequence of shapes to determine a relationship between elements.</p>
+<p>For example, compare the two barplots below. The plot on the right is more easily readable than the one on the left.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture1a_IntroViz_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture1a_IntroViz_files/figure-html/unnamed-chunk-18-2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Recommendations to aid effective data visualisation:</p>
+<ul>
+<li>Arrange visual objects in a line to simplify grouping and comparison. This happens naturally on scatterplots with obvious trends. Another example would be using bar chars ordered by y-value.</li>
+<li>Using lines in time series graphs exploits continuity by joining points into a series</li>
+<li>This can be paired with using colour saturation to emphasise the continuity along a secondary encoding.</li>
+</ul>
+</section>
+<section id="figure-and-ground" class="level3">
+<h3 class="anchored" data-anchor-id="figure-and-ground">Figure and Ground</h3>
+<p>The Figure and Ground principle says the brain will unconsciously place objects either in the foreground or the background. Background subtraction is a “brain technique” which allows an images foreground shapes to be extracted for further processing. To ensure that we can easily recognise patterns and features in a visualisation, we must ensure that the background and foreground elements are sufficiently different that we can easily identify the data from the background of the plot.</p>
+<p>The plots below are two examples of doing this badly. The low contrast between the background and the data points makes it difficult to read. In particular, beware using yellow or other pale shades on a white background as they can be rendered nearly invisible.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture1a_IntroViz_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture1a_IntroViz_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Recommendations to aid effective data visualisation:</p>
+<ul>
+<li>Ensure there is enough contrast between your foreground and background to make charts and graphs more legible and not misleading.</li>
+<li>Choose colours and contrast levels that make your foreground image stand out.</li>
+<li>Transparency can help push less important features to the background.</li>
+<li>Avoid colour overload with many different and contrasting colours. Stick to a small number of distinct hues, or a scale of different intensities.</li>
+</ul>
+</section>
+<section id="focal-point" class="level3">
+<h3 class="anchored" data-anchor-id="focal-point">Focal point</h3>
+<p>A relatively recent addition, the focal point principle says that elements that visually stand out are the first thing we see and process in an image. This is related to the Figure and Ground principle, where we make particular elements stand out prominently from the background.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: grid</code></pre>
+</div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture1a_IntroViz_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Recommendations to aid effective data visualisation:</p>
+<ul>
+<li>Distinctive characteristics (e.g., a different color or a different shape) can be used to highlight and create focal points.</li>
+<li>Mosaicplots with <span class="math inline">\(\chi^2\)</span> shading automatically highlight “interesting” features, which immediately draws the eye</li>
+<li>Using a substantially different colour or intensity can make the feature ‘pop out’ into the foreground</li>
+</ul>
+</section>
+</section>
+<section id="what-to-avoid" class="level2">
+<h2 class="anchored" data-anchor-id="what-to-avoid">What to avoid</h2>
+<p>The idea of ‘graphical excellence’ was developed by Edward Tufte. Excellence in statistical graphics consists of <em>complex ideas</em> communicated with <em>clarity, precision, and efficiency</em>. In particular, he said that good graphical displays of data should:</p>
+<ol type="1">
+<li>show the data,</li>
+<li>induce the viewer to think about the substance,</li>
+<li>avoid distorting what the data says,</li>
+<li>present many numbers in small space,</li>
+<li>make large data sets coherent,</li>
+<li>encourage comparison between data,</li>
+<li>reveal the data at several levels of detail,</li>
+<li>have a clear purpose: description, exploration, tabulation or decoration.</li>
+</ol>
+<p>Unfortunately, it’s all too easy (and sometimes tempting) to ignore some of these principles to try and prove a particular point.</p>
+<section id="graphics-reveal-data" class="level3">
+<h3 class="anchored" data-anchor-id="graphics-reveal-data">Graphics reveal data</h3>
+<p>Recall the <em>Anscombe quartet</em> data were <em>identical</em> when examined using simple summary statistics, but vary considerably when graphed</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(datasets)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(anscombe)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell" data-layout-align="center">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;">x1</th>
+<th style="text-align: right;">x2</th>
+<th style="text-align: right;">x3</th>
+<th style="text-align: right;">x4</th>
+<th style="text-align: right;">y1</th>
+<th style="text-align: right;">y2</th>
+<th style="text-align: right;">y3</th>
+<th style="text-align: right;">y4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">8.04</td>
+<td style="text-align: right;">9.14</td>
+<td style="text-align: right;">7.46</td>
+<td style="text-align: right;">6.58</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">6.95</td>
+<td style="text-align: right;">8.14</td>
+<td style="text-align: right;">6.77</td>
+<td style="text-align: right;">5.76</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">7.58</td>
+<td style="text-align: right;">8.74</td>
+<td style="text-align: right;">12.74</td>
+<td style="text-align: right;">7.71</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">8.81</td>
+<td style="text-align: right;">8.77</td>
+<td style="text-align: right;">7.11</td>
+<td style="text-align: right;">8.84</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">8.33</td>
+<td style="text-align: right;">9.26</td>
+<td style="text-align: right;">7.81</td>
+<td style="text-align: right;">8.47</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">9.96</td>
+<td style="text-align: right;">8.10</td>
+<td style="text-align: right;">8.84</td>
+<td style="text-align: right;">7.04</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">7.24</td>
+<td style="text-align: right;">6.13</td>
+<td style="text-align: right;">6.08</td>
+<td style="text-align: right;">5.25</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">19</td>
+<td style="text-align: right;">4.26</td>
+<td style="text-align: right;">3.10</td>
+<td style="text-align: right;">5.39</td>
+<td style="text-align: right;">12.50</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">10.84</td>
+<td style="text-align: right;">9.13</td>
+<td style="text-align: right;">8.15</td>
+<td style="text-align: right;">5.56</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">4.82</td>
+<td style="text-align: right;">7.26</td>
+<td style="text-align: right;">6.42</td>
+<td style="text-align: right;">7.91</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">5.68</td>
+<td style="text-align: right;">4.74</td>
+<td style="text-align: right;">5.73</td>
+<td style="text-align: right;">6.89</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture1a_IntroViz_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="garbage-in-garbage-out" class="level3">
+<h3 class="anchored" data-anchor-id="garbage-in-garbage-out">Garbage in, garbage out</h3>
+<p>An ill-specified hypothesis or model cannot be rescued by a graphic. No matter how clever or fancy they are!</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture1a_IntroViz_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The correlation between these two series is <span class="math inline">\(0.952\)</span>, however there is obviously no genuine relationship here. Beware spurious correlations that lead to spurious conclusions, and remember that correlation does not imply causation!</p>
+</section>
+<section id="dont-lie" class="level3">
+<h3 class="anchored" data-anchor-id="dont-lie">Don’t Lie!</h3>
+<p>Graphs rely on our understanding that a number is represented visually by the magnitude of some graphical element.</p>
+<p><em>“The representation of numbers, as physically measured on the surface of the graphic itself, should be directly proportional to the quantities represented.” — E Tufte</em></p>
+<p>Tufte proposed measuring the violation of this principle by: <span class="math display">\[ \text{Lie factor} = \frac{\text{size of effect in graphic}}{\text{size of effect in data}}\]</span></p>
+<p>A good graph should be between 0.95 and 1.05. Anything outside of this is distorting the numerical effect in the data.</p>
+<p>The <a href="https://twitter.com/YouGov/status/838720989991223297">image below</a> is hopelessly distoring the proportions, which don’t even add up to one. The graphical element of six equal sized segments bear no resemblance to the data whatsoever!</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="twitter.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:40.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="dont-distort" class="level3">
+<h3 class="anchored" data-anchor-id="dont-distort">Don’t Distort</h3>
+<section id="axis-ranges" class="level4">
+<h4 class="anchored" data-anchor-id="axis-ranges">Axis ranges</h4>
+<p>Selective choice of axis ranges is one of the most common abuses of data graphics by disproportionately exaggerating visual effects. Where possible <em>common</em> axes should be used, and <em>when emphasising relative values the inclusion of the origin (0) is recommended</em>.</p>
+<p>This <a href="https://www.dailymail.co.uk/news/article-4248690/Economy-grew-0-7-final-three-months-2016.html">plot</a> from the Daily Mail below substantially distorts the data by starting the horizontal axis at 0.55 rather than zero. Notice how this substantially inflates the size of the blue bar relative to the red one.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="dailymail.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>A more truthful plot would look like this.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture1a_IntroViz_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Though it is questionable as to whether a plot is needed to compare <span class="math inline">\(0.6\)</span> with <span class="math inline">\(0.7\)</span>! We probably don’t need the machinery of data visualisation to assess this difference.</p>
+</section>
+<section id="axis-labels" class="level4">
+<h4 class="anchored" data-anchor-id="axis-labels">Axis labels</h4>
+<p>Omitting axis labels is perhaps even worse than being selective about what ranges you draw. Omitting numerical labels on the axes makes any meaningful comparison or interpretation impossible by removing the connection of the graphic with the numerical quantity it represents.</p>
+<p>Politics is a common source of badly presented data distorted to prove a point. For instance, this <a href="https://twitter.com/DeanLockhartMSP/status/854708479101108225">tweet</a> showing a selective part of a data set with no numbers to give any sens of scale:</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="scotland1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>How big is the difference between these time series? 0.1? 1? 100? Accurate interpretation is impossible.</p>
+<p>Whereas this shows a more complete picture, with a longer history:</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="scotland2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="bad-perception" class="level3">
+<h3 class="anchored" data-anchor-id="bad-perception">Bad perception</h3>
+<p>We rely on our visual perception to interpret the graphical elements in terms of numerical values. Plotting simple data using 3D plots introduce a forced perspective, unnecessarily distorting our perception of the data. In 3D plots, the plot region is no longer a rectangle but is distorted - compressing distances at one side and expanding them at the other.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="excel.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This is only plotting the integers 1 to 4, but it is not easy to identify the sizes of the bars. All of the bars appear to be smaller than their defined values, and it is difficult to assess relative sizes - does bar D really look <span class="math inline">\(4\times\)</span> larger than bar A? Do we really need a barplot with a fake 3rd dimension to compare four integers?</p>
+</section>
+<section id="avoid-chartjunk" class="level3">
+<h3 class="anchored" data-anchor-id="avoid-chartjunk">Avoid chartjunk</h3>
+<p><strong>Chartjunk</strong> is defined as content-free decoration of a data graphic that hinders the interpretation. This sort of nuisance decoration becomes problematic as it becomes hard to extract the data in the foreground of the plot when it is cluttered and surrounded by other decorations (see the Figure and Ground principle earlier). In general, avoid unnecessary distraction and focus on the data!</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="chartjunk.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>There are a lot of unnecessary and confusing elements to this simple plot:</p>
+<ul>
+<li>A very heavy 3D projection which seriously distorts the plot region</li>
+<li>A drop shadow that has no value</li>
+<li>Redundant use of bar labels and a plot legend.</li>
+<li>Colouring the bars is probably not even necessary, as the bars are already labelled and each bar has a unique colour</li>
+<li>Poor choice of colours - Europe and Oceania are two shades of red, implying a degree of similarity</li>
+</ul>
+</section>
+<section id="have-something-to-say" class="level3">
+<h3 class="anchored" data-anchor-id="have-something-to-say">Have Something to Say</h3>
+<p>A plot isn’t always the best way to show simple data - ask yourself if a drawing a plot is necessary. In particular, if the data are simple then keen the plot simple - contriving elaborate plots out of very little information is just confusing.</p>
+<p>The plot below shows the proportion of students enrolling at a US college for two age groups - below 25, and 25+.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="worst.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:40.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>According to Edward Tufte in his book `The Visual Display of Quantitative Information’ (2002):</p>
+<p><em>“This may well be the worst graphic ever to find its way into print.” — E Tufte</em></p>
+<p>Since all students will fall into one group or the other, it is clear that we can get one time series by subtracting the other from 100%. So, this is trying to show a <em>single</em> time series of <em>4 points</em>. However, they do just about everything wrong:</p>
+<ul>
+<li>The two time series being plotted are complementary (i.e.&nbsp;they sum to one), so plotting both series is redundant</li>
+<li>An exaggerated 3D effect is used for no reason</li>
+<li>Each series is shaded using two different colours</li>
+<li>The <span class="math inline">\(y\)</span> axes ranges includes neither 0 nor 100, so and skips over two sizeable ranges of values (notice the squiggles)</li>
+<li>The data are interpolated with smooth lines in a rather strange way</li>
+</ul>
+<p>If we were to just plot the data, we would simply see the following</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture1a_IntroViz_files/figure-html/unnamed-chunk-34-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="bonus-content-using-colour-effectively" class="level2">
+<h2 class="anchored" data-anchor-id="bonus-content-using-colour-effectively">Bonus content: Using Colour Effectively</h2>
+<p>We have extensively used colour in our graphics to highlight features of interest, distinguish different groups, or even indicate values of quantitative variables. Encoding features with colour can be effective, but colour needs to be used appropriately to be successful.</p>
+<section id="colour-encodings" class="level3">
+<h3 class="anchored" data-anchor-id="colour-encodings">Colour encodings</h3>
+<p>There are three common patterns of use of colour encodings:</p>
+<ul>
+<li><strong>Categorical</strong> - distinguish different groups</li>
+<li><strong>Sequential</strong> - indicate different levels of a quantitative variable</li>
+<li><strong>Diverging</strong> - indicate different levels and direction of a quantitative variable</li>
+</ul>
+<p><strong>Categorical encodings</strong> are used to distinguish multiple different groups that have no intrinsic ordering, e.g.&nbsp;levels of a categorical variable. It is important to use a collection of sufficiently distinct and easily recognisable hues (colours) to easily distinguish multiple groups in your visualisation. The groups have no relationship, the hues should be as different as possible and preferably of a similar intensity. The main challenge with this encoding is that only a small number of categories can be encoded this way before we run out of sufficiently different colours.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture1a_IntroViz_files/figure-html/unnamed-chunk-35-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Sequential encodings</strong> are used to represent values of a quantitative variable. By varying the intensity of the colour we can indicate a quantitivate variable by associating large values with more intense (saturated) colour, and lower values with less intense colours. A common example of this is on heatmaps, or more general maps such as of rainfall levels in weather forecasts. Typically, we restrict the colour to many shades of a single hue, but additional shades can be used if meaningful (e.g.&nbsp;to indicate extreme rainfall). While effective at highlighting major differences by major contrasts in the colour intensity, it is more challenging to detect smaller differences as subtle changes in colour and to decode numerical information from the plot.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture1a_IntroViz_files/figure-html/unnamed-chunk-36-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Diverging encodings</strong> are used to represent the values and direction of a quantitative variable. Combining the two previous ideas, we use two sequential schemes based on substantially different hues (e.g.&nbsp;red and blue) that meet in the middle. Now the colour intensity indicates the magnitude of the value, and the hue of the colour indicates its direction. For example, we have seen this used already in plots of correlation matrices, where strong colour indicated strong correlations and red/blue indicated negative/positive correlation. Another common example is a maps of temperatures in weather forecasts, where warm temperatures use one hue and cold temperatures use another, and they meet in the middle.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture1a_IntroViz_files/figure-html/unnamed-chunk-37-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="colour-in-r" class="level3">
+<h3 class="anchored" data-anchor-id="colour-in-r">Colour in R</h3>
+<p>While we may have a particular set of colours in mind to use with our visualisations, it can be difficult to set this up in R. There are many different ways to specify colours, and not all of them are intuitive to use:</p>
+<ul>
+<li><em>Integers codes</em>: R interprets integer values as particular colours from its default palette. For instance, 1=“black”, 2=“red”, 3=“green”, etc.</li>
+<li><em>Colour names:</em> R will a long list of named colours, e.g.&nbsp;“black”, “red”, “green3”, “skyblue“, “cyan”. The full list of names can be found http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf</li>
+<li><em>RGB</em> and similar: Any colour can be represented as a combination of proportions of red, green and blue. R’s <code>rgb</code> function will convert those red, green and blue amounts to a usable colour: black=<code>rgb(0,0,0)</code>; green3=<code>rgb(0, 205, 0, max=255)</code>, cyan=<code>rgb(0, 255, 255,max=255)</code>. The <code>hsv</code> and <code>hcl</code> provide similar functions using alternative colour specifications.</li>
+<li><em>Hexadecimal:</em> The RGB values can also be expressed as a hexademical code: black=“#000000”; cyan=“#00FFFF”.</li>
+</ul>
+<section id="colour-palettes" class="level4">
+<h4 class="anchored" data-anchor-id="colour-palettes">Colour palettes</h4>
+<p>R has a default <code>palette</code> of colours used for the default colours in graphs. Integer colour codes are the corresponding colour in this default list. The default palette contains the following eight elements.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">palette</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "black"   "red"     "green3"  "blue"    "cyan"    "magenta" "yellow" 
+[8] "gray"   </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pie</span>(<span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">8</span>), <span class="at">labels =</span> <span class="fu">sprintf</span>(<span class="st">"%d (%s)"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>, <span class="fu">palette</span>()), <span class="at">col =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture1a_IntroViz_files/figure-html/unnamed-chunk-39-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We can replace the standard palette with a vector of our own colours.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">palette</span>(<span class="fu">c</span>(<span class="st">"black"</span>,<span class="st">"#3366cc"</span>,<span class="st">"#61D04F"</span>,<span class="st">"#C45560"</span>, <span class="st">"#F5C710"</span>, <span class="st">"#CD0BBC"</span>))</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pie</span>(<span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">6</span>), <span class="at">labels =</span> <span class="fu">sprintf</span>(<span class="st">"%d (%s)"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="fu">palette</span>()), <span class="at">col =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture1a_IntroViz_files/figure-html/unnamed-chunk-40-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>R also has a number of functions that will generate a list of <code>n</code> colours according to a particular scheme. These can be used to replace the default palette, or as input for a particular plot.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture1a_IntroViz_files/figure-html/unnamed-chunk-41-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Which of these are better for: * categorical? * sequential? * diverging?</p>
+<p>It is also worth noting that we’ve used these to colour area. Their effectiveness may vary when colouring points or lines.</p>
+</section>
+</section>
+</section>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<ul>
+<li>The human brain can read and process visual information far faster than any other form - this is why data visualisation is so effective.</li>
+<li>Data visualisation uses visual variables to encode the data in a graphical way.</li>
+<li>Some encodings are more effective than others. Some encodings work well together, and others less so.</li>
+<li>The Gestalt principles describe how the brain sees patterns - we can use this to create better/worse visualisations.</li>
+<li>Colour is an effective encoding, but we should carefully choose the colour palette to get the most out of it</li>
+</ul>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

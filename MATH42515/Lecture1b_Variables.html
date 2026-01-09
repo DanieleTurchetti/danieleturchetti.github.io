@@ -1,0 +1,1351 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>lecture1b_variables – course-notes</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-5b4ad623e5705c0698d39aec6f10cf02.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">course-notes</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#lecture-1b---continuous-and-categorical-variables" id="toc-lecture-1b---continuous-and-categorical-variables" class="nav-link active" data-scroll-target="#lecture-1b---continuous-and-categorical-variables">Lecture 1b - Continuous and Categorical Variables</a>
+  <ul class="collapse">
+  <li><a href="#exploring-continuous-variables" id="toc-exploring-continuous-variables" class="nav-link" data-scroll-target="#exploring-continuous-variables">Exploring Continuous Variables</a>
+  <ul class="collapse">
+  <li><a href="#what-features-to-look-for" id="toc-what-features-to-look-for" class="nav-link" data-scroll-target="#what-features-to-look-for">What features to look for?</a></li>
+  <li><a href="#histograms" id="toc-histograms" class="nav-link" data-scroll-target="#histograms">Histograms</a></li>
+  <li><a href="#summaries-and-boxplots" id="toc-summaries-and-boxplots" class="nav-link" data-scroll-target="#summaries-and-boxplots">Summaries and Boxplots</a></li>
+  <li><a href="#boxplots" id="toc-boxplots" class="nav-link" data-scroll-target="#boxplots">Boxplots</a></li>
+  <li><a href="#outliers-and-extremes" id="toc-outliers-and-extremes" class="nav-link" data-scroll-target="#outliers-and-extremes">Outliers and Extremes</a></li>
+  <li><a href="#interpreting-boxplots" id="toc-interpreting-boxplots" class="nav-link" data-scroll-target="#interpreting-boxplots">Interpreting boxplots</a></li>
+  <li><a href="#checking-distributions" id="toc-checking-distributions" class="nav-link" data-scroll-target="#checking-distributions">Checking Distributions</a></li>
+  <li><a href="#transformations" id="toc-transformations" class="nav-link" data-scroll-target="#transformations">Transformations</a></li>
+  </ul></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a>
+  <ul class="collapse">
+  <li><a href="#modelling-considerations-testing" id="toc-modelling-considerations-testing" class="nav-link" data-scroll-target="#modelling-considerations-testing">Modelling Considerations &amp; Testing</a></li>
+  </ul></li>
+  <li><a href="#exploring-categorical-variables" id="toc-exploring-categorical-variables" class="nav-link" data-scroll-target="#exploring-categorical-variables">Exploring Categorical Variables</a>
+  <ul class="collapse">
+  <li><a href="#summary-tables" id="toc-summary-tables" class="nav-link" data-scroll-target="#summary-tables">Summary tables</a></li>
+  <li><a href="#visualising-single-categorical-variables" id="toc-visualising-single-categorical-variables" class="nav-link" data-scroll-target="#visualising-single-categorical-variables">Visualising Single Categorical variables</a></li>
+  <li><a href="#barplots-or-bar-charts" id="toc-barplots-or-bar-charts" class="nav-link" data-scroll-target="#barplots-or-bar-charts">Barplots or bar charts</a></li>
+  <li><a href="#example-voter-population-in-germany-2009" id="toc-example-voter-population-in-germany-2009" class="nav-link" data-scroll-target="#example-voter-population-in-germany-2009">Example: Voter population In Germany 2009</a></li>
+  <li><a href="#example-titanic-passengers" id="toc-example-titanic-passengers" class="nav-link" data-scroll-target="#example-titanic-passengers">Example: Titanic Passengers</a></li>
+  <li><a href="#visualising-proportions" id="toc-visualising-proportions" class="nav-link" data-scroll-target="#visualising-proportions">Visualising Proportions</a></li>
+  <li><a href="#bonus-content-variations-of-standard-plots" id="toc-bonus-content-variations-of-standard-plots" class="nav-link" data-scroll-target="#bonus-content-variations-of-standard-plots">Bonus Content: Variations of Standard plots</a></li>
+  <li><a href="#stem-and-leaf-plots" id="toc-stem-and-leaf-plots" class="nav-link" data-scroll-target="#stem-and-leaf-plots">Stem and Leaf plots</a></li>
+  <li><a href="#stripplot" id="toc-stripplot" class="nav-link" data-scroll-target="#stripplot">Stripplot</a></li>
+  <li><a href="#beeswarm-plots" id="toc-beeswarm-plots" class="nav-link" data-scroll-target="#beeswarm-plots">Beeswarm plots</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+
+
+
+
+<section id="lecture-1b---continuous-and-categorical-variables" class="level1">
+<h1>Lecture 1b - Continuous and Categorical Variables</h1>
+<p>Data is organised into <strong>variables</strong>, representing attributes or measurements - e.g.&nbsp;age, weight, income, temperature, time, etc.</p>
+<p>To begin with, we’ll focus on using standard techniques to explore a <strong>single variable at a time</strong>. Specifically:</p>
+<ol type="1">
+<li><strong>Exploring Continuous Variables</strong> - using statistical summaries, box plots, histograms, and quantile plots</li>
+<li><strong>Exploring Categorical Variables</strong> - using bar plots, pie charts, and stacked bars.</li>
+</ol>
+<p>These techniques are quite simple, so our focus is on <strong>using them effectively to learn about data features</strong> and how to do so using R.</p>
+<p>There are a number of Graphics packages in R that we could use to visualise our data:</p>
+<ul>
+<li>Base <code>R</code> covers most standard statistical visualisations</li>
+<li><code>ggplot2</code> - GGPlot and related packages provide more modern graphics, but it has unusual syntax that can be more difficult to learn</li>
+<li><code>plotly</code> - similar to ggplot. However, a bit easier to use</li>
+<li>Other custom packages will provide support for specific visualisations</li>
+</ul>
+<p>We will focus on the base <code>R</code> functions, as those always available. However, you should experiment with the other packages, but be aware they work differently.</p>
+<section id="exploring-continuous-variables" class="level2">
+<h2 class="anchored" data-anchor-id="exploring-continuous-variables">Exploring Continuous Variables</h2>
+<ul>
+<li>We focus first on quantitative data that is continuous (i.e.&nbsp;real-valued).</li>
+<li>We view our data as a sample from an underlying continuous distribution - the goal of our explorations here is to seek some clues about the features of that distribution.</li>
+<li>Many possible ways to explore this - graphically, we will focus on histograms and boxplots.</li>
+<li>When we have a particular type of distribution in mind, we can also draw a quantile plot to see how plausible it is.</li>
+</ul>
+<section id="what-features-to-look-for" class="level3">
+<h3 class="anchored" data-anchor-id="what-features-to-look-for">What features to look for?</h3>
+<ul>
+<li><strong>Symmetry or asymmetry</strong> - is the distribution skewed to the left or right? e.g.&nbsp;distributions of income are skewed.</li>
+<li><strong>Outliers</strong> - are there one or more vales that are far from the rest of the data?</li>
+<li><strong>Multimodality</strong> - does the distribution have more than one peak? This could suggest an underlying group structure.</li>
+<li><strong>Gaps</strong> - are there ranges of values within the data where no cases are recorded? e.g.&nbsp;exam marks for an exam which nobody fails.</li>
+<li><strong>Heaping</strong> - do some values occur unexpectedly often? e.g.&nbsp;the birthweight of babies isn’t.</li>
+<li><strong>Rounding</strong> - are only certain values are found? e.g.&nbsp;ages are usually only reported as integers.</li>
+<li><strong>Impossibilities</strong> - are there values outside of the feasible ranges? e.g.&nbsp;negative values for strictly positive quantities such as age, rainfall, etc</li>
+<li><strong>Errors</strong> - values which look wrong for one reason or another.</li>
+</ul>
+</section>
+<section id="histograms" class="level3">
+<h3 class="anchored" data-anchor-id="histograms">Histograms</h3>
+<ul>
+<li>A histogram is an approximate representation of the distribution of continuous data where we divide the range of values into bins (or buckets) and draw a bar over each bin with area proportional to the frequency of cases in each bin.</li>
+<li>A histogram is an effective tool for visualising features relating to the shape of the data distribution.</li>
+</ul>
+<section id="example-boston-housing-data" class="level4">
+<h4 class="anchored" data-anchor-id="example-boston-housing-data">Example: Boston Housing Data</h4>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(Boston)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>This data set contains the various information on housing values and related quantities for the 506 suburban areas in Boston. The main interest is in the `median values of owner-occupied homes’, but there are 14 variables to explore here.</p>
+<p>Looking first at the median housing value, we can produce the histogram below. Some obvious features of note are:</p>
+<ul>
+<li>A concentration of housing values around 20-25, then a sudden drop-off – is there an explanation for this, such as changes in tax levels?</li>
+<li>Possible multi-modality, with modes around 25 and 30 – are there two classes or groups of housing?</li>
+<li>A further spike in values occur in the upper tail of the data, at 50 – this seems dubious, and could be some crude rounding or grouping of all values ‘’50 and over’’.</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture1b_Variables_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Choosing the width of the bars can substantially affect the detail of the histogram. If we choose too few bins, then we can obscure key features by over-smoothing the data. Alterntaively, if we have too many bins then we can introduce too much noise to the plot that it obscures more general features and patterns. Unfortunately, the only way to find a good compromise is to experiment – R and other software will default to a ‘best guess’, but this invariably needs adjusting. The histograms below show the same data, but using bar widths of 5, 2.5, and 1 unit respectively. We’ll see more sophisticated methods for smoothing the data later.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture1b_Variables_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>With 14 variables in the data set, we could inspect the histograms of each of the variables. We could do this one-at-a-time, or arrange them in a grid or matrix as below:</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output cell-output-stderr">
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+</div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture1b_Variables_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The other variables in the data set show a variety of the features discussed above that we may want to investigate further:</p>
+<ul>
+<li>The ‘age’ variable - in position <span class="math inline">\((1,1)\)</span> - shows obvious left-skewness.</li>
+<li>The ‘dis’ variable - in position <span class="math inline">\((1,2)\)</span> - shows right skewness</li>
+<li>The ‘rm’ variable - in position <span class="math inline">\((3,4)\)</span> - looks symmetric, and possible approximate Normality</li>
+<li>In the variables in the bottom two rows, we see a lot of gaps in the data and heaping on particular values.</li>
+<li>The ‘chas’ variable - in position <span class="math inline">\((1,3)\)</span> - exhibits heaping on only two values, 0 and 1. This is a discrete binary variable, not continuous a continuous one! We should use different methods to explore this variable.</li>
+</ul>
+<p>In a full analysis, we would want to look at the relationships between the variables to determine how the features observed relate to each other. We’ll return to this later…</p>
+</section>
+<section id="example-old-faithful" class="level4">
+<h4 class="anchored" data-anchor-id="example-old-faithful">Example: Old Faithful</h4>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(geyser)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The <code>geyser</code> data set contains 272 observations of&nbsp;the Old Faithful geyser in Yellowstone National Park, Wyoming, USA. The variables are:</p>
+<ul>
+<li><code>duration</code> - Length of eruption in mins</li>
+<li><code>waiting</code> - Waiting time to next eruption</li>
+</ul>
+<p>To draw a histogram, we use the <code>hist</code> function:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(geyser<span class="sc">$</span>waiting)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture1b_Variables_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Here we can see the data appear to come in two groups: one group with smaller values (shorter waiting times), and one group of larger (longer waiting times).</p>
+<p>We can add a <strong>rug plot</strong> to an existing histogram to add more detail and to show where the individual data values fall inside the bars:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(geyser<span class="sc">$</span>waiting)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rug</span>(geyser<span class="sc">$</span>waiting)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture1b_Variables_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Now, each individual mark on the horizontal axis shows where we have observed a data value.</p>
+<p>Histograms can be customised in many ways, but the most important one is changing the configuration of the bars drawn. This is controlled by the <code>breaks</code> parameter. We can set <code>breaks</code> to a number to indicate an approximate number of bars to draw:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(geyser<span class="sc">$</span>waiting,<span class="at">breaks=</span><span class="dv">20</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture1b_Variables_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Or we can be more specific and state where each individual bar should begin and end by listing the breakpoints of the bars as a vector:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(faithful<span class="sc">$</span>waiting, <span class="at">breaks=</span><span class="fu">c</span>(<span class="dv">30</span>,<span class="dv">45</span>,<span class="dv">47</span>,<span class="dv">50</span>,<span class="dv">52</span>,<span class="dv">55</span>,<span class="dv">60</span>,<span class="dv">75</span>,<span class="dv">80</span>,<span class="dv">85</span>,<span class="dv">95</span>,<span class="dv">105</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture1b_Variables_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Additionally, almost all plot functions can take the following arguments to customise the plot:</p>
+<ul>
+<li><code>xlab</code>, <code>ylab</code> - sets the x and y axis labels</li>
+<li><code>main</code> - sets the main title</li>
+<li><code>xlim</code>, <code>ylim</code> - set x and y axis limits, e.g.&nbsp;<code>c(0,10)</code></li>
+<li><code>col</code> - sets the plot colour(s)</li>
+</ul>
+</section>
+<section id="histogram-features-to-look-for" class="level4">
+<h4 class="anchored" data-anchor-id="histogram-features-to-look-for">Histogram features to look for</h4>
+<ul>
+<li><strong>Symmetry</strong> or <strong>asymmetry</strong> - is the distribution skewed to the left or right? e.g.&nbsp;distributions of income are skewed.</li>
+<li><strong>Outliers</strong> - are there one or more vales that are far from the rest of the data?</li>
+<li><strong>Multimodality</strong> - does the distribution have more than one peak? This could suggest an underlying group structure.</li>
+<li><em>Gaps</em> - are there ranges of values within the data where no cases are recorded? e.g.&nbsp;exam marks for an exam which nobody fails.</li>
+<li><strong>Heaping</strong> - do some values occur unexpectedly often? e.g.&nbsp;zero-inflation</li>
+<li><strong>Rounding</strong> - are only certain values are found? e.g.&nbsp;ages are usually only reported as integers.</li>
+<li><strong>Impossibilities</strong> - are there values outside of the feasible ranges? e.g.&nbsp;negative values for strictly positive quantities such as age, rainfall, etc</li>
+<li><strong>Errors</strong> - values which look wrong for one reason or another.</li>
+</ul>
+</section>
+</section>
+<section id="summaries-and-boxplots" class="level3">
+<h3 class="anchored" data-anchor-id="summaries-and-boxplots">Summaries and Boxplots</h3>
+<section id="summarising-distributions" class="level4">
+<h4 class="anchored" data-anchor-id="summarising-distributions">Summarising distributions</h4>
+<ul>
+<li>We have considered the shape of a distribution already, and have seen that histograms are a handy way of exploring shape.</li>
+<li>We come now to several summary statistics (recall ISDS):
+<ul>
+<li>the average and median summarise the centre or location of the distribution.</li>
+<li>the standard deviation and inter-quartile range summarise spread around the centre of the distribution.</li>
+</ul></li>
+<li>The average is the most (over-)used statistic. It is useful especially where distributions are reasonably symmetric.</li>
+<li>For distributions with long tails, it can give misleading signals, e.g.&nbsp;average household income will include households like Buckingham palace which distort the average.</li>
+<li>The median is a measure of the midpoint of a distribution, and, unlike the mean, it is quite resistant to extreme values.</li>
+<li>A robust summary of spread is given by the interquartile range (IQR), the difference between the first and third quartiles. Every distribution has three quartiles:
+<ul>
+<li>The first quartile, <span class="math inline">\(Q_1\)</span>, is a number such that 25% of the values in the distribution do not exceed this number. This is called a lower quartile.</li>
+<li>The second quartile, <span class="math inline">\(Q_2\)</span>, is a number such that 50% of the values in the distribution do not exceed this number. This is the same as the median.</li>
+<li>The third quartile, <span class="math inline">\(Q_3\)</span>, is a number such that 75% of the values in the distribution do not exceed this number. This is called an upper quartile.</li>
+</ul></li>
+<li>Tukey suggested that we combine the three quartiles with the minimum and maximum values in the data to form a five-number summary.</li>
+</ul>
+<p>In <code>R</code>, the <code>fivenum</code> function gives the standard 5-number summary:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fivenum</span>(geyser<span class="sc">$</span>waiting)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  43  59  76  83 108</code></pre>
+</div>
+</div>
+<p>The summary function adds a 6th number (the mean):</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(geyser<span class="sc">$</span>waiting)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  43.00   59.00   76.00   72.31   83.00  108.00 </code></pre>
+</div>
+</div>
+<p>Min. 1st Qu. Median Mean 3rd Qu. Max. 43.0 58.0 76.0 70.9 82.0 96.0</p>
+</section>
+</section>
+<section id="boxplots" class="level3">
+<h3 class="anchored" data-anchor-id="boxplots">Boxplots</h3>
+<p>A boxplot (or box-and-whisker plot) is constructed from the 5-number summary by: * Drawing a box with lower boundary at <span class="math inline">\(Q_1\)</span> and upper boundary <span class="math inline">\(Q_3\)</span>. * Drawing a line inside the box at the median (<span class="math inline">\(Q_2\)</span>). * Drawing lines (whiskers) from the edges of the box to the most extreme data point that is within <span class="math inline">\(1.5\times IQR\)</span> of the edge of the box (often the minimum and maximum values).</p>
+<p><img src="boxplot.png" class="img-fluid"></p>
+<p>We can draw a boxplot by using the <code>boxplot</code> function on a vector of data values:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(geyser<span class="sc">$</span>waiting)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture1b_Variables_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Or we can pass all the columns of a data set to <code>boxplot</code> to draw everything at once:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(geyser)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture1b_Variables_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Now, all variables are shown together on a common axis scale. This can be useful if all the variables take values of a similar size, but - as we see here - when the variables are quite different it can obscure the features of some variables by drawing everything together.</p>
+<p>Optional arguments for boxplot include:</p>
+<ul>
+<li><code>horizontal</code> - if <code>TRUE</code> the boxplots are drawn horizontally rather than vertically.</li>
+<li><code>varwidth</code> - if <code>TRUE</code> the boxplot widths are drawn proportional to the square root of the samples sizes, so wider boxplots represent more data. Though usually, you have the same number of data points in each column of the data set so this is not often very helpful.</li>
+</ul>
+<section id="example-cuckoo" class="level4">
+<h4 class="anchored" data-anchor-id="example-cuckoo">Example: Cuckoo</h4>
+<p>To show the relationship between a histogram and a boxplot, we have a data set comprising the length (mm) of 100 cuckoo eggs. Drawng the histogram and boxplot together, we can see that the histogram gives far more detail on the shape of the distribution and the boxplot is more of a summary visualisation. The median is indicated in red and the upper/lower quartiles in green, which shows how these quantities align between the plots. Note that the smallest value in the data is flagged as an <strong>outlier</strong> and drawn separately as a circle on the boxplot.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture1b_Variables_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="outliers-and-extremes" class="level3">
+<h3 class="anchored" data-anchor-id="outliers-and-extremes">Outliers and Extremes</h3>
+<ul>
+<li>Values <strong>too far from the centre</strong> of the distribution are known as <strong>outliers</strong>.</li>
+<li>Data values further than <span class="math inline">\(1.5\times IQR\)</span> from a lower/upper quartile are called an <strong>outlier</strong>, and usually indicated with a circle or point.</li>
+<li>Anything beyond <span class="math inline">\(3\times IQR\)</span> is an <strong>extreme outlier</strong>, and usually indicated with a star or asterisk.</li>
+<li>This definition of outliers is a <strong>simple rule-of-thumb</strong>. It leads to about 0.7% of (normally distributed) observations being described as extreme for large samples.</li>
+<li>However, if you have a million data points then 0.7% of your data is still a lot! This doesn’t necessarily mean those points are all genuinely extreme or outliers.</li>
+</ul>
+<section id="example-heights-of-new-york-choral-society-singers" class="level4">
+<h4 class="anchored" data-anchor-id="example-heights-of-new-york-choral-society-singers">Example: Heights of New York Choral Society singers</h4>
+<p>One advantage of the boxplot, is that as it is a simple summary plot it is much easier to use boxplots to compare many variables at once. For example, the data plotted below are boxplots of the heights in inches of the singers in the New York Choral Society in 1979. The data are grouped according to the voice part they play in the choir. The vocal range for each voice part increases in pitch according to the following order: Bass 2, Bass 1, Tenor 2, Tenor 1, Alto 2, Alto 1, Soprano 2, Soprano 1. We can see immediately that the lowest pitch voices are associated with the taller singers and the higher pitches with smaller singers, which makes a lot of intuitive sense. There will also be a strong correspondance with Gender here too, though that information is not recorded.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture1b_Variables_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="interpreting-boxplots" class="level3">
+<h3 class="anchored" data-anchor-id="interpreting-boxplots">Interpreting boxplots</h3>
+<p>We should examine a <strong>single boxplot</strong> for the following features:</p>
+<ul>
+<li>Is the <strong>median</strong> line in the <strong>centre</strong> of the 50% portion of the distribution? If not, some degree of <strong>skew or asymmetry</strong> is indicated.</li>
+<li>Are the <strong>whiskers</strong> the <strong>same length</strong>? If not, some degree of <strong>skew or asymmetry</strong> is indicated.</li>
+<li>Are there any <strong>outliers</strong>?</li>
+</ul>
+<p>We should examine several boxplots for the following features:</p>
+<ul>
+<li>Do the groups have <strong>similar shapes</strong>? Some might seem <strong>symmetric</strong>, some <strong>skewed.</strong></li>
+<li>Are the <strong>median lines about the same</strong>, or do there seem to be <em>d</em>ifferences in location** between groups?</li>
+<li>Are the <strong>IQRs about the same</strong>, or do there seem to be <strong>differences in spread</strong> between groups?</li>
+<li>Are there some groups with <strong>more outliers </strong> than others? Such inspection can reveal important differences between groups.</li>
+</ul>
+</section>
+<section id="checking-distributions" class="level3">
+<h3 class="anchored" data-anchor-id="checking-distributions">Checking Distributions</h3>
+<ul>
+<li><p>Many statistical methods require our data be approximately Normally distributed - but how can we tell whether the approximation is reasonable?</p></li>
+<li><p>Normal-quantile plots provide a simple and informal way of doing this, without having to do a formal hypothesis test — though that may be a natural next step.</p></li>
+<li><p>A <strong>Normal Quantile (or Q-Q plot)</strong> can be used to informally assess the normality of a data set. We construct the plot as follows:</p>
+<ol type="1">
+<li>Order the <span class="math inline">\(n\)</span> data values, giving the ordered data <span class="math inline">\(x_{(1)},x_{(2)},\dots,x_{(n)}\)</span>.</li>
+<li>Calculate the values <span class="math inline">\(\frac{1}{n+1},\frac{2}{n+1},\dots,\frac{n}{n+1}\)</span>, which gives <span class="math inline">\(n+1\)</span> divisions of the <span class="math inline">\((0,1)\)</span> interval.</li>
+<li>Use Normal tables or computer to find the value <span class="math inline">\(z_k\)</span> such that <span class="math inline">\(\Phi(z_k)=\frac{k}{n+1}\)</span> for the values <span class="math inline">\(k=1,2,\dots,n\)</span>. The <span class="math inline">\(n\)</span> values <span class="math inline">\(z_1,z_2,\dots,z_n\)</span> are the <span class="math inline">\(\frac{k}{n+1}\)</span> quantiles of the Normal distribution.</li>
+<li>Plot the <span class="math inline">\(n\)</span> pairs of points <span class="math inline">\((x_{(1)},z_1), (x_{(2)},z_2), \dots, (x_{(n)},z_n)\)</span>.</li>
+</ol></li>
+<li><p>The basic idea is that these plots have the property that plotted points for Normally distributed data should fall roughly on a straight line.</p></li>
+<li><p>This is because <span class="math inline">\(x_{(k)}\)</span> are the sample quantiles of our data, and <span class="math inline">\(Z_k\)</span> are the theoretical quantiles of a Normal distribution. If our sample distribution is approximately normal, these pairs of values will be in agreement.</p></li>
+<li><p>Systematic deviations from the straight line indicate non-normality.</p></li>
+<li><p>We don’t need the points to lie on a perfect straight line – we often use the `fat pen test’, meaning that if the points are covered by placing a fat pen over the top, then that’s enough to conclude approximate normality!</p></li>
+</ul>
+<section id="example-cuckoo-1" class="level4">
+<h4 class="anchored" data-anchor-id="example-cuckoo-1">Example: Cuckoo</h4>
+<p>Let’s inspect the cuckoo egg data for normality. We can draw a histogram first, and compare its shape to a normal curve (blue line). While there looks to be approximate agreement (and we only ever need <em>approximate</em> Normality…), we see some divergence for small values of the data.</p>
+<p>Drawing the Normal quantile plot confirms these observations - things look reasonably close to a straight line, but deviate from Normality for small values. However, this would probably be enough to pass our ‘fat pen test’.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture1b_Variables_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>In <code>R</code>, we can use the <code>qqnorm</code> function to draw a Normal quantile plot of a single variable. Calling <code>qqline</code> after adds the theoretical straight line for comparison</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(mtcars<span class="sc">$</span>mpg)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">qqline</span>(mtcars<span class="sc">$</span>mpg)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture1b_Variables_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>For this variable (miles per gallon of various cars) we see strong departure from Normality as the points lie far from the desired straight line.</p>
+</section>
+<section id="example-sunspots" class="level4">
+<h4 class="anchored" data-anchor-id="example-sunspots">Example: Sunspots</h4>
+<p>To illustrate what happens when our data are very non-Normal, consider this data set of ‘monthly mean relative sunspot numbers’ recorded from from 1749 to 1983. The data are <strong>counts</strong> of a quantity that is usually quite small in magnitude, this means the data are usually concentrated on small values with an ‘invisible wall’ at 0 - since we cannot observe negative counts! This gives rise to a heavily skewed distribution, as we see in the histogram and boxplot below. The Normal quantile plot (right) now shows strong curvature - not the straight-line feature we would expect if the data were Normally distributed.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture1b_Variables_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="transformations" class="level3">
+<h3 class="anchored" data-anchor-id="transformations">Transformations</h3>
+<ul>
+<li>It is occasionally possible to transform the data so that the transformed data are more approximately Normal.</li>
+<li>The kinds of transformation we might employ are simple one-to-one power transformations, such <span class="math inline">\(\ln x\)</span>, <span class="math inline">\(\sqrt{x}\)</span>, <span class="math inline">\(1/x\)</span>, etc.</li>
+<li>We can decide informally whether a transformation is useful by examining a Normal quantile plot of the transformed data.</li>
+<li>Graphical displays can help appraise the effectiveness of the transformation, but the cannot tell you if it makes sense - you should consider the interpretation as well as the statistical properties!</li>
+</ul>
+</section>
+</section>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<ol type="1">
+<li>The frequency distributions of single continuous variables can exhibit a lot of different <strong>features</strong></li>
+<li><strong>Histograms</strong> are great at for emphasising features of the raw data, but struggle when comparing multiple variables or groups.</li>
+<li><strong>Boxplots</strong> show less detail than histograms, but excel at comparing distributions across variables and for identifying outliers.</li>
+<li><strong>Quantile plots</strong> can be used to see if data (approximately) follow a particular distribution.</li>
+</ol>
+<section id="modelling-considerations-testing" class="level3">
+<h3 class="anchored" data-anchor-id="modelling-considerations-testing">Modelling Considerations &amp; Testing</h3>
+<ul>
+<li><strong>Tests using the summary statistics</strong> - tests of means and variances against hypothesised values may be appropriate. Normality - formal tests of Normality, such as the KS test, could be applied if following a Normal distribution is important</li>
+<li><strong>Outliers</strong> - formal tests for outliers exist (‘outliers’ package) and could be applied, plus the effect of excluding outliers from any analysis could be explored</li>
+<li><strong>Multimodality</strong> - methods for assessing multimodality also exist (e.g.&nbsp;‘diptest’ package), but care must be taken to avoid interpreting data noise as structure</li>
+<li><strong>Sample size</strong> - many of the methods can be overly sensitive for very large samples</li>
+</ul>
+</section>
+</section>
+<section id="exploring-categorical-variables" class="level2">
+<h2 class="anchored" data-anchor-id="exploring-categorical-variables">Exploring Categorical Variables</h2>
+<p><strong>Categorical</strong> or <strong>qualitative</strong> variables can only take one of a limited number of possible values (categories). The possible values a variable can take are known as the <strong>categories</strong>, <strong>levels</strong>, or <strong>labels</strong>.</p>
+<p>Categorical data comes in various forms depending on how the categories relate to each other:</p>
+<ul>
+<li><strong>Nominal</strong> - the categories have no standard order (e.g.&nbsp;eye colour)</li>
+<li><strong>Ordinal</strong> - the categories have an intrinsic order (e.g.&nbsp;age recorded as “young”, “middle-aged”, and “old”)</li>
+<li><strong>Discrete</strong> - the categories are numerical, and hence ordered, but can only take a finite number of values (e.g.&nbsp;number of people per household)</li>
+</ul>
+<p>For example, the data set below contains the responses to seven questions put to 1525 voters in an election survey for 1997-2001. All the variables in the data are categorical of different types. <code>vote</code> is the party the voter would vote for is clearly categorical, as is gender. The others are ordinal, but with numerical values. In some cases, where the variable is discrete, numerically valued, with a large number of categories - like <code>age</code> - it <strong>does</strong> make sense to treat it as continuous. Variables such as <code>age</code> are often thought of as being fundamentally continuous albeit recorded as discrete values.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"beps.Rda"</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(beps)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              vote age economic.cond.national economic.cond.household Blair
+1 Liberal Democrat  43                      3                       3     4
+2           Labour  36                      4                       4     4
+3           Labour  35                      4                       4     5
+4           Labour  24                      4                       2     2
+5           Labour  41                      2                       2     1
+6           Labour  47                      3                       4     4
+  Hague Kennedy Europe political.knowledge gender
+1     1       4      2                   2 female
+2     4       4      5                   2   male
+3     2       3      3                   2   male
+4     1       3      4                   0 female
+5     1       4      6                   2   male
+6     4       2      4                   2   male</code></pre>
+</div>
+</div>
+<p>The levels of a categorical variables are expressed by a <strong>factor coding</strong> to represent the different categories. <strong>Numerical codings</strong> are sometimes used, e.g.&nbsp;for a variable on marital status we could define:</p>
+<ol type="1">
+<li>single</li>
+<li>married</li>
+<li>separated</li>
+<li>divorced</li>
+<li>…</li>
+</ol>
+<p>While this helps abbreviate the categories, it is important to remember that variables expressed this way are not the same as a numerical variable that can take these values. <strong>We should never treat these values as if they were continuous</strong> - for example, it could be tempting to take an average and, say, get a result of 2.6. But this is meaningless as it doesn’t correspond to any of the possibilities, the value we get depends entirely on how we coded our factors, and the rules of arthimetic make no sense for these variables – 1+3 may equal 4, but that does not mean single+separated=divorced!</p>
+<p>Instead, using text strings to represent the categories is safest and avoids mistakes such as these. However, care must be taken to ensure that there is consistency in how these levels are labelled, e.g.&nbsp;do we treat the labels “Female”, “female”, “F” as the same?</p>
+<section id="summary-tables" class="level3">
+<h3 class="anchored" data-anchor-id="summary-tables">Summary tables</h3>
+<p>Compared to continuous variables, categorical variables are relatively simplistic and usually contain little useful information on their own. As data, they usually reduce to the counts of the number of observations in the various categories.</p>
+<p>We can obtain summary tables of the frequency of each category by using the <code>table</code> function.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(beps<span class="sc">$</span>vote)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Conservative           Labour Liberal Democrat 
+             462              720              343 </code></pre>
+</div>
+</div>
+<p>The R output is useful for a quick summary, but will need some manual re-formatting to make it presentable. R output is seldom an acceptable way to present information to others, and almost always should be transformed (e.g.&nbsp;into a summary table of relevant information) or summaries (e.g.&nbsp;by reporting only the relevant information R has given you). Here we can transform the ugly R code into a small data table:</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;">Conservative</th>
+<th style="text-align: right;">Labour</th>
+<th style="text-align: right;">Liberal Democrat</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">462</td>
+<td style="text-align: right;">720</td>
+<td style="text-align: right;">343</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The <code>xtabs</code> function does something similar, and will be more useful later on when we have <strong>multiple variables at once</strong>:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">xtabs</span>(<span class="sc">~</span>vote,<span class="at">data=</span>beps)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>vote
+    Conservative           Labour Liberal Democrat 
+             462              720              343 </code></pre>
+</div>
+</div>
+</section>
+<section id="visualising-single-categorical-variables" class="level3">
+<h3 class="anchored" data-anchor-id="visualising-single-categorical-variables">Visualising Single Categorical variables</h3>
+<p>Visualisation of categorical variables usually focuses on plotting the <strong>counts</strong> of the categories, or the <strong>proportions</strong> that each category contribute to the total.</p>
+<p>The range of useful graphics for such data is usually limited to:</p>
+<ul>
+<li><strong>Barcharts</strong> - depict the counts or proportions by the size of the bar</li>
+<li><strong>Piecharts</strong> - display the proportions of categories as fractions of the whole</li>
+<li><strong>Variations</strong> of the above (stacked bars, treemaps)</li>
+</ul>
+<p>What features to look for?</p>
+<ul>
+<li><strong>Extremes</strong> - the largest (smallest) category is often of particular interest.</li>
+<li><strong>Uneven distributions</strong> - Observational studies can often observe many more cases of one category than others. Some categories may not be observed</li>
+<li><strong>Unexpected patterns of results</strong> - surprisingly large or small numbers for particular categories</li>
+<li><strong>Large numbers of categories</strong> - these may require grouping together or filtering out</li>
+<li><strong>Don’t knows, missing values</strong> - Missing, unknown, or unavailable data is common in e.g.&nbsp;surveys and opinion polls.</li>
+<li><strong>Errors in factor codings</strong> - e.g.&nbsp;gender could be denoted ‘M’ or ‘F’, but we may find values of ‘m’, or ‘female’.</li>
+</ul>
+</section>
+<section id="barplots-or-bar-charts" class="level3">
+<h3 class="anchored" data-anchor-id="barplots-or-bar-charts">Barplots or bar charts</h3>
+<p>A <strong>bar chart</strong> or <strong>barplot</strong> simply draws the distribution of counts per category. We can use <code>barplot</code> to draw a barplot from a summary table of counts generated by the <code>xtabs</code> function</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(<span class="fu">xtabs</span>(<span class="sc">~</span>vote,<span class="at">data=</span>beps))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture1b_Variables_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><code>barplot</code> takes a number of additional arguments to customise the plot:</p>
+<ul>
+<li><code>names</code> - a vector of labels for each bar</li>
+<li><code>horiz</code> - set to TRUE to show a horizontal barplot.</li>
+<li><code>width</code> - a vector of values to specify the widths of the bars</li>
+<li><code>space</code> - a vector of values to specify the spacing between bars</li>
+<li><code>col</code> - a vector of colours for the bars</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(<span class="fu">xtabs</span>(<span class="sc">~</span>vote,<span class="at">data=</span>beps),<span class="at">col=</span><span class="fu">c</span>(<span class="st">'blue'</span>,<span class="st">'red'</span>,<span class="st">'orange'</span>), <span class="at">horiz=</span><span class="cn">TRUE</span>, <span class="at">names=</span><span class="fu">c</span>(<span class="st">'Con'</span>,<span class="st">'Lab'</span>,<span class="st">'LibDem'</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture1b_Variables_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="example-voter-population-in-germany-2009" class="level3">
+<h3 class="anchored" data-anchor-id="example-voter-population-in-germany-2009">Example: Voter population In Germany 2009</h3>
+<p>Here we have the number of eligible voters in each of the 16 Bundesländer (states) in the German Federal elections in 2009.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">'btw9s.Rda'</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(btw9s)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Bundesland  Voters   EW State1
+BW         BW 7633818 West     BW
+BY         BY 9382583 West     BY
+BE         BE 2471665 East     BE
+BB         BB 2128715 East     BB
+HB         HB  487978 West     HB
+HH         HH 1256634 West     HH</code></pre>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture1b_Variables_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>As states are categorical the ordering of the bars is arbitrary, which limits what we can interpret - but clearly there are some very large and very small states.</p>
+<p>We notice wide variation in populations - the largest is ‘NW’ (Nordrhein-Westfalen) which includes many major cities like Cologne and Düsseldorf; the smallest is ‘HB’ which is Bremen, a smaller city-state.</p>
+<p>The ordering of bars can be used for emphasis - here its alphabetical. Ordering the bars by size gives a much better impression of the relative sizes of the sixteen states:</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture1b_Variables_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Using problem-specific structure can help give you context to your analysis. For example, we can separate the states belonging to the former East (left) and West Germany (right) and use a little colour for emphasis:</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture1b_Variables_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Clearly the West German states are substantially more populous.</p>
+</section>
+<section id="example-titanic-passengers" class="level3">
+<h3 class="anchored" data-anchor-id="example-titanic-passengers">Example: Titanic Passengers</h3>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>titanic <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(Titanic)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The <code>Titanic</code> data contains information on the fate of survivors fatal maiden voyage of the ocean liner Titanic. The data are in the form of counts of survivors (and not) summarised by economic status (class), sex and age. The variables are all categorical and defined as</p>
+<ul>
+<li><code>Class</code> - 1st, 2nd, 3rd, or crew</li>
+<li><code>Sex</code> - Female, Male</li>
+<li><code>Age</code> - Adult, Child</li>
+<li><code>Survived</code> - No, Yes</li>
+</ul>
+<p>Before we analyse the data, think about what you expect the results to show. Do we expect more Male or Female survivors? Do we expect those in 1st class to fare better than those in 3rd class? Would we expect the Crew to fare better or worse than the passengers?</p>
+<p>By thinking about what we might expect <em>before</em> looking at the data, we allow ourselves to be surprised when we find features we did not expect!</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">4</span>))</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(<span class="fu">xtabs</span>(Freq<span class="sc">~</span>Survived,<span class="at">data=</span>titanic), <span class="at">col=</span><span class="st">"red"</span>,<span class="at">main=</span><span class="st">"Survived"</span>)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(<span class="fu">xtabs</span>(Freq<span class="sc">~</span>Sex,<span class="at">data=</span>titanic), <span class="at">col=</span><span class="st">"green"</span>,<span class="at">main=</span><span class="st">"Sex"</span>)</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(<span class="fu">xtabs</span>(Freq<span class="sc">~</span>Age,<span class="at">data=</span>titanic), <span class="at">col=</span><span class="st">"orange"</span>,<span class="at">main=</span><span class="st">"Sex"</span>)</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(<span class="fu">xtabs</span>(Freq<span class="sc">~</span>Class,<span class="at">data=</span>titanic), <span class="at">col=</span><span class="st">"blue"</span>,<span class="at">main=</span><span class="st">"Sex"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture1b_Variables_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>What do we see here?</p>
+<ul>
+<li>More than twice as many passengers died as survived</li>
+<li>More Male than Female passengers on board - more than 3x as many!</li>
+<li>Very few Child passengers</li>
+<li>More people in Crew than any other class; fewest in second class</li>
+</ul>
+<p>The interesting questions arise when we try to think whether <code>Survived</code> is related to the other variables. But we’ll have to come back to this later on.</p>
+</section>
+<section id="visualising-proportions" class="level3">
+<h3 class="anchored" data-anchor-id="visualising-proportions">Visualising Proportions</h3>
+<p><strong>Proportions</strong> are of particular interest in <strong>opinion polls</strong>, or studies where the <strong>composition</strong> of a larger population is of interest. In elections, the values of the <strong>counts</strong> are far less important than the <strong>share</strong> of the total - in particular the size of the largest proportion.</p>
+<p>Visualisations of proportions are based around the simple idea of <strong>dividing the larger whole into pieces</strong> which reflect the corresponding fractions.</p>
+<ul>
+<li><code>piecharts</code> - slices of a circle</li>
+<li><code>composite or stacked barcharts</code> - fractions of a bar</li>
+<li><code>treemaps</code> - tiles within a square or rectangle</li>
+</ul>
+<p>A <strong>stacked barplot</strong> is a variation of a standard barplot where the individual bars are broken up into portions reflecting the different. When we just have one variable, the effect is to <strong>stack</strong> the individual bars on top of each other.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(<span class="fu">as.matrix</span>(<span class="fu">xtabs</span>(<span class="sc">~</span>vote,<span class="at">data=</span>beps)), <span class="do">## note we have to conver to a matrix here</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">beside=</span><span class="cn">FALSE</span>,</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">horiz=</span><span class="cn">TRUE</span>,</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">col=</span><span class="fu">c</span>(<span class="st">'blue'</span>,<span class="st">'red'</span>,<span class="st">'orange'</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture1b_Variables_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Here we can see the individual sizes of the bars, as well as a clear indication of their contribution to the overall total. So, it’s easy to read that the red category (Labour) has the highest share of the vote in this poll.</p>
+<p>The traditional pie chart can be generated using <code>pie</code>:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pie</span>(<span class="fu">xtabs</span>(<span class="sc">~</span>vote,<span class="at">data=</span>beps),  <span class="at">col=</span><span class="fu">c</span>(<span class="st">'blue'</span>,<span class="st">'red'</span>,<span class="st">'orange'</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture1b_Variables_files/figure-html/unnamed-chunk-32-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We’re probably all familiar with this, but the basic idea is to use slices of the ‘pie’ to represent the proportion. Unfortunately, pie charts are often not the best visualisation as it can be difficult to detect differences between similarly-sized slices of a circle when compared to similiarly sized rectangles.</p>
+<p><strong>Historical aside:</strong> the invention of the pie chart is often attributed to Florence Nightingale. In one of the earliest conventional uses of data visualisation, she used an early version of the pie chart highlight the poor conditions of soldiers in field hospitals during the Crimean War (1854-6). Florence was an early pioneer of statistics and the first female member of the Royal Statistical Society – this aspect of her life and achivements is often overlooked given her frequent association with nursing.</p>
+<p><img src="Nightingale-mortality.jpg" class="img-fluid"></p>
+</section>
+<section id="bonus-content-variations-of-standard-plots" class="level3">
+<h3 class="anchored" data-anchor-id="bonus-content-variations-of-standard-plots">Bonus Content: Variations of Standard plots</h3>
+</section>
+<section id="stem-and-leaf-plots" class="level3">
+<h3 class="anchored" data-anchor-id="stem-and-leaf-plots">Stem and Leaf plots</h3>
+<p>A <strong>stem and leaf plot</strong> presents the numerical values of the data in a similar form to a histogram.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">stem</span>(geyser<span class="sc">$</span>waiting)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  The decimal point is 1 digit(s) to the right of the |
+
+   4 | 3
+   4 | 577888889999999
+   5 | 00000000000011111222223333333444444444
+   5 | 5556677777777788888999
+   6 | 0000001112222234
+   6 | 5555555668889999
+   7 | 01111122222233333344444444
+   7 | 5555555556666666677777777778888888888888888899999999999
+   8 | 00000000000001111111111112222222233333344444444444
+   8 | 5555555666667777777777777788888889999999
+   9 | 0011222333333334
+   9 | 668
+  10 | 
+  10 | 8</code></pre>
+</div>
+</div>
+<p>This plot resembles a sideways histogram, only it shows extra information on the values <em>within</em> each bar.</p>
+</section>
+<section id="stripplot" class="level3">
+<h3 class="anchored" data-anchor-id="stripplot">Stripplot</h3>
+<p>A <strong>stripplot</strong> is similar again, but displays the data as points rather than the numerical value</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">stripchart</span>(geyser<span class="sc">$</span>waiting, <span class="at">method=</span><span class="st">'stack'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture1b_Variables_files/figure-html/unnamed-chunk-34-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>By default, it draws a hollow box for each data point which can make it difficult to read. We can modify the shape of the points by the <code>pch</code> (<code>p</code>lot <code>ch</code>aracter) argument can help improve readability:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">stripchart</span>(geyser<span class="sc">$</span>waiting, <span class="at">method=</span><span class="st">'stack'</span>, <span class="at">pch=</span><span class="dv">16</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture1b_Variables_files/figure-html/unnamed-chunk-35-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="beeswarm-plots" class="level3">
+<h3 class="anchored" data-anchor-id="beeswarm-plots">Beeswarm plots</h3>
+<p>A <strong>beeswarm</strong> plot is similar to stripplot, but uses various techniques to separate nearby points such that each point remains visible. It also draws the plot symmetric about a central axis, rather than stacking up points from a baseline.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(beeswarm)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">beeswarm</span>(geyser<span class="sc">$</span>waiting,<span class="at">horizontal =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture1b_Variables_files/figure-html/unnamed-chunk-36-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+
+
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

@@ -1,0 +1,1459 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>lab1_explcontvar – course-notes</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-5b4ad623e5705c0698d39aec6f10cf02.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">course-notes</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#practical-1-exploring-continuous-variables" id="toc-practical-1-exploring-continuous-variables" class="nav-link active" data-scroll-target="#practical-1-exploring-continuous-variables">Practical 1 – Exploring continuous variables</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+
+
+
+
+<section id="practical-1-exploring-continuous-variables" class="level1">
+<h1>Practical 1 – Exploring continuous variables</h1>
+<div style="background-color: #f0f8ff; border: 2px solid #4682b4; padding: 15px; margin: 10px 0; border-radius: 10px;">
+<h2 style="color: #4682b4; margin-top: 5px;" class="anchored" data-anchor-id="practical-1-exploring-continuous-variables">
+Introduction
+</h2>
+<p>
+This practical will lead you into producing some high quality standard visualisations of single continuous data variables, as seen in lectures.
+</p>
+<p>
+By the end of the lab, you will have acquired the following skills:
+</p><ul style="font-size: 16px; color: #333;">
+<li>
+Plotting a histogram with <code>hist</code>
+</li>
+<li>
+Plotting a boxplot with <code>boxplot</code>
+</li>
+<li>
+Extracting simple numerical summaries with <code>summary</code> and <code>fivenum</code>
+</li>
+<li>
+Customising plots with labels, titles, colour, etc.
+</li>
+<li>
+Producing multiple variations of the plots above
+</li>
+<p></p>
+</ul></div>
+<section id="exercise-1-standard-plots-in-r" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="exercise-1-standard-plots-in-r">Exercise 1 (Standard Plots in R)</h2>
+<p>To begin with, let’s first see how to use R to produce standard plots of a variable, namely <em>histograms</em>, <em>boxplots</em>, and <em>quantile (or QQ) plots</em>.</p>
+<p>For illustration, let us use the R built-in <code>mtcars</code> data set, which contains information on the characteristics of 23 cars.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(mtcars)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="hist" class="level3">
+<h3 class="anchored" data-anchor-id="hist">Histograms</h3>
+<p>A <a href="https://en.wikipedia.org/wiki/Histogram">histogram</a> consists of parallel vertical bars that graphically shows the frequency distribution of a quantitative variable. The area of each bar is proportional to the frequency of items found in each class. A histogram is useful to look at when we want to see more detail on the full distribution of the data, and features relating to its shape.</p>
+<p>To plot a histogram, we apply the <code>hist</code> function to the data vector. We can extract the <code>mpg</code> (miles-per-gallon) variable from the <code>mtcars</code> data set using the <code>$</code> operator, and so we can draw a histogram as follows:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(mtcars<span class="sc">$</span>mpg)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab1_ExplContVar_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This seems to suggest that we have a peak somewhere between 15 and 20 mpg, and potentially another peak between 30 and 35 mpg - perhaps suggesting groups of ‘fuel efficient’ and ‘fuel inefficient’ cars.</p>
+<p>One way to assess if the number of bars in the histogram is appropriate is to show the location of the data points on the horizontal axis. We can add a ‘rug plot’ to our histogram, which marks the positions of the data with lines on the axis:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(mtcars<span class="sc">$</span>mpg)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rug</span>(mtcars<span class="sc">$</span>mpg) <span class="do">## Note: the 'rug' function draws on top of an existing histogram</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab1_ExplContVar_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Now we can also see where the data fall <em>within</em> the bars!</p>
+<p>The default settings of <code>hist</code> will determine the number of bars to display algorithmically, and in this case it has drawn only 5. In general, this is probably too few to show any detail, but we don’t have many data points here. Fortunately, the display of the histogram can be adjusted by a number of arguments:</p>
+<ul>
+<li><code>breaks</code> - allows us to control the number of bars in the histogram. <code>breaks</code> can take a variety of different inputs:
+<ul>
+<li>If <code>breaks</code> is set to a single number, this will be used to (suggest) the number of bars in the histogram.</li>
+<li>If <code>breaks</code> is set to a vector, the values will be used to indicate the endpoints of the bars of the histogram.</li>
+</ul></li>
+<li><code>freq</code> - if <code>TRUE</code> the histogram shows the simple frequencies or counts within each bar; if <code>FALSE</code> then the histogram shows probability densities rather than counts.</li>
+</ul>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab1_ExplContVar_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="task-1a" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="task-1a"><strong>Task 1a</strong></h3>
+<ul>
+<li>Use the <code>hist</code> function to draw histograms of miles-per-gallon which match those shown above (don’t worry about the labels).</li>
+</ul>
+<details>
+<summary>
+Click for solution
+</summary>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(mtcars<span class="sc">$</span>mpg,<span class="at">freq=</span><span class="cn">FALSE</span>,<span class="at">main=</span><span class="st">'freq=FALSE'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab1_ExplContVar_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(mtcars<span class="sc">$</span>mpg,<span class="at">breaks=</span><span class="dv">10</span>,<span class="at">main=</span><span class="st">'breaks=10'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab1_ExplContVar_files/figure-html/unnamed-chunk-5-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(mtcars<span class="sc">$</span>mpg,<span class="at">breaks=</span><span class="dv">50</span>,<span class="at">main=</span><span class="st">'breaks=50'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab1_ExplContVar_files/figure-html/unnamed-chunk-5-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(mtcars<span class="sc">$</span>mpg,<span class="at">breaks=</span><span class="fu">c</span>(<span class="dv">10</span>,<span class="dv">12</span>,<span class="dv">20</span>,<span class="dv">30</span>,<span class="dv">35</span>), <span class="at">main=</span><span class="st">"breaks=c(10,12,20,30,35)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab1_ExplContVar_files/figure-html/unnamed-chunk-5-4.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</details>
+</section>
+<section id="summary" class="level3">
+<h3 class="anchored" data-anchor-id="summary">Numerical summaries</h3>
+<p>A five-number numerical summary can be computed with the <code>fivenum</code> function, which takes a vector of numbers as input. To add a little more information, the <code>summary</code> function includes the mean of the data for a 6-number summary.</p>
+</section>
+<section id="task-1b" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="task-1b"><strong>Task 1b</strong></h3>
+<p>Compute summaries of the <code>mpg</code> data in the <code>mtcars</code> dataset using <code>fivenum</code> and <code>summary</code>. What is your interpretation of the result?</p>
+<details>
+<summary>
+Click for solution
+</summary>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fivenum</span>(mtcars<span class="sc">$</span>mpg)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 10.40 15.35 19.20 22.80 33.90</code></pre>
+</div>
+</div>
+<p>The values returned are the sample minimum, lower quartile, median, upper quartile and maximum. We can see that the median across all the cars in the dataset is about 20 miles per gallon. This is pretty terrible by modern standards, but the data are from 1974 and the USA.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mtcars<span class="sc">$</span>mpg)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  10.40   15.43   19.20   20.09   22.80   33.90 </code></pre>
+</div>
+</div>
+The inclusion of the mean can be quite helpful. If the data have an approximately symmetric distribution then the mean and median values should be close, which can be used as a quick check for any potential skewness in the data. Given that the mean is fairly close to the median, there doesn’t appear to be a dramatic amount of skewness in the distribution of MPG.
+</details>
+</section>
+</section>
+<section id="boxplot" class="level2">
+<h2 class="anchored" data-anchor-id="boxplot">Boxplots</h2>
+<p>A boxplot provides a graphical view of the median, quartiles, maximum, and minimum of a data set. In many ways, it is simply a direct visualisation of the five number summary constructed above. The whiskers (vertical lines) capture roughly 99% of a normal distribution, and observations outside this range are plotted as points representing outliers (see the figure below).</p>
+<p><img src="boxplot.png" class="img-fluid"></p>
+<p>Boxplots are created for single variables using the <code>boxplot</code> function, but can be used to easily compare many variables or groups within the data. To draw a boxplot of a single variable, multiple variables, or all variables in a data frame, we simply pass the data directly to the <code>boxplot</code> function:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(mtcars<span class="sc">$</span>mpg)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab1_ExplContVar_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>As the boxplot is based on the simple 5-number summary, it lacks the detail of a histogram. However, we can inspect it for features such as symmetry or skewness - a symmetric distribution will give a boxplot with a whiskers of equal length, a centrally-positioned box evenly divided by the median line.</p>
+<p>Here, we see the box is slightly off-centre, suggesting some slight skewness. We also note that there are no obvious outliers.</p>
+<section id="task-1c" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="task-1c"><strong>Task 1c</strong></h3>
+<p>Draw a a boxplot of <em>all</em> the variables in <code>mtcars</code> by passing the entire data frame to the <code>boxplot</code> function. Can you see anything useful in the plot?</p>
+<details>
+<summary>
+Click for solution
+</summary>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(mtcars)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab1_ExplContVar_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+Unfortunately, because of the different scales of variables we can’t see what’s going on with the smaller variables.
+</details>
+<p>The boxplot is most useful when comparing how a variable behaves in different groups (i.e., the levels of a categorical variable). For example, we can compare the MPG with the number of engine cylinders</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>cyl <span class="ot">&lt;-</span> <span class="fu">factor</span>(mtcars<span class="sc">$</span>cyl) <span class="co"># make the 'cyl' variable categorical</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(mtcars<span class="sc">$</span>mpg <span class="sc">~</span> cyl)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab1_ExplContVar_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>What do you conclude about fuel efficiency in cars with more engine cylinders?</p>
+<p>Optional arguments for <code>boxplot</code> include:</p>
+<ul>
+<li><code>horizontal</code> - if <code>TRUE</code> the boxplots are drawn horizontally rather than vertically.</li>
+<li><code>varwidth</code> - if <code>TRUE</code> the boxplot widths are drawn proportional to the square root of the samples sizes, so wider boxplots represent more data.</li>
+</ul>
+</section>
+</section>
+<section id="exercise-2-data-analysis-of-galtons-heights" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-2-data-analysis-of-galtons-heights">Exercise 2: Data analysis of Galton’s Heights</h2>
+<p><a href="https://en.wikipedia.org/wiki/Francis_Galton">Francis Galton</a> famously developed his ideas on correlation and regression using data which included the heights of parents and their children. This <code>galton</code> data set include data on heights for 928 children and their 205 ‘midparents’. Each ‘midparent’ height is the average of the father’s height and 1.08 times the mother’s height (to adjust for the usual gender differences). Similarly, the daughter’s heights have also been multiplied by 1.08. Note that we have one midparent height for each child, so that many midparent heights are repeated.</p>
+<p>The variables are <code>child</code> and <code>parent</code> for the different heights recorded in inches.</p>
+<section id="task-2a" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="task-2a"><strong>Task 2a</strong></h3>
+<ul>
+<li>Download the <em>galton.Rda</em> data set from the Ultra page and load the file</li>
+<li>Draw a boxplot of both variables in the data set.</li>
+<li>What features do you see? How do the heights compare in terms of location and spread?</li>
+<li>Does this agree with what you expected?</li>
+<li>Draw and compare histograms of the two variables - can you detect any noticeable similarities or differences?</li>
+<li>Redraw your histograms and add a rugplot to each. Does this give you more information?</li>
+</ul>
+<details>
+<summary>
+Click for solution
+</summary>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(galton)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab1_ExplContVar_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="do">## parents are less spread than children, both seem to be centred around the </span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="do">## same values (about 68.5)</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="do">## both appear symmetric</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="do">## parent displays two outliers</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="do">## expectations: similar heights? so yes.</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="do">## not sure would we expect more variability in children than parents, though parents are an average!</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(galton<span class="sc">$</span>child)</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="fu">rug</span>(galton<span class="sc">$</span>child)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab1_ExplContVar_files/figure-html/unnamed-chunk-12-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(galton<span class="sc">$</span>parent)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rug</span>(galton<span class="sc">$</span>parent)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab1_ExplContVar_files/figure-html/unnamed-chunk-12-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="do">## histograms are clearly symmetric, normal distributions?</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="do">## rugplot shows something strange - all of these data points are lining up on a few values - why?</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="do">## lets look at the first 30 values</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>galton<span class="sc">$</span>child[<span class="dv">1</span><span class="sc">:</span><span class="dv">30</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 61.7 61.7 61.7 61.7 61.7 62.2 62.2 62.2 62.2 62.2 62.2 62.2 63.2 63.2 63.2
+[16] 63.2 63.2 63.2 63.2 63.2 63.2 63.2 63.2 63.2 63.2 63.2 63.2 63.2 63.2 63.2</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="do">## is there rounding here? all the values are at integers +0.2...</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="do">## how many unique values are there?</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(galton<span class="sc">$</span>parent)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 70.5 68.5 65.5 64.5 64.0 67.5 66.5 69.5 71.5 72.5 73.0</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="do">## only 11 unique values!</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</details>
+</section>
+<section id="task-2b" class="level3">
+<h3 class="anchored" data-anchor-id="task-2b"><strong>Task 2b</strong></h3>
+<ul>
+<li>Using the <em>par()</em> command, draw histograms of parents and child heights side-by-side on the same plot (you may need to adjust the width of your plot window.)</li>
+<li>Do your plots reveal anything interesting?</li>
+</ul>
+<details>
+<summary>
+Click for solution
+</summary>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(galton<span class="sc">$</span>parent)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(galton<span class="sc">$</span>child)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab1_ExplContVar_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</details>
+</section>
+<section id="customising-plots" class="level3">
+<h3 class="anchored" data-anchor-id="customising-plots">Customising Plots</h3>
+<p>One of the difficulties of comparing multiple independent plots is we need to do more work to ensure consistency of presentation. In particular, we should ensure that our histogram intervals and axis ranges are the same for both plots, as the default presentation will change from plot to plot.</p>
+<p>Many high level plotting functions (<code>plot</code>, <code>hist</code>, <code>boxplot</code>, etc.) allow you to include additional options to customise how the plot is drawn (as well as other graphical parameters). We have seen examples of these already with the axis label arguments <code>xlab</code> and <code>ylab</code>, however we can customise the following plot features for finer control of how a plot is drawn.</p>
+<p><strong>Axis limits</strong></p>
+<p>To control the ranges of the horizontal and vertical axes, we can add the <code>xlim</code> and <code>ylim</code> arguments to our original plotting function To set the horixontal axis limits, we pass a vector of two numbers to represent the lower and upper limits, <code>xlim = c(lower, upper)</code> specifying numerical values for <code>upper</code> and <code>lower</code>, and repeat the same for <code>ylim</code> to customise the vertical axis.</p>
+<p><strong>Axis labels</strong></p>
+<p>To specify a label for the x- and y-axes we can supply a string to the <code>xlab</code> and <code>ylab</code> arguments. To give a plot a title, we pass the title as a string to the <code>main</code> argument.</p>
+<p>It is easier to compare the shape of distributions in histograms when they are arranged vertically, they use equal horizontal axis limits, and the same binwidths.</p>
+</section>
+<section id="task-2c" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="task-2c"><strong>Task 2c</strong></h3>
+<ul>
+<li>Use <code>par</code> to setup a column of two plots.</li>
+<li>Plot a histogram of <code>child</code> and then <code>parent</code> from <code>galton</code> using:
+<ul>
+<li>x-axis limits of 60 to 75</li>
+<li>A bar width of 1 unit</li>
+<li>An appropriate x-axis label and plot title</li>
+</ul></li>
+<li>Does the comparison yield any new information that wasn’t conveyed in the boxplot?</li>
+<li>Try reducing your bar widths - what do you find?</li>
+</ul>
+<details>
+<summary>
+Click for solution
+</summary>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>))</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(galton<span class="sc">$</span>parent,<span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">60</span>,<span class="dv">75</span>),<span class="at">breaks=</span><span class="dv">60</span><span class="sc">:</span><span class="dv">75</span>,<span class="at">xlab=</span><span class="st">'Parent heights'</span>, <span class="at">main=</span><span class="st">''</span>)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(galton<span class="sc">$</span>child,<span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">60</span>,<span class="dv">75</span>),<span class="at">breaks=</span><span class="dv">60</span><span class="sc">:</span><span class="dv">75</span>,<span class="at">xlab=</span><span class="st">'Child heights'</span>, <span class="at">main=</span><span class="st">''</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab1_ExplContVar_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="do">## they seem to line up nicely, with the children more spread. Much like the boxplots</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="do">## why are the parents less variable? One set of parents has many children, so </span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="do">## there's a lot more variability from many children (between 1 and 15) there</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="do">## due to repetition of the parent values </span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="do">## its actually a difference of the order of 1/sqrt(2), which you would expect for</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="do">## the mean of 2 parents!</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>In interpreting the data, it is worth noting that:</p>
+<ul>
+<li>Galton obtained this data “through the offer of prizes” for the “bext Extracts from their own Family Records”, so the sample is hardly a random one</li>
+<li>the data are clearly heavily rounded for tabulation</li>
+<li>family sizes vary from 1 child up to 15, so that there is a lot of repetition in the midparent heights.</li>
+</ul>
+You might expect that if we had the individual un-adjusted heights and the genders of the parents and children we would find that the height data distributions would be neatly bimodal with one peak for females and one for males. They are not. Apparently, height distributions are <a href="https://faculty.washington.edu/tamre/IsHumanHeightBimodal.pdf">rarely like that</a>.
+</details>
+</section>
+</section>
+<section id="exercise-3-data-exploration-of-the-movies-dataset" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-3-data-exploration-of-the-movies-dataset">Exercise 3: Data exploration of the <code>movies</code> dataset</h2>
+<p>Data science inevitably involves working with large data sets. The effort involved in preparing and making a large dataset usable for analysis should not be underestimated, but thankfully we’re going to look at a dataset “prepared earlier”. This <code>movies</code> data set (downloadable from Ultra) is reasonably large(ish), containing 24 different attribues of 28819 movies gathered from <a href="http://imdb.com">IMDB</a>. One of the variables is the movie length in minutes, and it is interesting to look at this variable in some detail.</p>
+<section id="task-3a" class="level3">
+<h3 class="anchored" data-anchor-id="task-3a"><strong>Task 3a</strong></h3>
+<ul>
+<li>Load the <code>movies</code> data set and draw a histogram of the data.</li>
+<li>Plot a histogram of the <code>length</code> variable.</li>
+<li>What features can you see?</li>
+<li>Add a rugplot to the histogram - what problems does this highlight?</li>
+<li>Let’s try a boxplot of the data - do we learn anything more?</li>
+<li>Are there any obvious outliers?</li>
+</ul>
+<details>
+<summary>
+Click for solution
+</summary>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(movies<span class="sc">$</span>length)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rug</span>(movies<span class="sc">$</span>length)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab1_ExplContVar_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="do">## all the data stack up at the left end near zero, but the range of the data is huge!</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(movies<span class="sc">$</span>length,<span class="at">horizontal =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab1_ExplContVar_files/figure-html/unnamed-chunk-16-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="do">## this confirms the same as the rugplot, but there are two ridiculously large outliers</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+Clearly, our data are distorted by some particularly egregious outliers.
+</details>
+</section>
+<section id="task-3b" class="level3">
+<h3 class="anchored" data-anchor-id="task-3b"><strong>Task 3b</strong></h3>
+<p>Look at the outliers more closely:</p>
+<ul>
+<li>What are the lengths of the two longest movies?</li>
+<li>Does that seem sensible?</li>
+<li>Extract the subset of the dataframe containing all the variables for both of these movies</li>
+<li>Inspect the variable values:</li>
+<li>The variables <code>r1</code> to <code>r10</code> give the percentage of reviews which rated the movie as a <code>1</code> up to a <code>10</code> out of <code>10</code>. Are these movies particularly popular?</li>
+<li>What are the names of the movies? Do a quick Google search to see if you can find out more.</li>
+</ul>
+<details>
+<summary>
+Click for solution
+</summary>
+<p>There are various way you can do this, I chose to sort the data and use the head or tail functions to extract the end/start of the list</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(<span class="fu">sort</span>(movies<span class="sc">$</span>length))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  647  773  873 1100 2880 5220</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">sort</span>(movies<span class="sc">$</span>length,<span class="at">decreasing=</span><span class="cn">TRUE</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 5220 2880 1100  873  773  647</code></pre>
+</div>
+</div>
+<p>so 5220 and 2880 minutes - that’s 87 and 48 hours, or 14.5 and 8 days respectively. These are obviously not ‘genuine’ movies. Although it’s tempting to dismiss these as simple errors, it is worth checking if possible.</p>
+<p>To look at all the variables for these two movies, we must subset the data frame using the square brackets</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>movies[movies<span class="sc">$</span>length<span class="sc">&gt;</span><span class="dv">2000</span>,]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                                                 title year length budget
+11937                           Cure for Insomnia, The 1987   5220     NA
+30574 Longest Most Meaningless Movie in the World, The 1970   2880     NA
+      rating votes   r1  r2  r3  r4 r5 r6 r7  r8  r9  r10 mpaa Action Animation
+11937    3.8    59 44.5 4.5 4.5 4.5  0  0  0 4.5 4.5 44.5           0         0
+30574    6.4    15 44.5 0.0 0.0 0.0  0  0  0 0.0 0.0 64.5           0         0
+      Comedy Drama Documentary Romance Short
+11937      0     0           0       0     0
+30574      0     0           0       0     0</code></pre>
+</div>
+</div>
+The movies seem to be somewhat polarising, either rated 0 or 10, but only by a small number of reviews! Incidentally, this data set is no longer up-to-date and there are some even longer films now (though it’s a mystery why.)
+</details>
+<p>In this case, the extreme outliers should be ignored, and for exploring the main distribution of movie lengths it makes sense to set some kind of upper limit. Over 99% of the data are less than three hours in length, so let’s restrict ourselve to those.</p>
+</section>
+<section id="task-3c" class="level3">
+<h3 class="anchored" data-anchor-id="task-3c"><strong>Task 3c</strong></h3>
+<ul>
+<li>Extract the all the movies of length <em>at most</em> three hours.</li>
+<li>Draw a histogram - what do you find?</li>
+</ul>
+<details>
+<summary>
+Click for solution
+</summary>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>movies2 <span class="ot">&lt;-</span> movies[movies<span class="sc">$</span>length<span class="sc">&lt;</span><span class="dv">180</span>,]</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(movies2<span class="sc">$</span>length)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab1_ExplContVar_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+At last, we see some structure! There are two clear peaks here (bi-modality): the first under 20 minutes, the second in [80,100] minutes. The latter group seems about right for the ‘average’ movie.
+</details>
+<p>Useful context:</p>
+<ul>
+<li>The Oscars define a “short film” as anything under 40 minutes.</li>
+<li>Animated shorts are typically between 5 and 8 minutes long, and are counted as individual movies (so, e.g., every ‘Tom and Jerry’ cartoon has its own entry).</li>
+</ul>
+</section>
+<section id="task-3d" class="level3">
+<h3 class="anchored" data-anchor-id="task-3d"><strong>Task 3d</strong></h3>
+<ul>
+<li>Redraw your histogram using a bin-width of 1 minute (you may need to enlarge your plot window).</li>
+<li>What do you see? How does the information above help explain the data?</li>
+<li>Is there any heaping in the data? At what values?</li>
+</ul>
+<details>
+<summary>
+Click for solution
+</summary>
+<p>To get a 1-minute bin width, I made a sequence of integers from 0 to 180 as my breakpoints. If you’re not familiar with this, look at the help for the ‘seq’ function in creating similar sequences.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(movies2<span class="sc">$</span>length,<span class="at">breaks=</span><span class="dv">0</span><span class="sc">:</span><span class="dv">180</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab1_ExplContVar_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+There’s a lot going on here! * there are still a fair few longer films over 2hrs, but its a minority * the clump of short movies correspond to the defined ‘short film’ and have a clear peak around 7mins. Coincidentally, most short cartoons are 6-8 mins long. * A big pronounced spike in values at exactly 90 minutes. This probably isn’t rounding, but rather that when making and editing movies they will have aimed to produce a film of that length. Perhaps we might have expected an ever sharper peak? * We also see some stacking around this peak, with certain lengths being favoured at 80, 85, 95, 100, etc
+</details>
+</section>
+</section>
+<section id="exercise-4-using-colour" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-4-using-colour">Exercise 4: Using Colour</h2>
+<p>Using colour in a plot can be very effective, for example to highlight different groups within the data. Colour is adjusted by setting the <code>col</code> optional arugment to the plotting function, and what <em>R</em> does with that information depends on the value we supply.</p>
+<ul>
+<li><code>col</code> is assigned a single value: all points on a scatterplot, all bars of a histogram, all boxplots are coloured with the new colour</li>
+<li><code>col</code> is a vector:
+<ul>
+<li>in a scatterplot, if <code>col</code> is a vector of the same length as the number of data points then each data point is coloured individually</li>
+<li>in a histogram, if <code>col</code> is a vector of the same length as the number of bars then each bar is coloured individually</li>
+<li>in a boxplot, if <code>col</code> is a vector of the same length as the number of boxplots then each boxplot is coloured individually</li>
+<li>if the vector is not of the correct length, it will be replicated until it is and the above rules apply</li>
+</ul></li>
+</ul>
+<p>Now that we know how the <code>col</code> argument works, we need to know how to specify colours. Again, there are a number of ways and you can mix and match as appropriate</p>
+<ul>
+<li><em>Integers</em>: The integers <code>1:8</code> are interpreted as colours (black, red, green, blue, …) and can be used as a quick shorthand for a common colour. Type <code>palette()</code> to see the sequence of colours <em>R</em> uses.</li>
+<li><em>Names</em>: <em>R</em> recognises over 650 named colours is specified as text, e.g.<code>"steelblue"</code>, <code>"darkorange"</code>. You can see the list of recognised names by typing <code>colors()</code>, and a document showing the actual colors is available <a href="http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf">here</a></li>
+<li><em>Hexadecimal</em>: <em>R</em> can recognise colours specified as hexadecimal RGB codes (as used in HTML etc), so pure red can be specified as <code>"#ff0000"</code> and cyan as <code>"#00ffff"</code>.</li>
+<li><em>Colour functions</em>: <em>R</em> has a number of functions that will generate a number of colours for use in plotting. These functions include <code>rainbow</code>, <code>heat.colors</code>, and <code>terrain.colors</code> and all take the number of desired colours as argument.</li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Colour example</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="do">## 3 plots in one row</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>))</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="do">## colour the cars data by number of gears</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x=</span>mtcars<span class="sc">$</span>wt, <span class="at">y=</span>mtcars<span class="sc">$</span>mpg, <span class="at">col=</span>mtcars<span class="sc">$</span>gear, <span class="at">xlab=</span><span class="st">"Weight"</span>, <span class="at">ylab=</span><span class="st">"MPG"</span>, </span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">main=</span><span class="st">"MPG vs Weight"</span>)</span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a><span class="do">## manually colour boxplots</span></span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(mpg<span class="sc">~</span>cyl, <span class="at">data=</span>mtcars, <span class="at">col=</span><span class="fu">c</span>(<span class="st">"orange"</span>,<span class="st">"violet"</span>,<span class="st">"steelblue3"</span>),</span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">main=</span><span class="st">"Car Milage Data"</span>, <span class="at">xlab=</span><span class="st">"Number of Cylinders"</span>, </span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylab=</span><span class="st">"Miles Per Gallon"</span>)</span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a><span class="do">## use a colour function to shade histogram bars</span></span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(mtcars<span class="sc">$</span>mpg,<span class="at">col=</span><span class="fu">rainbow</span>(<span class="dv">5</span>),<span class="at">main=</span><span class="st">'MPG'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab1_ExplContVar_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="task-4a" class="level3">
+<h3 class="anchored" data-anchor-id="task-4a"><strong>Task 4a </strong></h3>
+<ul>
+<li>Show the histograms of length of short movies next to that for ‘non-short’ movies, using a different colour for each histogram.</li>
+<li>Experiment with using the <code>col</code> argument to add colour to your histograms.</li>
+</ul>
+<details>
+<summary>
+Click for solution
+</summary>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="do">## again, we can use subsetting to select a subset of the data. Here we don't need a ',' as we're subsetting a vector instead of a matrix </span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(movies2<span class="sc">$</span>length[movies2<span class="sc">$</span>length<span class="sc">&lt;=</span><span class="dv">40</span>],<span class="at">col=</span><span class="st">'royalblue'</span>,<span class="at">xlab=</span><span class="st">'length'</span>,<span class="at">main=</span><span class="st">'Short films'</span>)</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(movies2<span class="sc">$</span>length[movies2<span class="sc">$</span>length<span class="sc">&gt;</span><span class="dv">40</span>],<span class="at">col=</span><span class="st">'tomato'</span>,<span class="at">xlab=</span><span class="st">'length'</span>, <span class="at">main=</span><span class="st">'Regular films'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab1_ExplContVar_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</details>
+</section>
+</section>
+<section id="exercise-5-optional-german-opinion-polls" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-5-optional-german-opinion-polls">Exercise 5 (optional): German Opinion Polls</h2>
+<p><i class="fa fa-database"></i> Download data: <a href="bundestag.Rda">bundestag</a></p>
+<p>These data contain the results of the 2009 elections for the German Bundestag, the first chamber of the German parliament. The contains the number of votes cast for the various political parties, for each state (“Bundesland”). Amongst the German political parties there are two on the left of the political spectrum, the SPD - similar to the UK’s Labour party - and Die Linke (“The Left”), a party even further to the left. Suppose we’re interested in the support for this “Die Linke” party.</p>
+<section id="task-5a" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="task-5a"><strong>Task 5a</strong></h3>
+<ul>
+<li>Explore the election support for ‘Die Linke’ party by examining the <code>LINKE1</code> variable using. Compare the outputs and explain the difference you find:
+<ul>
+<li>A histogram, with a rugplot</li>
+<li>A stacked dotplot</li>
+<li>A beewswarm plot, setting <code>horizontal=TRUE</code></li>
+</ul></li>
+</ul>
+<details>
+<summary>
+Click for solution
+</summary>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(bundestag<span class="sc">$</span>LINKE1)</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rug</span>(bundestag<span class="sc">$</span>LINKE1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab1_ExplContVar_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="do">## clear concentration of points around 10k. let's try narrower bins for more detail</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(bundestag<span class="sc">$</span>LINKE1,<span class="at">breaks=</span><span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">65000</span>,<span class="at">by=</span><span class="dv">2000</span>))</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rug</span>(bundestag<span class="sc">$</span>LINKE1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab1_ExplContVar_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="do">## that's a bit more useful</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">stripchart</span>(bundestag<span class="sc">$</span>LINKE1,<span class="at">method=</span><span class="st">'stack'</span>,<span class="at">pch=</span><span class="dv">16</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab1_ExplContVar_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="do">## this looks mostly like the rugplot information on the plot above, but even with stacking this doesn't resemble the histogram</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Why not? The histogram is grouping nearby points into its bars, but the dotplot/stripchart does not and is treating each unique value as a separate point.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(beeswarm)</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="fu">beeswarm</span>(bundestag<span class="sc">$</span>LINKE1,<span class="at">horiz=</span><span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab1_ExplContVar_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="do">## the shape of the beewswarm more closely resembles the histogram, albeit rather than stacking points up from the bottom it works from the middle out towards the edges</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</details>
+<p>A <em>stem and leaf plot</em> is a technique for displaying the data in a similar fashion to a histogram, while preserving the information ofthe individual numerical values. Where the histogram summarises the data by the counts in its various intervals, the stem and leaf plot retains the original data values up to two significant figures.</p>
+</section>
+<section id="task5b" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="task5b"><strong>Task5b</strong></h3>
+<ul>
+<li>Draw a stem and leaf plot of the German election support for ‘Die Linke’ data using the <code>stem()</code> function.</li>
+<li>How does the stem and leaf plot represent these data? You may want to look at the data value to help understand.</li>
+<li>Now draw a histogram, adjusting the histogram to have axis range and bar width to match the stem and leaf plot.</li>
+</ul>
+<details>
+<summary>
+Click for solution
+</summary>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">stem</span>(bundestag<span class="sc">$</span>LINKE1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  The decimal point is 4 digit(s) to the right of the |
+
+  0 | 
+  0 | 55566666667777777777777888888888888888888888888888888888999999999999+14
+  1 | 00000000000000000000000000000000000001111111111111111111111111111111+51
+  1 | 5555566
+  2 | 122234
+  2 | 588889
+  3 | 01223333344444
+  3 | 556666677777788
+  4 | 0000011233444
+  4 | 6677899
+  5 | 
+  5 | 
+  6 | 0233</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="do">## This is effectively a histogram with bins of width 5000 units. The number indicate the actual data values, with the "stem" being the leading digit to the left of the | symbol, and the values of the next digits of the data being indicated to the right of the |</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="do">## We can see some structure now *within* the bars, which is a bit more detail than we get from the histogram.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(bundestag<span class="sc">$</span>LINKE1,<span class="at">breaks=</span><span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">65000</span>,<span class="at">by=</span><span class="dv">5000</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab1_ExplContVar_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+As with the beeswarm plot, the stem and leaf plot is only suitable for relatively modestly sized data sets due to the fact it is literally writing out all of the data values on the screen!
+</details>
+</section>
+</section>
+<section id="more-practice" class="level1">
+<h1>More Practice</h1>
+<section id="stripplots-or-stripcharts" class="level2">
+<h2 class="anchored" data-anchor-id="stripplots-or-stripcharts">Stripplots or Stripcharts</h2>
+<p>‘Stripplots’ or ‘Stripcharts’ are very similar to the rugplot we applied to our histograms, and display the individual data points along a single axis. They can be used in much the same way as a boxplot, but rather than showing the data summaries they display everything!</p>
+<p>The built-in <code>faithful</code> data set contains measurements on the waiting times between the eruptions of the <a href="https://en.wikipedia.org/wiki/Old_Faithful">Old Faithful</a> geyser.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(faithful)</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="fu">stripchart</span>(faithful<span class="sc">$</span>waiting,<span class="at">ylab=</span><span class="st">'Waiting Time'</span>, <span class="at">pch=</span><span class="dv">16</span>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab1_ExplContVar_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Plotting symbols</strong></p>
+<p>The symbols used for points in plots can be changed by specifying a value for the argument <code>pch</code> {#pch} (which stands for <strong>p</strong>lot <strong>ch</strong>aracter). Specifying values for <code>pch</code> works in the same way as <code>col</code>, though <code>pch</code> only accepts integers between 1 and 20 to represent different point types. The default is usually <code>pch=1</code> which is a hollow circle, in the plot above we changed it to <code>15</code> which is a filled circle.</p>
+<p>However, when we have a lot of data points concentrated in a small interval, the stripplot suffers from problems of ‘overplotting’ where many points with similar values are drawn on top of each other.</p>
+<p>A partial solution to this is to add random noise (known as ‘jittering’) to spread out the points.</p>
+<ul>
+<li>Make a stripplot of the movie length data - how does the overplotting problem manifest here? You may want to compare to your histogram.</li>
+</ul>
+<p>A better solution is to stack the dots that fall close together, producing an alternative plot to a histogram - sometimes called a ‘dotplot’ or ‘stacked dotplot’</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">stripchart</span>(faithful<span class="sc">$</span>waiting, <span class="at">method=</span><span class="st">'stack'</span>,<span class="at">pch=</span><span class="dv">16</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab1_ExplContVar_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li>Try this out with the movies data.</li>
+</ul>
+</section>
+<section id="beeswarm-plots" class="level2">
+<h2 class="anchored" data-anchor-id="beeswarm-plots">Beeswarm plots</h2>
+<p>An evolution of the stripplot is the ‘beeswarm’ plot, available from the <code>beeswarm</code> package. A bee swarm plot is similar to stripplot, but with various methods to separate nearby points such that each point is visible.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(beeswarm)</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="fu">beeswarm</span>(faithful<span class="sc">$</span>waiting)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab1_ExplContVar_files/figure-html/unnamed-chunk-32-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>One limitation of the beeswarm plot is that the computations to arrange all the points do not scale well with large data sets. <em>Do not try this with the movies data, or you will be waiting for a very long time!</em></p>
+</section>
+<section id="stem-and-leaf-plots" class="level2">
+<h2 class="anchored" data-anchor-id="stem-and-leaf-plots">Stem and leaf plots</h2>
+<p>To see how this works, let’s look at the Old Faithful data, sorted from smallest to largest.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span>(faithful<span class="sc">$</span>waiting)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  [1] 43 45 45 45 46 46 46 46 46 47 47 47 47 48 48 48 49 49 49 49 49 50 50 50 50
+ [26] 50 51 51 51 51 51 51 52 52 52 52 52 53 53 53 53 53 53 53 54 54 54 54 54 54
+ [51] 54 54 54 55 55 55 55 55 55 56 56 56 56 57 57 57 58 58 58 58 59 59 59 59 59
+ [76] 59 59 60 60 60 60 60 60 62 62 62 62 63 63 63 64 64 64 64 65 65 65 66 66 67
+[101] 68 69 69 70 70 70 70 71 71 71 71 71 72 73 73 73 73 73 73 73 74 74 74 74 74
+[126] 74 75 75 75 75 75 75 75 75 76 76 76 76 76 76 76 76 76 77 77 77 77 77 77 77
+[151] 77 77 77 77 77 78 78 78 78 78 78 78 78 78 78 78 78 78 78 78 79 79 79 79 79
+[176] 79 79 79 79 79 80 80 80 80 80 80 80 80 81 81 81 81 81 81 81 81 81 81 81 81
+[201] 81 82 82 82 82 82 82 82 82 82 82 82 82 83 83 83 83 83 83 83 83 83 83 83 83
+[226] 83 83 84 84 84 84 84 84 84 84 84 84 85 85 85 85 85 85 86 86 86 86 86 86 87
+[251] 87 88 88 88 88 88 88 89 89 89 90 90 90 90 90 90 91 92 93 93 94 96</code></pre>
+</div>
+</div>
+<p>Note that the smallest value is 43, followed by three values of 45. A <em>stem and leaf plot</em> of these data looks like this</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">stem</span>(faithful<span class="sc">$</span>waiting)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  The decimal point is 1 digit(s) to the right of the |
+
+  4 | 3
+  4 | 55566666777788899999
+  5 | 00000111111222223333333444444444
+  5 | 555555666677788889999999
+  6 | 00000022223334444
+  6 | 555667899
+  7 | 00001111123333333444444
+  7 | 555555556666666667777777777778888888888888889999999999
+  8 | 000000001111111111111222222222222333333333333334444444444
+  8 | 55555566666677888888999
+  9 | 00000012334
+  9 | 6</code></pre>
+</div>
+</div>
+<p>Each row of this plot is called a ‘stem’ and the values to the right of the ‘|’ symbol are the leaves. Be sure to read where R places the decimal point for the output. For this result, the decimal is placed one digit to the right of the vertical bar. Thus, the first row of the table then consists of data values of the form <span class="math inline">\(4x\)</span>, and the only leaf is a <span class="math inline">\(3\)</span> corresponding to the value <span class="math inline">\(43\)</span> in the data. The next stem groups the values <span class="math inline">\(45-49\)</span>, and we notice the three observations of <span class="math inline">\(45\)</span> are represented by the <span class="math inline">\(555\)</span> at the start of the second stem.</p>
+<p>Notice that each stem part is representing an interval of width 5, much like a histogram. As usual, R figures out how best to increment the stem part unless you specify otherwise. Finally, notice how the shape of the stem and leaf plot mirrors that of a histogram with interval width 5 - the only difference is that here we can see the values <em>inside</em> the bars.</p>
+</section>
+<section id="student-survey" class="level2">
+<h2 class="anchored" data-anchor-id="student-survey">Student survey</h2>
+<p>The data come from an old survey of 237 students taking their first statistics course. The dataset is called <em>survey</em> in the package <strong>MASS</strong>.</p>
+<section id="tasks" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="tasks"><strong>Tasks</strong></h3>
+<ul>
+<li>Load the data with <code>data(survey, package='MASS')</code></li>
+<li>Draw a histogram of student heights - do you see evidence of bimodality?</li>
+<li>Experiment with different binwidths for the histogram. Which choice do you think is the best for conveying the information in the data?</li>
+<li>Compare male and femal heights using separate histograms with a common scale and binwidths.</li>
+</ul>
+</section>
+</section>
+<section id="diamonds" class="level2">
+<h2 class="anchored" data-anchor-id="diamonds">Diamonds</h2>
+<p><i class="fa fa-database"></i> Download data: <a href="diamonds.Rda">diamonds</a></p>
+<p>The set <em>diamonds</em> includes information on the weight in carats (<code>carat</code>) and <code>price</code> of 53,940 diamonds.</p>
+<section id="tasks-1" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="tasks-1"><strong>Tasks</strong></h3>
+<ul>
+<li>Is there anything unusual about the distribution of diamond weights? Which plot do you think shows it best? How might you explain the pattern you find?</li>
+<li>What about the distribution of prices? With a bit of detective work you ought to be able to uncover at least one unexpected feature. How you discover it, whether with a histogram, a dotplot, or whatever, is unimportant, the important thing is to find it. Having found it, what plot would you draw to present your results to someone else? Can you think of an explanation for the feature?</li>
+</ul>
+</section>
+</section>
+<section id="zuni-educational-funding" class="level2">
+<h2 class="anchored" data-anchor-id="zuni-educational-funding">Zuni educational funding</h2>
+<p><i class="fa fa-database"></i> Download data: <a href="zuni.Rda">zuni</a></p>
+<p>The <em>zuni</em> dataset seems quite simple. There are three pieces of information about each of 89 school districts in the US State of New Mexico: the name of the district, the average revenue per pupil in dollars, and the number of pupils. The apparent simplicity hides an interesting story. The data were used to determine how to allocate substantial amounts of money and there were intense legal disgreements about how the law should be interpreted and how the data should be used. Gastwirth was heavily involved and has written informatively about the case from a statistical point of view <a href="https://www.researchgate.net/publication/31195347_A_60_million_dollar_statistical_issue_arising_in_the_interpretation_and_calculation_of_a_measure_of_relative_disparity_Zuni_Public_School_District_89_v_US_Department_of_Education">Gastwirth, 2006</a> and <a href="https://www.researchgate.net/publication/250900928_The_US_Supreme_Court_finds_a_statute%27s_description_of_a_simple_statistical_measure_of_relative_disparity_%27ambiguous%27_allowing_the_Secretary_of_Education_to_interpret_the_formula_Zuni_Public_School_Dis">Gastwirth, 2008</a>.</p>
+<p>One statistical issue was the rule that before determining whether district revenues were sufficiently equal, the largest and smallest 5% of the data should first be deleted.</p>
+<section id="tasks-2" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="tasks-2"><strong>Tasks</strong></h3>
+<ul>
+<li>Are the lowest and highest 5% of the revenue values extreme? Do you prefer a histogram or boxplot for showing this?</li>
+<li>Remove the lowest and highest 5% of the cases, draw a plot of the remaining data and discuss whether the resulting distribution looks symmetric.</li>
+<li>Draw a Normal quantile plot of the data after removal of the 5% at each end and comment on whether you would regard the remaining distribution as normal.</li>
+</ul>
+</section>
+</section>
+<section id="pollutants-from-engines" class="level2">
+<h2 class="anchored" data-anchor-id="pollutants-from-engines">Pollutants from engines</h2>
+<p><i class="fa fa-database"></i> Download data: <a href="engine.Rda">engine</a></p>
+<p>These data record the amounts of three pollutants - carbon monoxide <code>CO</code>, hydrocarbons <code>HC</code>, and nitrogen oxide <code>NO</code> - in grammes emitted per mile by 46 light-duty engines.</p>
+<section id="tasks-3" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="tasks-3"><strong>Tasks</strong></h3>
+<ul>
+<li>Are the distributions for the three pollutants similar? To make this an easier question to answer, try to produce histograms of the variables, using the same class intervals and range for the horizontal axis in each case.</li>
+</ul>
+</section>
+</section>
+<section id="dosage-of-chlorpheniramine-maleate" class="level2">
+<h2 class="anchored" data-anchor-id="dosage-of-chlorpheniramine-maleate">Dosage of chlorpheniramine maleate</h2>
+<p><i class="fa fa-database"></i> Download data: <a href="chlorph.Rda">chlorph</a></p>
+<p>These data come from a semi-automated process for measuring the <em>actual</em> amount of chlorpheniramine maleate in tablets which are supposed to contain a 4mg dose.</p>
+<p>The tablets used for the study were made by two different manufacturers. For each manufacturer, a composite was produced by grinding together a number of tablets. Each composite was split into seven pieces each of the same weight as a tablet and the pieces were sent to seven different laboratories. Each laboratory made 10 separate measurements on each composite.</p>
+<p>The data contain three variables: * chlorpheniramine - the amount measured * manufacturer - the tablet manufacturer as a factor (A or B) * laboratory - the laboratory which performed the measurement as a factor (1 to 7)</p>
+<section id="tasks-4" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="tasks-4"><strong>Tasks</strong></h3>
+<ul>
+<li>Produce box-plots of the chlorpheniramine measurements split by laboratory. What, if anything, do they suggest?</li>
+<li>Now produce box-plots by manufacturer. Anything noticeable?</li>
+<li>The problem here is that we really need a separate box-plot for each combination of manufacturer and laboratory. We can do this by <code>boxplot(chlorpheniramine~laboratory*manufacturer, data=chlorph)</code> Try this (or some abbreviated version of it).</li>
+<li>Try reversing the order of laboratory and manufacturer. Which way round is better? Try colouring the box-plots by manufacturer. Does that help?</li>
+<li>Do the data suggest that the two manufacturers actually put different amounts of the drug into supposed 4mg tablets?</li>
+<li>Are there obvious differences between different laboratories? If so, what kind of differences do you observe?</li>
+<li>If you had to choose a single laboratory to make some measurements for you, which would you choose and why?</li>
+</ul>
+
+
+</section>
+</section>
+</section>
+</section></main></div>
+
+
+ <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+ <!-- /content -->
+
+
+
+
+</body></html>

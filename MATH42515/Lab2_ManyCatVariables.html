@@ -1,0 +1,1359 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>lab2_manycatvariables – My Course Notes</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-e3b7bb8e06e71ba88653cd3334f68afa.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">My Course Notes</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-notes" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Notes</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-notes">    
+        <li>
+    <a class="dropdown-item" href="./Lecture1a_IntroViz.html">
+ <span class="dropdown-text">Lecture 1a</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lecture1b_Variables.html">
+ <span class="dropdown-text">Lecture 1b</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lab1_ExplContVar.html">
+ <span class="dropdown-text">Practical 1</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Workshop1_CategoricalVariables.html">
+ <span class="dropdown-text">Workshop 1</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lecture2a_ManyCatVar.html">
+ <span class="dropdown-text">Lecture 2a</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lecture2b_ManyContVar.html">
+ <span class="dropdown-text">Lecture 2b</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lab2_ManyCatVariables.html">
+ <span class="dropdown-text">Practical 2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Workshop2_DepRelAss.html">
+ <span class="dropdown-text">Workshop 2</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#lab-2---exploring-many-categorical-variables-with-r" id="toc-lab-2---exploring-many-categorical-variables-with-r" class="nav-link active" data-scroll-target="#lab-2---exploring-many-categorical-variables-with-r">Lab 2 - Exploring Many Categorical Variables with R</a>
+  <ul class="collapse">
+  <li><a href="#exercise-1-mosaicplots" id="toc-exercise-1-mosaicplots" class="nav-link" data-scroll-target="#exercise-1-mosaicplots">Exercise 1 (Mosaicplots)</a>
+  <ul class="collapse">
+  <li><a href="#task-1b" id="toc-task-1b" class="nav-link" data-scroll-target="#task-1b"><strong>Task 1b</strong></a></li>
+  <li><a href="#more-variables" id="toc-more-variables" class="nav-link" data-scroll-target="#more-variables">More variables</a></li>
+  <li><a href="#task-1b-1" id="toc-task-1b-1" class="nav-link" data-scroll-target="#task-1b-1"><strong>Task 1b</strong></a></li>
+  <li><a href="#directions-of-the-splits" id="toc-directions-of-the-splits" class="nav-link" data-scroll-target="#directions-of-the-splits">Directions of the splits</a></li>
+  <li><a href="#adding-some-colour" id="toc-adding-some-colour" class="nav-link" data-scroll-target="#adding-some-colour">Adding some colour</a></li>
+  </ul></li>
+  <li><a href="#using-colour-to-highlight-unexpected-patterns" id="toc-using-colour-to-highlight-unexpected-patterns" class="nav-link" data-scroll-target="#using-colour-to-highlight-unexpected-patterns">Using colour to highlight unexpected patterns</a>
+  <ul class="collapse">
+  <li><a href="#task-1c" id="toc-task-1c" class="nav-link" data-scroll-target="#task-1c"><strong>Task 1c</strong></a></li>
+  </ul></li>
+  <li><a href="#exercise-2-mosaicplots-on-a-data-set-containing-counts" id="toc-exercise-2-mosaicplots-on-a-data-set-containing-counts" class="nav-link" data-scroll-target="#exercise-2-mosaicplots-on-a-data-set-containing-counts">Exercise 2: Mosaicplots on a data set containing counts</a>
+  <ul class="collapse">
+  <li><a href="#task-2a" id="toc-task-2a" class="nav-link" data-scroll-target="#task-2a"><strong>Task 2a</strong></a></li>
+  <li><a href="#more-than-two-variables" id="toc-more-than-two-variables" class="nav-link" data-scroll-target="#more-than-two-variables">More than two variables</a></li>
+  <li><a href="#task-2b" id="toc-task-2b" class="nav-link" data-scroll-target="#task-2b"><strong>Task 2b</strong></a></li>
+  <li><a href="#task-2c" id="toc-task-2c" class="nav-link" data-scroll-target="#task-2c"><strong>Task 2c</strong></a></li>
+  </ul></li>
+  <li><a href="#exercise-3-for-extra-practice-grouped-and-stacked-barplots" id="toc-exercise-3-for-extra-practice-grouped-and-stacked-barplots" class="nav-link" data-scroll-target="#exercise-3-for-extra-practice-grouped-and-stacked-barplots">Exercise 3 (for extra practice): Grouped and stacked barplots</a>
+  <ul class="collapse">
+  <li><a href="#data-set-airline-arrivals" id="toc-data-set-airline-arrivals" class="nav-link" data-scroll-target="#data-set-airline-arrivals">Data set: Airline arrivals</a></li>
+  <li><a href="#task-3a" id="toc-task-3a" class="nav-link" data-scroll-target="#task-3a"><strong>Task 3a</strong></a></li>
+  <li><a href="#task-3b" id="toc-task-3b" class="nav-link" data-scroll-target="#task-3b"><strong>Task 3b</strong></a></li>
+  <li><a href="#task-3c" id="toc-task-3c" class="nav-link" data-scroll-target="#task-3c"><strong>Task 3c</strong></a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+
+
+
+
+<section id="lab-2---exploring-many-categorical-variables-with-r" class="level1">
+<h1>Lab 2 - Exploring Many Categorical Variables with R</h1>
+<div style="background-color: #f0f8ff; border: 2px solid #4682b4; padding: 15px; margin: 10px 0; border-radius: 10px;">
+<h2 style="color: #4682b4; margin-top: 5px;" class="anchored" data-anchor-id="lab-2---exploring-many-categorical-variables-with-r">
+Introduction
+</h2>
+<p>
+This practical will lead you into producing some high quality visualisations of multivariate categorical data.
+</p>
+</div>
+<p>
+By the end of the lab, you will have acquired the following skills:
+</p><ul style="font-size: 16px; color: #333;">
+<li>
+Plotting stacked barplots for simple data sets
+</li>
+<li>
+Plotting <code>doubledecker</code> and <code>mosaicplot</code> plots for more complex data sets
+</li>
+<p></p>
+</ul></section></main></div>
+<p><strong>You will need to install the following packages</strong>:</p>
+<ul>
+<li><code>vcd</code> for the <code>doubledecker</code> functions. You also need to load the corresponding library in your environment.</li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"vcd"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vcd)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: grid</code></pre>
+</div>
+</div>
+<section id="exercise-1-mosaicplots" class="level2">
+<h2 data-anchor-id="exercise-1-mosaicplots">Exercise 1 (Mosaicplots)</h2>
+<p>Displaying combinations of categorical variables can be quite difficult, as we can’t represent our data as simple points in a space. Instead, we summarise a categorical variable (e.g.&nbsp;eye colour) with multiple levels (blue, green, brown, …) by the frequencies of each of the levels in the data. When we have multiple categorical variables, we work instead with the counts of the combinations of the levels (e.g.&nbsp;red hair + green eyes).</p>
+<p>All of our plots are some sort of visualisation of these counts and so are (in one way or another) variations and manipulations of stacked barplots. Multivariate categorical data is a little more complex to work with, so generally it is recommended to start with single or pairs of variables and progressively add more, rather than visualising everything all at once like a scatterplot matrix.</p>
+<p><i class="fa fa-database"></i> Download data: <a href="arthritis.Rda">arthritis</a></p>
+<p>The <code>arthritis</code> data contains the results from a double-blind clinical trial investigating a new treatment for rheumatoid arthritis. The variables are:</p>
+<ul>
+<li><code>ID</code> - patient ID.</li>
+<li><code>Treatment</code> - factor indicating treatment (Placebo, Treated).</li>
+<li><code>Sex</code> - factor indicating sex (Female, Male).</li>
+<li><code>Age</code> - age of patient.</li>
+<li><code>Improved</code> - ordered factor indicating treatment outcome (None, Some, Marked).</li>
+</ul>
+<p><code>Treatment</code>, <code>Sex</code>, and <code>Improved</code> are all categorical variables. <code>Improved</code> is also ordinal, since the category levels can be ordered. The question is whether the patient improvement depends on the Treatment and Sex.</p>
+<p>Mosaic plots can display the relationship between categorical variables using rectangular tiles, whose areas represent the proportion of cases for any given combination of levels. A mosaic plot of a single variable is basically a simple stacked barplot with only one bar. Looking at the patient improvement only, we see the following</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mosaicplot</span>(<span class="sc">~</span>Improved, <span class="at">data=</span>arthritis,<span class="at">col=</span><span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>,<span class="at">main=</span><span class="st">''</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab2_ManyCatVariables_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Since the <code>None</code> box is largest, we see that this appears to be the most common patient outcome. But taking the <code>Some</code> and <code>Marked</code> improvements together, it’s actually an even split. Let’s see how this depends on what <code>Treatment</code> the patient received - we would hope to see more improvement from those in the <code>Treated</code> group:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mosaicplot</span>(<span class="sc">~</span>Treatment<span class="sc">+</span>Improved, <span class="at">data=</span>arthritis,<span class="at">col=</span><span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>,<span class="at">main=</span><span class="st">''</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab2_ManyCatVariables_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Note that the plot now has two splits: the first split is horizontal into bars for the “Treated” and “Placebo” groups, while the second set of splits divides each bar up into the different <code>Improved</code> categories. If <code>Treatment</code> had <em>no effect</em> on the <code>Improved</code> state, then we would see a <em>regular grid</em> where the two sets of bars would have splits <em>of approximately the same size</em> and we could draw lines from the left of the plot to the right without cutting through any of the tiles.</p>
+<p>However, we can see clearly that a greater proportion of patients improved on treatment than in the placebo group and so the distribution of <code>Improved</code> is different for different values of <code>Treatment</code>, which may point towards an association between these variables and maybe hints at treatment being effective!</p>
+<p>If we reverse the positions of <code>Improved</code> and <code>Treatment</code> in the function, it change the order in which the bars are split:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab2_ManyCatVariables_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="task-1b" class="level3 unnumbered">
+<h3 class="unnumbered" data-anchor-id="task-1b"><strong>Task 1b</strong></h3>
+<ul>
+<li>Using the <code>mosaicplot</code> command, try to reproduce the mosaicplot above</li>
+<li>What are the new features that become apparent when you reverse the positions of the variables?</li>
+</ul>
+<details>
+<summary>
+Click for solution
+</summary>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mosaicplot</span>(<span class="sc">~</span>Improved<span class="sc">+</span>Treatment, <span class="at">data=</span>arthritis, <span class="at">col=</span><span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>,<span class="at">main=</span><span class="st">''</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab2_ManyCatVariables_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+Now we have three vertical bars for <code>Improved</code>, each sub-divided into the <code>Treatment</code> groups. This plot now shows how the patients with different <code>Improved</code> levels break down into the <code>Treatment</code> groups. So, we would read this as saying for those patients with a Marked improvement, the majority were Treated rather than given Placebo. Usually, it is best to split on the response variable at the end, as we had done in the previous plot.
+</details>
+</section>
+<section id="more-variables" class="level3">
+<h3 data-anchor-id="more-variables">More variables</h3>
+<p>We can continue to add variables to the plot and break down the results into more groups. For instance, we can introduce <code>Sex</code> as a variable</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mosaicplot</span>(<span class="sc">~</span>Treatment<span class="sc">+</span>Sex<span class="sc">+</span>Improved, <span class="at">data=</span>arthritis,<span class="at">col=</span><span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>,<span class="at">main=</span><span class="st">''</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab2_ManyCatVariables_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Here we can see:</p>
+<ul>
+<li>The Treatment groups look to be roughly equal in size</li>
+<li>There are fewer men than women in the study (the <code>Male</code> rows are narrower than the <code>Female</code>)</li>
+<li>There are no <code>Male</code> patients in the <code>Placebo</code> group who only had <code>Some</code> improvement - this is indicated by the dashed line where this bar should be.</li>
+<li><code>Treatment</code> appears to have a positive effect</li>
+<li><code>Female</code> patients seemed to improve the most in general, and particularly under <code>Treatment</code></li>
+</ul>
+<p>It is often worth reordering the variables in the mosaic plot formula to see if a different sequence of splits is a more effective visualisation for your problem. Generally, our dependent variable of interest is split last following the <code>~</code> in the function call.</p>
+</section>
+<section id="task-1b-1" class="level3 unnumbered">
+<h3 class="unnumbered" data-anchor-id="task-1b-1"><strong>Task 1b</strong></h3>
+<ul>
+<li>Produce mosaicplots of combinations of one, two and three variables for the built-in R data set <code>HairEyeColor</code></li>
+<li>Experiment with the ordering of the variables in the call to the <code>mosaicplot</code> function to see how different orderings produce different presentations of the data.</li>
+<li>Which visualisation best highlights the interesting patterns in the data?</li>
+</ul>
+<details>
+<summary>
+Click for solution
+</summary>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"HairEyeColor"</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mosaicplot</span>(<span class="sc">~</span>Hair, <span class="at">data=</span>HairEyeColor,<span class="at">col=</span><span class="dv">2</span><span class="sc">:</span><span class="dv">5</span>,<span class="at">main=</span><span class="st">''</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab2_ManyCatVariables_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mosaicplot</span>(<span class="sc">~</span>Hair<span class="sc">+</span>Sex, <span class="at">data=</span>HairEyeColor,<span class="at">col=</span><span class="dv">2</span><span class="sc">:</span><span class="dv">5</span>,<span class="at">main=</span><span class="st">''</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab2_ManyCatVariables_files/figure-html/unnamed-chunk-9-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="do">## With three variables there are 6 different orderings - here are a couple (with a different coloring option)</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mosaicplot</span>(<span class="sc">~</span>Hair<span class="sc">+</span>Sex<span class="sc">+</span>Eye, <span class="at">data=</span>HairEyeColor,<span class="at">col=</span><span class="dv">3</span><span class="sc">:</span><span class="dv">6</span>,<span class="at">main=</span><span class="st">''</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab2_ManyCatVariables_files/figure-html/unnamed-chunk-9-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mosaicplot</span>(<span class="sc">~</span>Eye<span class="sc">+</span>Hair<span class="sc">+</span>Sex, <span class="at">data=</span>HairEyeColor,<span class="at">col=</span><span class="dv">3</span><span class="sc">:</span><span class="dv">6</span>,<span class="at">main=</span><span class="st">''</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab2_ManyCatVariables_files/figure-html/unnamed-chunk-9-4.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+In the case of three variables, the mosaicplot with Hair highlighted by colours is more readable. With the second one, comparisons are hard to make.
+</details>
+</section>
+<section id="directions-of-the-splits" class="level3">
+<h3 data-anchor-id="directions-of-the-splits">Directions of the splits</h3>
+<p>A <code>doubledecker</code> plot is a version of a mosiac plot where all of the splits in the data are vertical, except for the last one. This effectively produces a type of stacked barplot, which we can achieve by setting the <code>dir</code>ection argument as follows:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mosaicplot</span>(<span class="sc">~</span>Treatment<span class="sc">+</span>Sex<span class="sc">+</span>Improved, <span class="at">data=</span>arthritis, <span class="at">dir =</span> <span class="fu">c</span>(<span class="st">"v"</span>, <span class="st">"v"</span>, <span class="st">"h"</span>),<span class="at">col=</span><span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab2_ManyCatVariables_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Or, using the <code>doubledecker</code> function directly gives an almost identical plot:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">doubledecker</span>(Improved<span class="sc">~</span>Treatment<span class="sc">+</span>Sex, <span class="at">data=</span>arthritis)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab2_ManyCatVariables_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="adding-some-colour" class="level3">
+<h3 data-anchor-id="adding-some-colour">Adding some colour</h3>
+<p>The default plots are somewhat dull and monochrome. Note that the different shadings used in the plot correspond to the different levels of the last cut variable, i.e.&nbsp;the dependent variable which is <code>Improved</code> here. So, if we supply one colour for each level of that variable we get the following plot:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mosaicplot</span>(<span class="sc">~</span>Treatment<span class="sc">+</span>Sex<span class="sc">+</span>Improved, <span class="at">data=</span>arthritis, <span class="at">main=</span><span class="st">''</span>, <span class="at">col=</span><span class="fu">c</span>(<span class="st">"wheat"</span>, <span class="st">"cornflowerblue"</span>, <span class="st">"tomato1"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab2_ManyCatVariables_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Note: In general, setting colours on mosaic plots can be quite fiddly. We won’t make much use of it, apart from an automatic coloring technique that we describe below.</p>
+</section>
+</section>
+<section id="using-colour-to-highlight-unexpected-patterns" class="level2">
+<h2 data-anchor-id="using-colour-to-highlight-unexpected-patterns">Using colour to highlight unexpected patterns</h2>
+<p>A different but helpful use of colour is the <code>shade=TRUE</code> option. The <code>shade=TRUE</code> option works by colouring any tiles in the mosaic that are in disagreement with the independence hypothesis of a chi-square test. This can help us identify any combinations that are unusually common or rate:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mosaicplot</span>(<span class="sc">~</span>Treatment<span class="sc">+</span>Sex<span class="sc">+</span>Improved, <span class="at">data=</span>arthritis,<span class="at">shade=</span><span class="cn">TRUE</span>,<span class="at">main=</span><span class="st">''</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab2_ManyCatVariables_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Tiles are shaded blue when more cases are observed than expected given independence, and shaded red when there are fewer cases than expected under independence. The strength of colour indicates how “surprising” those values are. The plot here is showing that most of the variation is not significant (coloured white), but in the <code>Female</code> and <code>Treated</code> group there is a surprisingly high number of patients who display a <code>Marked</code> improvement (blue-ish) - and consequently, fewer than expected (red-ish) whose improvement was <code>None</code>.</p>
+<section id="task-1c" class="level3">
+<h3 data-anchor-id="task-1c"><strong>Task 1c</strong></h3>
+<ul>
+<li>Use the <code>mosaicplot</code> function with <code>shade</code> and the <code>dir</code> arguments to create a “doubledecker” version of the mosaic plot above.</li>
+</ul>
+<details>
+<summary>
+Click for solution
+</summary>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mosaicplot</span>(<span class="sc">~</span>Treatment<span class="sc">+</span>Sex<span class="sc">+</span>Improved, <span class="at">data=</span>arthritis, <span class="at">shade=</span><span class="cn">TRUE</span>, <span class="at">main=</span><span class="st">''</span>,<span class="at">dir =</span> <span class="fu">c</span>(<span class="st">"v"</span>, <span class="st">"v"</span>, <span class="st">"h"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab2_ManyCatVariables_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</details>
+</section>
+</section>
+<section id="exercise-2-mosaicplots-on-a-data-set-containing-counts" class="level2">
+<h2 data-anchor-id="exercise-2-mosaicplots-on-a-data-set-containing-counts">Exercise 2: Mosaicplots on a data set containing counts</h2>
+<p><i class="fa fa-database"></i> Download data: <a href="alligator.Rda">alligator</a></p>
+<p>The <code>alligator</code> data, from Agresti (2002), comes from a study of the primary food choices of alligators in four Florida lakes. The goal is to try and learn something about the food choice of the different alligators. The variables are:</p>
+<ul>
+<li><code>lake</code> - one of four lakes: <code>George</code>, <code>Hancock</code>, <code>Oklawaha</code>, and <code>Trafford</code></li>
+<li><code>sex</code> - <code>male</code> or <code>female</code></li>
+<li><code>size</code> - <code>small</code> or <code>large</code></li>
+<li><code>food</code> - the food preferences of the alligators in five categories: <code>fish</code>, <code>invert</code>ebrates, <code>reptile</code>, <code>bird</code> and <code>other</code>.</li>
+</ul>
+<p>As usual, we begin with a quick look at the data to see what we’re dealing with:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(alligator)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table caption-top table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">lake</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">sex</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">size</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">food</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">count</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Hancock</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">small</td>
+<td style="text-align: left;">fish</td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Hancock</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">small</td>
+<td style="text-align: left;">invert</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Hancock</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">small</td>
+<td style="text-align: left;">reptile</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Hancock</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">small</td>
+<td style="text-align: left;">bird</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Hancock</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">small</td>
+<td style="text-align: left;">other</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Hancock</td>
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">large</td>
+<td style="text-align: left;">fish</td>
+<td style="text-align: right;">4</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Here, unlike the <code>arthritis</code> data, each row does not represent an individual alligator but all of the alligators found with the given combinations of categorical variables. So, for example, we have seen 7 alligators with attributes (<code>Hancock</code>, <code>male</code>, <code>small</code>, <code>fish</code>). This is a slightly different format than we saw above, so we’ll need to deal with it slightly differently.</p>
+<p>To produce the counts needed for our plots, we need to use the cross-tabulation function <code>xtabs</code> that we used with our <code>barplot</code>s. So, to generate the counts of alligators in each lake, we first compute</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">xtabs</span>(count<span class="sc">~</span>lake, <span class="at">data=</span>alligator)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>lake
+  George  Hancock Oklawaha Trafford 
+      63       55       48       53 </code></pre>
+</div>
+</div>
+<p>and then pass this to our <code>mosaic</code> function for plotting:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mosaicplot</span>(<span class="fu">xtabs</span>(count<span class="sc">~</span>lake, <span class="at">data=</span>alligator),<span class="at">col=</span><span class="dv">2</span><span class="sc">:</span><span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab2_ManyCatVariables_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Alternatively, with a single variable we could just draw a <code>barplot</code>, which is probably a little easier to read!</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(<span class="fu">xtabs</span>(count<span class="sc">~</span>lake, <span class="at">data=</span>alligator),<span class="at">col=</span><span class="dv">2</span><span class="sc">:</span><span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab2_ManyCatVariables_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Note that the mosaicplot is showing the proportions in the different lakes by the width of the bars, whereas the barplot uses the height. We see there are slight differences between the numbers of alligators observed in the different lakes, but they don’t appear to be substantial.</p>
+<p>Note that the only difference with working with these data (which include the counts as a variable) and the previous data set (which did not include the counts) is that we must do the aggregating of the data in the <code>xtabs</code> function first, instead of directly in <code>mosaicplot</code>. The syntax and formula for splitting the data is the same.</p>
+<section id="task-2a" class="level3 unnumbered">
+<h3 class="unnumbered" data-anchor-id="task-2a"><strong>Task 2a</strong></h3>
+<ul>
+<li>Investigate the distributions of the other categorical variables individually: <code>sex</code>, <code>size</code>, and <code>food</code>. You can use whatever plot you prefer. Try and answer the following questions:
+<ul>
+<li>Are the sexes of alligators evenly distributed?</li>
+<li>What about the different sizes?</li>
+<li>Which food type is most popular?</li>
+</ul></li>
+</ul>
+<details>
+<summary>
+Click for solution
+</summary>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mosaicplot</span>(<span class="fu">xtabs</span>(count<span class="sc">~</span>sex, <span class="at">data=</span>alligator))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab2_ManyCatVariables_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>More males than female</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mosaicplot</span>(<span class="fu">xtabs</span>(count<span class="sc">~</span>size, <span class="at">data=</span>alligator))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab2_ManyCatVariables_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>slightly more small than large</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mosaicplot</span>(<span class="fu">xtabs</span>(count<span class="sc">~</span>food, <span class="at">data=</span>alligator))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab2_ManyCatVariables_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+mostly eat fish, then invertebrates.
+</details>
+</section>
+<section id="more-than-two-variables" class="level3">
+<h3 data-anchor-id="more-than-two-variables">More than two variables</h3>
+<p>The strength of mosaic plots is when considering the combination of multiple categorical variables at once. To keep things manageable, let’s looks at some potentially interesting pairs of variables first:</p>
+</section>
+<section id="task-2b" class="level3 unnumbered">
+<h3 class="unnumbered" data-anchor-id="task-2b"><strong>Task 2b</strong></h3>
+<ul>
+<li>Use <code>mosaicplot</code> to visualise the <code>size</code> and <code>sex</code> variables together. Remember, if there is no association here then we would expect a regular grid. What associations do you find?</li>
+<li>What about <code>size</code> and <code>food</code>?</li>
+<li>Draw the <code>doubledecker</code> plots of the same variables - how do they compare to the mosaic plot?</li>
+</ul>
+<details>
+<summary>
+Click for solution
+</summary>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mosaicplot</span>(<span class="fu">xtabs</span>(count<span class="sc">~</span>size<span class="sc">+</span>sex, <span class="at">data=</span>alligator))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab2_ManyCatVariables_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">doubledecker</span>(<span class="fu">xtabs</span>(count<span class="sc">~</span>size<span class="sc">+</span>sex, <span class="at">data=</span>alligator))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab2_ManyCatVariables_files/figure-html/unnamed-chunk-24-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>more males are larger, females are smaller</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mosaicplot</span>(<span class="fu">xtabs</span>(count<span class="sc">~</span>size<span class="sc">+</span>food, <span class="at">data=</span>alligator))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab2_ManyCatVariables_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">doubledecker</span>(<span class="fu">xtabs</span>(count<span class="sc">~</span>size<span class="sc">+</span>food, <span class="at">data=</span>alligator))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab2_ManyCatVariables_files/figure-html/unnamed-chunk-25-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+big alligators eat more fish+reptile, and less invertebrates.
+</details>
+<p>We can even make a matrix of <strong>all</strong> the two-way mosaic plots in the style of a scatterplot matrix by the following command:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(<span class="fu">xtabs</span>(count<span class="sc">~</span>.,<span class="at">data=</span>alligator))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Using a <code>.</code> on the right side of the formula is a shorthand for “include everything”.</p>
+</section>
+<section id="task-2c" class="level3 unnumbered">
+<h3 class="unnumbered" data-anchor-id="task-2c"><strong>Task 2c</strong></h3>
+<ul>
+<li>Can you locate the plots of <code>size</code> and <code>sex</code>, and <code>size</code> and <code>food</code> within the matrix?</li>
+<li>Do you see any other potential associations (or lack of associations) here? Remember, “no association” will mean the mosaic is divided into an approximately regular grid.</li>
+<li>Make a doubledecker plot of <code>food</code>, <code>size</code> and <code>sex</code> - order the variables so that each bar is split into sections according to the <code>food</code>.</li>
+<li>Now try the mosaic plot and use the <code>shade=TRUE</code> option. Try and achieve the same ordering so that food is the final split. What combinations have been highlighted, and how would you interpret them?</li>
+<li>Do you see any other potentially interesting features here?</li>
+</ul>
+<details>
+<summary>
+Click for solution
+</summary>
+<p>Size:sex plot is in position (1,3), size:food is in (3,4). Seem to be a fair few associations here, except for food:sex Let’s take a closer look:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mosaicplot</span>(<span class="fu">xtabs</span>(count<span class="sc">~</span>sex<span class="sc">+</span>food, <span class="at">data=</span>alligator))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab2_ManyCatVariables_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This looks pretty regular, no obvious surprisingly large/small blocks. Let’s try shading the big plot for more emphasis</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(<span class="fu">xtabs</span>(count<span class="sc">~</span>.,<span class="at">data=</span>alligator), <span class="at">shade=</span><span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab2_ManyCatVariables_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Combining more that two variables in a mosaic can get a bit crazy. Let’s look at <code>size</code>, <code>sex</code> and <code>food</code> all together.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">doubledecker</span>(<span class="fu">xtabs</span>(count<span class="sc">~</span>size<span class="sc">+</span>sex<span class="sc">+</span>food, <span class="at">data=</span>alligator))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab2_ManyCatVariables_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mosaicplot</span>(<span class="fu">xtabs</span>(count<span class="sc">~</span>size<span class="sc">+</span>sex<span class="sc">+</span>food, <span class="at">data=</span>alligator),<span class="at">shade=</span><span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab2_ManyCatVariables_files/figure-html/unnamed-chunk-29-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Large males eat more reptiles, small males eat surprisingly few (are they eating each other…?) Small females eat more invertebrates, large females eat few</p>
+<p>The four-way table goes a bit mad</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mosaicplot</span>(<span class="fu">xtabs</span>(count<span class="sc">~</span>size<span class="sc">+</span>sex<span class="sc">+</span>food<span class="sc">+</span>lake, <span class="at">data=</span>alligator),<span class="at">shade=</span><span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab2_ManyCatVariables_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+but does reveal some features that may be worth digging into, though it has become very hard to digest.
+</details>
+</section>
+</section>
+<section id="exercise-3-for-extra-practice-grouped-and-stacked-barplots" class="level2">
+<h2 data-anchor-id="exercise-3-for-extra-practice-grouped-and-stacked-barplots">Exercise 3 (for extra practice): Grouped and stacked barplots</h2>
+<p>Barplots can be used effectively to display combinations of categorical variables. However, they require a little more setup to provide the data in the correct format.</p>
+<p>First, a grouped barplot displays a numeric value (e.g.&nbsp;counts) split in groups and subgroups. A few explanation about the code below: * the input dataset must be a numeric matrix. Each group is a column. Each subgroup is a row. So we can only deal with two variables at once. * the <code>barplot</code> function will recognize this format, and automatically perform the grouping for you. * the <code>beside</code> option allows to toggle between the grouped and the stacked barchart</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="do">## make a table of counts by Treatment and Improved from the arthritis data</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>tab <span class="ot">&lt;-</span> <span class="fu">xtabs</span>(<span class="sc">~</span>Improved<span class="sc">+</span>Treatment,<span class="at">data=</span>arthritis)</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>tab</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        Treatment
+Improved Placebo Treated
+  None        29      13
+  Some         7       7
+  Marked       7      21</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Grouped barplot</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(tab, <span class="at">beside=</span><span class="cn">TRUE</span>, <span class="at">legend=</span><span class="fu">rownames</span>(tab), <span class="at">col=</span><span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab2_ManyCatVariables_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>And to stack the bars, set <code>beside=FALSE</code></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(tab, <span class="at">beside=</span><span class="cn">FALSE</span>, <span class="at">legend=</span><span class="fu">rownames</span>(tab), <span class="at">col=</span><span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab2_ManyCatVariables_files/figure-html/unnamed-chunk-32-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Stacked bars are often used to display the <em>proportions</em> of the respective columns attributable to each sub-group. Thankfully, we can easily convert tables of counts to proportions with the <code>prop.table</code> function. If we want the proportions computed within a column, set the <code>margin=2</code> argument:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(<span class="fu">prop.table</span>(tab, <span class="at">margin=</span><span class="dv">2</span>), <span class="at">beside=</span><span class="cn">FALSE</span>, <span class="at">legend=</span><span class="fu">rownames</span>(tab), <span class="at">col=</span><span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab2_ManyCatVariables_files/figure-html/unnamed-chunk-33-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="data-set-airline-arrivals" class="level3">
+<h3 data-anchor-id="data-set-airline-arrivals">Data set: Airline arrivals</h3>
+<p>We are now going to compare all the techniques seen so far on a new dataset.</p>
+<p><i class="fa fa-database"></i> Download data: <a href="airlineArrival.Rda">airlineArrival</a></p>
+<p>The <code>airlineArrival</code> data contains 11000 observations of 3 categorical variables: * <code>Airport</code> - a factor with levels <code>LosAngeles</code>, <code>Phoenix</code>, <code>SanDiego</code>, <code>SanFrancisco</code>, <code>Seattle</code> * <code>Result</code> - a factor with levels <code>Delayed</code>,<code>OnTime</code> * <code>Airline</code> - a factor with levels <code>Alaska</code>, <code>AmericaWest</code></p>
+</section>
+<section id="task-3a" class="level3 unnumbered">
+<h3 class="unnumbered" data-anchor-id="task-3a"><strong>Task 3a</strong></h3>
+<ul>
+<li>Create a grouped barplot of the counts of delayed flights versus ontime flights for both levels of the <code>Airline</code> variable.</li>
+<li>Create a stacked barplot of the same data above</li>
+<li>Is there much difference in the amount of delayed flights between the two airlines? Which plot is better to assess this?</li>
+</ul>
+<details>
+<summary>
+Click for solution
+</summary>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>tab <span class="ot">&lt;-</span> <span class="fu">xtabs</span>(<span class="sc">~</span>Result<span class="sc">+</span>Airline,<span class="at">data=</span>airlineArrival)</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Grouped barplot</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(tab, <span class="at">beside=</span><span class="cn">TRUE</span>, <span class="at">legend=</span><span class="fu">rownames</span>(tab), <span class="at">col=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">7</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab2_ManyCatVariables_files/figure-html/unnamed-chunk-35-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Stacked barplot</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(<span class="fu">prop.table</span>(tab, <span class="at">margin=</span><span class="dv">2</span>), <span class="at">beside=</span><span class="cn">FALSE</span>, <span class="at">legend=</span><span class="fu">rownames</span>(tab), <span class="at">col=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">7</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab2_ManyCatVariables_files/figure-html/unnamed-chunk-35-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+In the second plot we can see much better that the proportion is roughly the same. In the first plot, it is easier to see the actual counts of delayed and on time flights.
+</details>
+</section>
+<section id="task-3b" class="level3 unnumbered">
+<h3 class="unnumbered" data-anchor-id="task-3b"><strong>Task 3b</strong></h3>
+<ul>
+<li>Produce grouped and stacked barcharts of counts of <code>Airport</code> against <code>Result</code>. What is the response variable here?
+<ul>
+<li>Which airports look best for flights being on time? Which look worst?</li>
+</ul></li>
+</ul>
+<details>
+<summary>
+Click for solution
+</summary>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>tab <span class="ot">&lt;-</span> <span class="fu">xtabs</span>(<span class="sc">~</span>Result<span class="sc">+</span>Airport,<span class="at">data=</span>airlineArrival)</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Grouped barplot</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(tab, <span class="at">beside=</span><span class="cn">TRUE</span>, <span class="at">legend=</span><span class="fu">rownames</span>(tab), <span class="at">col=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">7</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab2_ManyCatVariables_files/figure-html/unnamed-chunk-36-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Stacked barplot</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(<span class="fu">prop.table</span>(tab, <span class="at">margin=</span><span class="dv">2</span>), <span class="at">beside=</span><span class="cn">FALSE</span>, <span class="at">legend=</span><span class="fu">rownames</span>(tab), <span class="at">col=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">7</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab2_ManyCatVariables_files/figure-html/unnamed-chunk-36-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Once again, stacked plots are more useful: <code>Result</code> is clearly the response variable here and hence we need to produce five different bars.</p>
+San Francisco is the worse airport and Phoenix the best in terms of flights being on time.
+</details>
+</section>
+<section id="task-3c" class="level3 unnumbered">
+<h3 class="unnumbered" data-anchor-id="task-3c"><strong>Task 3c</strong></h3>
+<ul>
+<li>Now look at whether both <code>Airport</code> and <code>Airline</code> are associated with delays by producing a mosaicplot and a doubledecker plot of all three variables.</li>
+<li>What do you find? Try turning on <code>shade=TRUE</code>.</li>
+<li>In which plot are the associations most pronounced?</li>
+</ul>
+<details>
+<summary>
+Click for solution
+</summary>
+<p>Here is the mosaicplot</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mosaicplot</span>(<span class="sc">~</span>Airport<span class="sc">+</span>Result<span class="sc">+</span>Airline, <span class="at">data=</span>airlineArrival,<span class="at">col=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">7</span>),<span class="at">main=</span><span class="st">''</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab2_ManyCatVariables_files/figure-html/unnamed-chunk-37-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Here is the doubledecker plot</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">doubledecker</span>(<span class="fu">xtabs</span>(<span class="sc">~</span>Airport<span class="sc">+</span>Airline<span class="sc">+</span>Result, <span class="at">data=</span>airlineArrival))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab2_ManyCatVariables_files/figure-html/unnamed-chunk-38-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The doubledecker is better at showing that Alaska airlines is doing a good job getting flights from Phoenix to be ontime.</p>
+<p>The shaded mosaicplot confirms this finding, but gives much more information about unusual associations:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mosaicplot</span>(<span class="sc">~</span>Airport<span class="sc">+</span>Result<span class="sc">+</span>Airline, <span class="at">data=</span>airlineArrival, <span class="at">col=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">7</span>), <span class="at">shade=</span><span class="cn">TRUE</span>, <span class="at">main=</span><span class="st">''</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab2_ManyCatVariables_files/figure-html/unnamed-chunk-39-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+
+
+</details></section>
+</section>
+
+
+ <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+ <!-- /content -->
+
+
+
+
+</body></html>

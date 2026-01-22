@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>lab2_manycatvariables – My Course Notes</title>
+<title>lab2_manycatvariables – DEVUL Course Notes</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -118,7 +118,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">My Course Notes</span>
+    <span class="navbar-title">DEVUL Course Notes</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -192,35 +192,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#lab-2---exploring-many-categorical-variables-with-r" id="toc-lab-2---exploring-many-categorical-variables-with-r" class="nav-link active" data-scroll-target="#lab-2---exploring-many-categorical-variables-with-r">Lab 2 - Exploring Many Categorical Variables with R</a>
-  <ul class="collapse">
-  <li><a href="#exercise-1-mosaicplots" id="toc-exercise-1-mosaicplots" class="nav-link" data-scroll-target="#exercise-1-mosaicplots">Exercise 1 (Mosaicplots)</a>
-  <ul class="collapse">
-  <li><a href="#task-1b" id="toc-task-1b" class="nav-link" data-scroll-target="#task-1b"><strong>Task 1b</strong></a></li>
-  <li><a href="#more-variables" id="toc-more-variables" class="nav-link" data-scroll-target="#more-variables">More variables</a></li>
-  <li><a href="#task-1b-1" id="toc-task-1b-1" class="nav-link" data-scroll-target="#task-1b-1"><strong>Task 1b</strong></a></li>
-  <li><a href="#directions-of-the-splits" id="toc-directions-of-the-splits" class="nav-link" data-scroll-target="#directions-of-the-splits">Directions of the splits</a></li>
-  <li><a href="#adding-some-colour" id="toc-adding-some-colour" class="nav-link" data-scroll-target="#adding-some-colour">Adding some colour</a></li>
-  </ul></li>
-  <li><a href="#using-colour-to-highlight-unexpected-patterns" id="toc-using-colour-to-highlight-unexpected-patterns" class="nav-link" data-scroll-target="#using-colour-to-highlight-unexpected-patterns">Using colour to highlight unexpected patterns</a>
-  <ul class="collapse">
-  <li><a href="#task-1c" id="toc-task-1c" class="nav-link" data-scroll-target="#task-1c"><strong>Task 1c</strong></a></li>
-  </ul></li>
-  <li><a href="#exercise-2-mosaicplots-on-a-data-set-containing-counts" id="toc-exercise-2-mosaicplots-on-a-data-set-containing-counts" class="nav-link" data-scroll-target="#exercise-2-mosaicplots-on-a-data-set-containing-counts">Exercise 2: Mosaicplots on a data set containing counts</a>
-  <ul class="collapse">
-  <li><a href="#task-2a" id="toc-task-2a" class="nav-link" data-scroll-target="#task-2a"><strong>Task 2a</strong></a></li>
-  <li><a href="#more-than-two-variables" id="toc-more-than-two-variables" class="nav-link" data-scroll-target="#more-than-two-variables">More than two variables</a></li>
-  <li><a href="#task-2b" id="toc-task-2b" class="nav-link" data-scroll-target="#task-2b"><strong>Task 2b</strong></a></li>
-  <li><a href="#task-2c" id="toc-task-2c" class="nav-link" data-scroll-target="#task-2c"><strong>Task 2c</strong></a></li>
-  </ul></li>
-  <li><a href="#exercise-3-for-extra-practice-grouped-and-stacked-barplots" id="toc-exercise-3-for-extra-practice-grouped-and-stacked-barplots" class="nav-link" data-scroll-target="#exercise-3-for-extra-practice-grouped-and-stacked-barplots">Exercise 3 (for extra practice): Grouped and stacked barplots</a>
-  <ul class="collapse">
-  <li><a href="#data-set-airline-arrivals" id="toc-data-set-airline-arrivals" class="nav-link" data-scroll-target="#data-set-airline-arrivals">Data set: Airline arrivals</a></li>
-  <li><a href="#task-3a" id="toc-task-3a" class="nav-link" data-scroll-target="#task-3a"><strong>Task 3a</strong></a></li>
-  <li><a href="#task-3b" id="toc-task-3b" class="nav-link" data-scroll-target="#task-3b"><strong>Task 3b</strong></a></li>
-  <li><a href="#task-3c" id="toc-task-3c" class="nav-link" data-scroll-target="#task-3c"><strong>Task 3c</strong></a></li>
-  </ul></li>
-  </ul></li>
+  <li><a href="#lab-2---exploring-many-categorical-variables-with-r" id="toc-lab-2---exploring-many-categorical-variables-with-r" class="nav-link active" data-scroll-target="#lab-2---exploring-many-categorical-variables-with-r">Lab 2 - Exploring Many Categorical Variables with R</a></li>
   </ul>
 </nav>
     </div>
@@ -239,7 +211,6 @@ Introduction
 <p>
 This practical will lead you into producing some high quality visualisations of multivariate categorical data.
 </p>
-</div>
 <p>
 By the end of the lab, you will have acquired the following skills:
 </p><ul style="font-size: 16px; color: #333;">
@@ -250,7 +221,7 @@ Plotting stacked barplots for simple data sets
 Plotting <code>doubledecker</code> and <code>mosaicplot</code> plots for more complex data sets
 </li>
 <p></p>
-</ul></section></main></div>
+</ul></div>
 <p><strong>You will need to install the following packages</strong>:</p>
 <ul>
 <li><code>vcd</code> for the <code>doubledecker</code> functions. You also need to load the corresponding library in your environment.</li>
@@ -265,7 +236,7 @@ Plotting <code>doubledecker</code> and <code>mosaicplot</code> plots for more co
 </div>
 </div>
 <section id="exercise-1-mosaicplots" class="level2">
-<h2 data-anchor-id="exercise-1-mosaicplots">Exercise 1 (Mosaicplots)</h2>
+<h2 class="anchored" data-anchor-id="exercise-1-mosaicplots">Exercise 1 (Mosaicplots)</h2>
 <p>Displaying combinations of categorical variables can be quite difficult, as we can’t represent our data as simple points in a space. Instead, we summarise a categorical variable (e.g.&nbsp;eye colour) with multiple levels (blue, green, brown, …) by the frequencies of each of the levels in the data. When we have multiple categorical variables, we work instead with the counts of the combinations of the levels (e.g.&nbsp;red hair + green eyes).</p>
 <p>All of our plots are some sort of visualisation of these counts and so are (in one way or another) variations and manipulations of stacked barplots. Multivariate categorical data is a little more complex to work with, so generally it is recommended to start with single or pairs of variables and progressively add more, rather than visualising everything all at once like a scatterplot matrix.</p>
 <p><i class="fa fa-database"></i> Download data: <a href="arthritis.Rda">arthritis</a></p>
@@ -313,7 +284,7 @@ Plotting <code>doubledecker</code> and <code>mosaicplot</code> plots for more co
 </div>
 </div>
 <section id="task-1b" class="level3 unnumbered">
-<h3 class="unnumbered" data-anchor-id="task-1b"><strong>Task 1b</strong></h3>
+<h3 class="unnumbered anchored" data-anchor-id="task-1b"><strong>Task 1b</strong></h3>
 <ul>
 <li>Using the <code>mosaicplot</code> command, try to reproduce the mosaicplot above</li>
 <li>What are the new features that become apparent when you reverse the positions of the variables?</li>
@@ -336,7 +307,7 @@ Now we have three vertical bars for <code>Improved</code>, each sub-divided into
 </details>
 </section>
 <section id="more-variables" class="level3">
-<h3 data-anchor-id="more-variables">More variables</h3>
+<h3 class="anchored" data-anchor-id="more-variables">More variables</h3>
 <p>We can continue to add variables to the plot and break down the results into more groups. For instance, we can introduce <code>Sex</code> as a variable</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mosaicplot</span>(<span class="sc">~</span>Treatment<span class="sc">+</span>Sex<span class="sc">+</span>Improved, <span class="at">data=</span>arthritis,<span class="at">col=</span><span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>,<span class="at">main=</span><span class="st">''</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -359,7 +330,7 @@ Now we have three vertical bars for <code>Improved</code>, each sub-divided into
 <p>It is often worth reordering the variables in the mosaic plot formula to see if a different sequence of splits is a more effective visualisation for your problem. Generally, our dependent variable of interest is split last following the <code>~</code> in the function call.</p>
 </section>
 <section id="task-1b-1" class="level3 unnumbered">
-<h3 class="unnumbered" data-anchor-id="task-1b-1"><strong>Task 1b</strong></h3>
+<h3 class="unnumbered anchored" data-anchor-id="task-1b-1"><strong>Task 1b</strong></h3>
 <ul>
 <li>Produce mosaicplots of combinations of one, two and three variables for the built-in R data set <code>HairEyeColor</code></li>
 <li>Experiment with the ordering of the variables in the call to the <code>mosaicplot</code> function to see how different orderings produce different presentations of the data.</li>
@@ -410,7 +381,7 @@ In the case of three variables, the mosaicplot with Hair highlighted by colours 
 </details>
 </section>
 <section id="directions-of-the-splits" class="level3">
-<h3 data-anchor-id="directions-of-the-splits">Directions of the splits</h3>
+<h3 class="anchored" data-anchor-id="directions-of-the-splits">Directions of the splits</h3>
 <p>A <code>doubledecker</code> plot is a version of a mosiac plot where all of the splits in the data are vertical, except for the last one. This effectively produces a type of stacked barplot, which we can achieve by setting the <code>dir</code>ection argument as follows:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mosaicplot</span>(<span class="sc">~</span>Treatment<span class="sc">+</span>Sex<span class="sc">+</span>Improved, <span class="at">data=</span>arthritis, <span class="at">dir =</span> <span class="fu">c</span>(<span class="st">"v"</span>, <span class="st">"v"</span>, <span class="st">"h"</span>),<span class="at">col=</span><span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -435,7 +406,7 @@ In the case of three variables, the mosaicplot with Hair highlighted by colours 
 </div>
 </section>
 <section id="adding-some-colour" class="level3">
-<h3 data-anchor-id="adding-some-colour">Adding some colour</h3>
+<h3 class="anchored" data-anchor-id="adding-some-colour">Adding some colour</h3>
 <p>The default plots are somewhat dull and monochrome. Note that the different shadings used in the plot correspond to the different levels of the last cut variable, i.e.&nbsp;the dependent variable which is <code>Improved</code> here. So, if we supply one colour for each level of that variable we get the following plot:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mosaicplot</span>(<span class="sc">~</span>Treatment<span class="sc">+</span>Sex<span class="sc">+</span>Improved, <span class="at">data=</span>arthritis, <span class="at">main=</span><span class="st">''</span>, <span class="at">col=</span><span class="fu">c</span>(<span class="st">"wheat"</span>, <span class="st">"cornflowerblue"</span>, <span class="st">"tomato1"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -451,7 +422,7 @@ In the case of three variables, the mosaicplot with Hair highlighted by colours 
 </section>
 </section>
 <section id="using-colour-to-highlight-unexpected-patterns" class="level2">
-<h2 data-anchor-id="using-colour-to-highlight-unexpected-patterns">Using colour to highlight unexpected patterns</h2>
+<h2 class="anchored" data-anchor-id="using-colour-to-highlight-unexpected-patterns">Using colour to highlight unexpected patterns</h2>
 <p>A different but helpful use of colour is the <code>shade=TRUE</code> option. The <code>shade=TRUE</code> option works by colouring any tiles in the mosaic that are in disagreement with the independence hypothesis of a chi-square test. This can help us identify any combinations that are unusually common or rate:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mosaicplot</span>(<span class="sc">~</span>Treatment<span class="sc">+</span>Sex<span class="sc">+</span>Improved, <span class="at">data=</span>arthritis,<span class="at">shade=</span><span class="cn">TRUE</span>,<span class="at">main=</span><span class="st">''</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -465,7 +436,7 @@ In the case of three variables, the mosaicplot with Hair highlighted by colours 
 </div>
 <p>Tiles are shaded blue when more cases are observed than expected given independence, and shaded red when there are fewer cases than expected under independence. The strength of colour indicates how “surprising” those values are. The plot here is showing that most of the variation is not significant (coloured white), but in the <code>Female</code> and <code>Treated</code> group there is a surprisingly high number of patients who display a <code>Marked</code> improvement (blue-ish) - and consequently, fewer than expected (red-ish) whose improvement was <code>None</code>.</p>
 <section id="task-1c" class="level3">
-<h3 data-anchor-id="task-1c"><strong>Task 1c</strong></h3>
+<h3 class="anchored" data-anchor-id="task-1c"><strong>Task 1c</strong></h3>
 <ul>
 <li>Use the <code>mosaicplot</code> function with <code>shade</code> and the <code>dir</code> arguments to create a “doubledecker” version of the mosaic plot above.</li>
 </ul>
@@ -487,7 +458,7 @@ Click for solution
 </section>
 </section>
 <section id="exercise-2-mosaicplots-on-a-data-set-containing-counts" class="level2">
-<h2 data-anchor-id="exercise-2-mosaicplots-on-a-data-set-containing-counts">Exercise 2: Mosaicplots on a data set containing counts</h2>
+<h2 class="anchored" data-anchor-id="exercise-2-mosaicplots-on-a-data-set-containing-counts">Exercise 2: Mosaicplots on a data set containing counts</h2>
 <p><i class="fa fa-database"></i> Download data: <a href="alligator.Rda">alligator</a></p>
 <p>The <code>alligator</code> data, from Agresti (2002), comes from a study of the primary food choices of alligators in four Florida lakes. The goal is to try and learn something about the food choice of the different alligators. The variables are:</p>
 <ul>
@@ -594,7 +565,7 @@ Click for solution
 <p>Note that the mosaicplot is showing the proportions in the different lakes by the width of the bars, whereas the barplot uses the height. We see there are slight differences between the numbers of alligators observed in the different lakes, but they don’t appear to be substantial.</p>
 <p>Note that the only difference with working with these data (which include the counts as a variable) and the previous data set (which did not include the counts) is that we must do the aggregating of the data in the <code>xtabs</code> function first, instead of directly in <code>mosaicplot</code>. The syntax and formula for splitting the data is the same.</p>
 <section id="task-2a" class="level3 unnumbered">
-<h3 class="unnumbered" data-anchor-id="task-2a"><strong>Task 2a</strong></h3>
+<h3 class="unnumbered anchored" data-anchor-id="task-2a"><strong>Task 2a</strong></h3>
 <ul>
 <li>Investigate the distributions of the other categorical variables individually: <code>sex</code>, <code>size</code>, and <code>food</code>. You can use whatever plot you prefer. Try and answer the following questions:
 <ul>
@@ -643,11 +614,11 @@ mostly eat fish, then invertebrates.
 </details>
 </section>
 <section id="more-than-two-variables" class="level3">
-<h3 data-anchor-id="more-than-two-variables">More than two variables</h3>
+<h3 class="anchored" data-anchor-id="more-than-two-variables">More than two variables</h3>
 <p>The strength of mosaic plots is when considering the combination of multiple categorical variables at once. To keep things manageable, let’s looks at some potentially interesting pairs of variables first:</p>
 </section>
 <section id="task-2b" class="level3 unnumbered">
-<h3 class="unnumbered" data-anchor-id="task-2b"><strong>Task 2b</strong></h3>
+<h3 class="unnumbered anchored" data-anchor-id="task-2b"><strong>Task 2b</strong></h3>
 <ul>
 <li>Use <code>mosaicplot</code> to visualise the <code>size</code> and <code>sex</code> variables together. Remember, if there is no association here then we would expect a regular grid. What associations do you find?</li>
 <li>What about <code>size</code> and <code>food</code>?</li>
@@ -703,7 +674,7 @@ big alligators eat more fish+reptile, and less invertebrates.
 <p>Using a <code>.</code> on the right side of the formula is a shorthand for “include everything”.</p>
 </section>
 <section id="task-2c" class="level3 unnumbered">
-<h3 class="unnumbered" data-anchor-id="task-2c"><strong>Task 2c</strong></h3>
+<h3 class="unnumbered anchored" data-anchor-id="task-2c"><strong>Task 2c</strong></h3>
 <ul>
 <li>Can you locate the plots of <code>size</code> and <code>sex</code>, and <code>size</code> and <code>food</code> within the matrix?</li>
 <li>Do you see any other potential associations (or lack of associations) here? Remember, “no association” will mean the mosaic is divided into an approximately regular grid.</li>
@@ -773,7 +744,7 @@ but does reveal some features that may be worth digging into, though it has beco
 </section>
 </section>
 <section id="exercise-3-for-extra-practice-grouped-and-stacked-barplots" class="level2">
-<h2 data-anchor-id="exercise-3-for-extra-practice-grouped-and-stacked-barplots">Exercise 3 (for extra practice): Grouped and stacked barplots</h2>
+<h2 class="anchored" data-anchor-id="exercise-3-for-extra-practice-grouped-and-stacked-barplots">Exercise 3 (for extra practice): Grouped and stacked barplots</h2>
 <p>Barplots can be used effectively to display combinations of categorical variables. However, they require a little more setup to provide the data in the correct format.</p>
 <p>First, a grouped barplot displays a numeric value (e.g.&nbsp;counts) split in groups and subgroups. A few explanation about the code below: * the input dataset must be a numeric matrix. Each group is a column. Each subgroup is a row. So we can only deal with two variables at once. * the <code>barplot</code> function will recognize this format, and automatically perform the grouping for you. * the <code>beside</code> option allows to toggle between the grouped and the stacked barchart</p>
 <div class="cell">
@@ -820,13 +791,13 @@ Improved Placebo Treated
 </div>
 </div>
 <section id="data-set-airline-arrivals" class="level3">
-<h3 data-anchor-id="data-set-airline-arrivals">Data set: Airline arrivals</h3>
+<h3 class="anchored" data-anchor-id="data-set-airline-arrivals">Data set: Airline arrivals</h3>
 <p>We are now going to compare all the techniques seen so far on a new dataset.</p>
 <p><i class="fa fa-database"></i> Download data: <a href="airlineArrival.Rda">airlineArrival</a></p>
 <p>The <code>airlineArrival</code> data contains 11000 observations of 3 categorical variables: * <code>Airport</code> - a factor with levels <code>LosAngeles</code>, <code>Phoenix</code>, <code>SanDiego</code>, <code>SanFrancisco</code>, <code>Seattle</code> * <code>Result</code> - a factor with levels <code>Delayed</code>,<code>OnTime</code> * <code>Airline</code> - a factor with levels <code>Alaska</code>, <code>AmericaWest</code></p>
 </section>
 <section id="task-3a" class="level3 unnumbered">
-<h3 class="unnumbered" data-anchor-id="task-3a"><strong>Task 3a</strong></h3>
+<h3 class="unnumbered anchored" data-anchor-id="task-3a"><strong>Task 3a</strong></h3>
 <ul>
 <li>Create a grouped barplot of the counts of delayed flights versus ontime flights for both levels of the <code>Airline</code> variable.</li>
 <li>Create a stacked barplot of the same data above</li>
@@ -862,7 +833,7 @@ In the second plot we can see much better that the proportion is roughly the sam
 </details>
 </section>
 <section id="task-3b" class="level3 unnumbered">
-<h3 class="unnumbered" data-anchor-id="task-3b"><strong>Task 3b</strong></h3>
+<h3 class="unnumbered anchored" data-anchor-id="task-3b"><strong>Task 3b</strong></h3>
 <ul>
 <li>Produce grouped and stacked barcharts of counts of <code>Airport</code> against <code>Result</code>. What is the response variable here?
 <ul>
@@ -900,7 +871,7 @@ San Francisco is the worse airport and Phoenix the best in terms of flights bein
 </details>
 </section>
 <section id="task-3c" class="level3 unnumbered">
-<h3 class="unnumbered" data-anchor-id="task-3c"><strong>Task 3c</strong></h3>
+<h3 class="unnumbered anchored" data-anchor-id="task-3c"><strong>Task 3c</strong></h3>
 <ul>
 <li>Now look at whether both <code>Airport</code> and <code>Airline</code> are associated with delays by producing a mosaicplot and a doubledecker plot of all three variables.</li>
 <li>What do you find? Try turning on <code>shade=TRUE</code>.</li>
@@ -948,6 +919,7 @@ Click for solution
 
 </details></section>
 </section>
+</section></main></div>
 
 
  <!-- /main -->

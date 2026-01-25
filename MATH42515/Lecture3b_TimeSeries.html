@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>lecture3b_timeseries – DEVUL Course Notes</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-e3b7bb8e06e71ba88653cd3334f68afa.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">DEVUL Course Notes</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-notes" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Notes</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-notes">    
+        <li>
+    <a class="dropdown-item" href="./Lecture1a_IntroViz.html">
+ <span class="dropdown-text">Lecture 1a</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lecture1b_Variables.html">
+ <span class="dropdown-text">Lecture 1b</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lab1_ExplContVar.html">
+ <span class="dropdown-text">Practical 1</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Workshop1_CategoricalVariables.html">
+ <span class="dropdown-text">Workshop 1</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lecture2a_ManyCatVar.html">
+ <span class="dropdown-text">Lecture 2a</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lecture2b_ManyContVar.html">
+ <span class="dropdown-text">Lecture 2b</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lab2_ManyCatVariables.html">
+ <span class="dropdown-text">Practical 2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Workshop2_DepRelAss.html">
+ <span class="dropdown-text">Workshop 2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lecture3a_SmoothingKDE.html">
+ <span class="dropdown-text">Lecture 3a</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lecture3b_TimeSeries.html">
+ <span class="dropdown-text">Lecture 3b</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lab3_Smoothing.html">
+ <span class="dropdown-text">Practical 3</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Workshop3_TimeSeries.html">
+ <span class="dropdown-text">Workshop 3</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#lecture-3b---exploring-time-series" id="toc-lecture-3b---exploring-time-series" class="nav-link active" data-scroll-target="#lecture-3b---exploring-time-series">Lecture 3b - Exploring Time Series</a>
+  <ul class="collapse">
+  <li><a href="#quick-recall-of-loess-smoothing" id="toc-quick-recall-of-loess-smoothing" class="nav-link" data-scroll-target="#quick-recall-of-loess-smoothing">Quick recall of LOESS smoothing</a>
+  <ul class="collapse">
+  <li><a href="#comments-on-loess" id="toc-comments-on-loess" class="nav-link" data-scroll-target="#comments-on-loess">Comments on Loess</a></li>
+  <li><a href="#example-us-savings-rate" id="toc-example-us-savings-rate" class="nav-link" data-scroll-target="#example-us-savings-rate">Example: US Savings rate</a></li>
+  </ul></li>
+  <li><a href="#time-series-components" id="toc-time-series-components" class="nav-link" data-scroll-target="#time-series-components">Time series components</a>
+  <ul class="collapse">
+  <li><a href="#example-german-unemployment-figures" id="toc-example-german-unemployment-figures" class="nav-link" data-scroll-target="#example-german-unemployment-figures">Example: German Unemployment Figures</a></li>
+  </ul></li>
+  <li><a href="#graphics-for-multiple-time-series" id="toc-graphics-for-multiple-time-series" class="nav-link" data-scroll-target="#graphics-for-multiple-time-series">Graphics for multiple time series</a>
+  <ul class="collapse">
+  <li><a href="#example-florence-nightingale-and-crimean-war-deaths" id="toc-example-florence-nightingale-and-crimean-war-deaths" class="nav-link" data-scroll-target="#example-florence-nightingale-and-crimean-war-deaths">Example: Florence Nightingale and Crimean War deaths</a></li>
+  </ul></li>
+  <li><a href="#comparing-time-series" id="toc-comparing-time-series" class="nav-link" data-scroll-target="#comparing-time-series">Comparing Time Series</a>
+  <ul class="collapse">
+  <li><a href="#example-uk-coronavirus-cases" id="toc-example-uk-coronavirus-cases" class="nav-link" data-scroll-target="#example-uk-coronavirus-cases">Example: UK Coronavirus Cases</a></li>
+  <li><a href="#issues-with-time-series" id="toc-issues-with-time-series" class="nav-link" data-scroll-target="#issues-with-time-series">Issues with Time Series</a></li>
+  </ul></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+
+
+
+
+<section id="lecture-3b---exploring-time-series" class="level1">
+<h1>Lecture 3b - Exploring Time Series</h1>
+<ul>
+<li>A <em>time series</em> is a sequence of repeated observations of a particular variable over time.</li>
+<li>The US opinion poll data is an example of a time series.</li>
+<li>Unlike a regular variable, observations of a time series <em>are not independent</em>.</li>
+<li>Time series analysis is a whole subject within statistics, but we won’t be going into that.</li>
+<li><em>Visualising time series</em> is relatively simple - if we observe <span class="math inline">\(y_i\)</span> at time <span class="math inline">\(t_i\)</span>, then we simply plot the pairs <span class="math inline">\((y_i,t_i)\)</span> on a scatterplot and often then join the points by lines.</li>
+<li>It is common to add a trend estimate using some form of <em>smoothing.</em></li>
+<li>Multiple time series of the same variable can be <em>stacked</em> or <em>standardised.</em></li>
+</ul>
+<p>Features to look for:</p>
+<ul>
+<li>An overall <em>trend</em> or pattern of behaviour over time (or lack thereof)</li>
+<li>Presence of regular patterns of behaviour <em>around</em> the trend</li>
+<li>Any <em>changes</em> in or <em>deviations</em> from the trend</li>
+<li><em>Similarities and differences</em> between:
+<ul>
+<li>Different but related series for the <em>same</em> population</li>
+<li>The same series for <em>different</em> sub-groups</li>
+</ul></li>
+</ul>
+<p>The key thing to remember is that the observations of a time series are not independent! So, looking at one-variable summaries can be misleading – the most important feature is how things behave <em>over time</em>. For instance, consider this data on the population of lynxes over time. If we ignore the time aspect, then the data look like this</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture3b_TimeSeries_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>But by explicitly including time in the visualisation, we radically change what we can learn.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture3b_TimeSeries_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We can see there are cyclical changes in the populations, with regular peaks and troughs in the population numbers. All of this is lost if we forget about the dependence on time.</p>
+<p>To plot data using connected lines, we can use the same <code>plot</code> function as for scatterplots, but add the <code>ty</code> argument with value <code>l</code> for <code>l</code>ine. Alternatively, if the time series is relatively short, we can use <code>b</code> instead to show <code>b</code>oth lines and points. Another option is <code>s</code> for <code>s</code>teps.</p>
+<p>Note also that when drawing time series we prefer to join our points by lines. As these quantities evolve over time, it is natural to connect the points to indicate the transition from time point to time point. Usually, we default to connecting points with straight lines, but smoothers or other curves can also be used.</p>
+<section id="quick-recall-of-loess-smoothing" class="level2">
+<h2 class="anchored" data-anchor-id="quick-recall-of-loess-smoothing">Quick recall of LOESS smoothing</h2>
+<p>This is a time series of polling data. We want to analyse trends in it:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dslabs)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(polls_2008)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>polls_2008 <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(polls_2008)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x=</span>polls_2008<span class="sc">$</span>day, <span class="at">y=</span>polls_2008<span class="sc">$</span>margin,<span class="at">pch=</span><span class="dv">16</span>,<span class="at">xlab=</span><span class="st">'Day'</span>,<span class="at">ylab=</span><span class="st">'Margin'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture3b_TimeSeries_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The smoothing technique used for time series is called LOESS. Here is how a LOESS curve on the polling data looks like:</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture3b_TimeSeries_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>but it is just one of many possible smoothings! In general, a LOESS depends on a parameter, known as the <em>span</em>.</p>
+<section id="comments-on-loess" class="level3">
+<h3 class="anchored" data-anchor-id="comments-on-loess">Comments on Loess</h3>
+<ul>
+<li>LOESS methods fix the number of points used in each local fit at a specified proportion <span class="math inline">\(\alpha\)</span> of the nearest points in the data set, known as the <em>span.</em></li>
+<li>Techniques such as <em>cross-validation</em> are often used to find the ‘best’ <span class="math inline">\(\alpha\)</span>, but when just exploring the data this is probably over-kill.</li>
+<li>As the linear regression changes depending on the value of <span class="math inline">\(x\)</span>, we <em>cannot extract a single model</em> for the loess fit on a given data set.</li>
+</ul>
+<p>To apply local regression by LOESS, we can use the <code>loess</code> function, which works much like the <code>lm</code> function does for standard regression. First we fit the model using <code>loess</code>:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>lfit <span class="ot">&lt;-</span> <span class="fu">loess</span>(margin<span class="sc">~</span>day, <span class="at">data=</span>polls_2008,<span class="at">span=</span><span class="fl">0.25</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>We can then use the <code>predict</code> functions to predict values of the smoothed trend:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>lpred <span class="ot">&lt;-</span> <span class="fu">predict</span>(lfit, <span class="fu">data.frame</span>(<span class="at">day =</span> fitN<span class="sc">$</span>x), <span class="at">se =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The predictions can then be used to draw the smoothed trend on the plot</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x=</span>polls_2008<span class="sc">$</span>day, <span class="at">y=</span>polls_2008<span class="sc">$</span>margin,<span class="at">pch=</span><span class="dv">16</span>,<span class="at">xlab=</span><span class="st">'Day'</span>,<span class="at">ylab=</span><span class="st">'Margin'</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="at">x=</span>fitN<span class="sc">$</span>x, <span class="at">y=</span>lpred<span class="sc">$</span>fit,<span class="at">col=</span>cols[<span class="dv">1</span>],<span class="at">lwd=</span><span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture3b_TimeSeries_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Adjusting the <code>span</code> argument has a similar effect to adjusting the bandwidth of the kernel smoother on the smoothness of the resulting trend:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x=</span>polls_2008<span class="sc">$</span>day, <span class="at">y=</span>polls_2008<span class="sc">$</span>margin,<span class="at">pch=</span><span class="dv">16</span>,<span class="at">xlab=</span><span class="st">'Day'</span>,<span class="at">ylab=</span><span class="st">'Margin'</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="at">x=</span>fitN<span class="sc">$</span>x, <span class="at">y=</span>lpred<span class="sc">$</span>fit,<span class="at">col=</span>cols[<span class="dv">1</span>],<span class="at">lwd=</span><span class="dv">4</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>lfit <span class="ot">&lt;-</span> <span class="fu">loess</span>(margin<span class="sc">~</span>day, <span class="at">data=</span>polls_2008,<span class="at">span=</span><span class="fl">0.5</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>lpred <span class="ot">&lt;-</span> <span class="fu">predict</span>(lfit, <span class="fu">data.frame</span>(<span class="at">day =</span> fitN<span class="sc">$</span>x), <span class="at">se =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="at">x=</span>fitN<span class="sc">$</span>x, <span class="at">y=</span>lpred<span class="sc">$</span>fit,<span class="at">col=</span>cols[<span class="dv">2</span>],<span class="at">lwd=</span><span class="dv">4</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>lfit <span class="ot">&lt;-</span> <span class="fu">loess</span>(margin<span class="sc">~</span>day, <span class="at">data=</span>polls_2008,<span class="at">span=</span><span class="fl">0.75</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>lpred <span class="ot">&lt;-</span> <span class="fu">predict</span>(lfit, <span class="fu">data.frame</span>(<span class="at">day =</span> fitN<span class="sc">$</span>x), <span class="at">se =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="at">x=</span>fitN<span class="sc">$</span>x, <span class="at">y=</span>lpred<span class="sc">$</span>fit,<span class="at">col=</span>cols[<span class="dv">3</span>],<span class="at">lwd=</span><span class="dv">4</span>)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="at">x=</span><span class="st">'bottomright'</span>,<span class="at">col=</span>cols[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>],<span class="at">pch=</span><span class="cn">NA</span>,<span class="at">lwd=</span><span class="dv">4</span>,<span class="at">legend=</span><span class="fu">c</span>(<span class="fl">0.25</span>,<span class="fl">0.5</span>,<span class="fl">0.75</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture3b_TimeSeries_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>As LOESS just uses linear regressions to generate its smoothed trend, we can apply linear regression theory to obtain the standard errors of the trend and form confidence intervals around it.</p>
+</section>
+<section id="example-us-savings-rate" class="level3">
+<h3 class="anchored" data-anchor-id="example-us-savings-rate">Example: US Savings rate</h3>
+<p>Time series of financial variables are very often noisy and highly variable. The plot below shows the US Personal Savings Rate over time.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">'economics.Rda'</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x=</span>economics<span class="sc">$</span>date, <span class="at">y=</span>economics<span class="sc">$</span>psavert, <span class="at">ty=</span><span class="st">'l'</span>, <span class="at">xlab=</span><span class="st">'Date'</span>, <span class="at">ylab=</span><span class="st">'Personal Savings Rate'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture3b_TimeSeries_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>There are signs of a global trend to these data, which slowly evolves over time. However, separating the ‘trend’ from ‘noise’ is difficult. Additionally, there is no clear regular patterns to observe like with the lynx data. One approach to unpacking the behaviour of time series data is to apply smoothing techniques with different bandwidths.</p>
+<p>A long bandwidth smoother could identify a trend such as the red line below. A smoother with a narrower bandwidth could detect some of the smaller variations around that trend, such as the green line. However there is plenty of residual variation that is still unexplained!</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="do">## create some times to predict the curve at</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>xs <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">min</span>(<span class="fu">as.numeric</span>(economics<span class="sc">$</span>date)), <span class="fu">max</span>(<span class="fu">as.numeric</span>(economics<span class="sc">$</span>date)), <span class="at">length=</span><span class="dv">200</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="do">## fit the model, note we have to convert our 'date' to numbers here</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>lfit1 <span class="ot">&lt;-</span> <span class="fu">loess</span>(psavert<span class="sc">~</span><span class="fu">as.numeric</span>(date), <span class="at">data=</span>economics) </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="do">## predict</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>lpred1 <span class="ot">&lt;-</span> <span class="fu">predict</span>(lfit1, <span class="fu">data.frame</span>(<span class="at">date=</span>xs), <span class="at">se =</span> <span class="cn">TRUE</span>) </span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="do">## same again, with smaller span</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>lfit2 <span class="ot">&lt;-</span> <span class="fu">loess</span>(psavert<span class="sc">~</span><span class="fu">as.numeric</span>(date), <span class="at">data=</span>economics, <span class="at">span=</span><span class="fl">0.1</span>) </span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>lpred2 <span class="ot">&lt;-</span> <span class="fu">predict</span>(lfit2, <span class="fu">data.frame</span>(<span class="at">date=</span>xs), <span class="at">se =</span> <span class="cn">TRUE</span>) </span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="do">## draw the plot</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x=</span>economics<span class="sc">$</span>date, <span class="at">y=</span>economics<span class="sc">$</span>psavert, <span class="at">xlab=</span><span class="st">'Date'</span>,<span class="at">ylab=</span><span class="st">'Personal Savings Rate'</span>, <span class="at">ty=</span><span class="st">'l'</span>)</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="at">x=</span>xs, <span class="at">y=</span>lpred1<span class="sc">$</span>fit, <span class="at">col=</span><span class="st">'red'</span>,<span class="at">lwd=</span><span class="dv">4</span>) </span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="at">x=</span>xs, <span class="at">y=</span>lpred2<span class="sc">$</span>fit, <span class="at">col=</span><span class="st">'green'</span>,<span class="at">lwd=</span><span class="dv">4</span>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture3b_TimeSeries_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="time-series-components" class="level2">
+<h2 class="anchored" data-anchor-id="time-series-components">Time series components</h2>
+<p>It is often useful to think of a time series as being made up of multiple <em>components</em>:</p>
+<ul>
+<li><em>A trend</em> - which describes the ‘big picture’ behaviour of the data over time</li>
+<li><em>Seasonal</em> effects - which describes predictable behaviour around the trend. This is often periodic, though not all time series exhibit seasonal effects.</li>
+<li><em>Residuals</em> - which are the random noise left over.</li>
+</ul>
+<p>The time series is then thought of has a sum of these terms: <span class="math display">\[Y_t=T_t+S_t+\epsilon_t.\]</span></p>
+<p>Sometimes, time series also incorporate an ‘irregular’ component to represent non-seasonal departures from the trend.</p>
+<p>Our example above could have a trend described by the red line. The green line doesn’t have a regular periodic behaviour - i.e.&nbsp;a regular pattern that repeats - so this would probably be the irregular component. The remaining noise of the data as indicated by the deviations of the black lines from the green would then constitute the residuals.</p>
+<section id="example-german-unemployment-figures" class="level3">
+<h3 class="anchored" data-anchor-id="example-german-unemployment-figures">Example: German Unemployment Figures</h3>
+<p>The figure below shows the unadjusted quartery (West) German unemployment rates from 1961 to just after the unification of the two Germanies.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(AER)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: car</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: carData</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: lmtest</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: zoo</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'zoo'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    as.Date, as.Date.numeric</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: sandwich</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: survival</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(GermanUnemployment)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>ts <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">1962</span>,<span class="fl">1991.75</span>,<span class="at">by=</span><span class="fl">0.25</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>geu <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(GermanUnemployment)<span class="sc">$</span>unadjusted</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(geu <span class="sc">~</span>ts,<span class="at">ty=</span><span class="st">'l'</span>,<span class="at">xlab=</span><span class="st">'Time'</span>,<span class="at">ylab=</span><span class="st">'Unadjusted Unemployment'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture3b_TimeSeries_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Unemployment was very low in the 60s and 70s, apart from a short spell in 1967. There were distinct jumps in unemployment in the mid 70s and early 80s due to the oil crises of 1973 and 1979. Unemployment was declining at the end of the series from the high levels in the 1980s. The series shows strong but regular variation around the trend corresponding to higher levels in winter than in summer.</p>
+<p>The <em>smoothing</em> methods we’ve seen are particularly effective in extracting a smooth <em>trend</em> from the data:</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture3b_TimeSeries_files/figure-html/baa-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We can then take our trend and subtract it from the time series. What’s left over will be the seasonal component plus the residuals!</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> geu <span class="sc">-</span> lpred<span class="sc">$</span>fit</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x=</span>ts, <span class="at">y=</span>res,<span class="at">col=</span><span class="dv">3</span>,<span class="at">lwd=</span><span class="dv">2</span>,<span class="at">ty=</span><span class="st">'l'</span>,<span class="at">xlab=</span><span class="st">'Time'</span>,<span class="at">ylab=</span><span class="st">'Residual'</span>)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="dv">0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture3b_TimeSeries_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The seasonal pattern here is regular, with peaks and troughs occuring at regular intervals.</p>
+<p>We can extract the time series components by hand by doing <code>loess</code> smooths of the data with different bandwidths. However, R can do most of this for us:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>geu <span class="ot">&lt;-</span> <span class="fu">ts</span>(GermanUnemployment[,<span class="dv">1</span>], <span class="do">## Need to turn the data to a time series object</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">frequency=</span><span class="dv">4</span>) <span class="co"># Four observations per year defines the frequency of the regular pattern</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>decomp <span class="ot">&lt;-</span> <span class="fu">stl</span>(geu, <span class="at">s.window =</span> <span class="st">"periodic"</span>) <span class="do">## pass `periodic` to seek a periodic seasonal component</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(decomp)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture3b_TimeSeries_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The results of the decomposition are shown in the various panels of the plot. The top panel gives the original data, the second panel shows the periodic seasonal component, the third panel shows the general trend, and the bottom panel shows the residuals leftover at the end.</p>
+</section>
+</section>
+<section id="graphics-for-multiple-time-series" class="level2">
+<h2 class="anchored" data-anchor-id="graphics-for-multiple-time-series">Graphics for multiple time series</h2>
+<p>Depending on what time serieswe’re showing, there are a number of things to consider:</p>
+<ul>
+<li><em>Related series for the same population</em> - if possible, show the different time series within the same plot to ease comparison. Be careful of units!</li>
+<li><em>Series for different subgroups</em> - showing subgroups together helps draw comparisons. Are we interested in the values or the proportions of the subgroups?</li>
+<li><em>Series with different scales</em> - may need standardising to a common scale to show together, otherwise separate plots will be needed.</li>
+</ul>
+<section id="example-florence-nightingale-and-crimean-war-deaths" class="level3">
+<h3 class="anchored" data-anchor-id="example-florence-nightingale-and-crimean-war-deaths">Example: Florence Nightingale and Crimean War deaths</h3>
+<p>Florence Nightingale famously used data and visualisations to highlight the poor conditions of soldiers in field hospitals during the Crimean War (1854-6). While certainly more well-known as a nurse, she was also a statistician and the first female member of the Royal Statistical Society. She used data visualisations to highlight the causes of mortality of soliders in field hospitals during the Crimean War (1854-6).</p>
+<p><img src="Nightingale-mortality.jpg" class="img-fluid"></p>
+<p>While this is not a plot we would recognise today, it is a time series represented in polar form like a pie chart. The colours represent the different sources of mortality, and the segments represent sequential observations. Unwrapping this as a more conventional plot gives the more readable form:</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture3b_TimeSeries_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Plotting the annualised monthly death rates from disease, wounds, and other causes makes her case clearly. The death rate from diseases (black) due to poor conditions far outstrips the deaths due to injury sustained in combat (red). The most dangerous conflicts occured at the end of 1854, but even then the number of lives lost was dwarfed by deaths from disease.</p>
+</section>
+</section>
+<section id="comparing-time-series" class="level2">
+<h2 class="anchored" data-anchor-id="comparing-time-series">Comparing Time Series</h2>
+<p>The simplest way to compare time series is to show them simultaneously on the same plot.</p>
+<p>As an example, William Playfair graphed England’s trade to the East Indies in the 18th century. Let’s revisit this plot:</p>
+<p><img src="playfair.png" class="img-fluid"></p>
+<p>A more modern version would look something like this:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GDAdata)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(EastIndiesTrade)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x=</span>EastIndiesTrade<span class="sc">$</span>Year,<span class="at">y=</span>EastIndiesTrade<span class="sc">$</span>Imports, <span class="at">col=</span><span class="dv">2</span>, <span class="at">xlab=</span><span class="st">'Year'</span>,</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab=</span><span class="st">'Exports (blue) and Imports (red)'</span>, <span class="at">lwd=</span><span class="dv">4</span>,<span class="at">ty=</span><span class="st">'l'</span>,<span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">2000</span>))</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="at">x=</span>EastIndiesTrade<span class="sc">$</span>Year,<span class="at">y=</span>EastIndiesTrade<span class="sc">$</span>Exports,<span class="at">col=</span><span class="dv">4</span>,<span class="at">lwd=</span><span class="dv">4</span>)</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scales)</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="fu">polygon</span>(<span class="at">x=</span><span class="fu">c</span>(EastIndiesTrade<span class="sc">$</span>Year,<span class="fu">rev</span>(EastIndiesTrade<span class="sc">$</span>Year)),</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">y=</span><span class="fu">c</span>(EastIndiesTrade<span class="sc">$</span>Imports,<span class="fu">rev</span>(EastIndiesTrade<span class="sc">$</span>Exports)),</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">col=</span>scales<span class="sc">::</span><span class="fu">alpha</span>(<span class="st">'green'</span>,<span class="fl">0.25</span>),<span class="at">border=</span><span class="cn">NA</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture3b_TimeSeries_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>As the time series were recorded for the same time points, we can directly calculate differences, and show the trade deficit. The line <span class="math inline">\(y=0\)</span> is significant as it indicates whether we’re in deficit or surplus, so we can add that for reference.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x=</span>EastIndiesTrade<span class="sc">$</span>Year,<span class="at">y=</span>(EastIndiesTrade<span class="sc">$</span>Exports<span class="sc">-</span>EastIndiesTrade<span class="sc">$</span>Imports), <span class="at">col=</span><span class="st">'green2'</span>, <span class="at">xlab=</span><span class="st">'Year'</span>,</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab=</span><span class="st">'Exports - Imports'</span>, <span class="at">lwd=</span><span class="dv">4</span>,<span class="at">ty=</span><span class="st">'l'</span>)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="dv">0</span>,<span class="at">col=</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture3b_TimeSeries_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Many of the features can be associated with major events of the time: the War of Spanish Succession, 1701-14; the South Sea Bubble, 1720; the Seven Year’s War, 1756-63; and the American Revolutionary War, 1775-83. However, it would be rather harder to identify these from the original.</p>
+<section id="example-uk-coronavirus-cases" class="level3">
+<h3 class="anchored" data-anchor-id="example-uk-coronavirus-cases">Example: UK Coronavirus Cases</h3>
+<p>The number of cases of coronavirus were recorded from March 2020 for the four UK nations during the Covid pandemic. Let’s consider a portion of that data running to late January 2021 covering the first “peaks” of the pandemic. This gives us four time series of the same variable, over the same time period. A sensible first plot would be to draw all time series in the same graph.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture3b_TimeSeries_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>However, a major issue with comparing the case numbers between the four nations all together is it is difficult to distinguish the key features due to the vastly different scales. The variation in cases in England are quite clear, as are the three peaks of the pandemic, but since the numbers in the other nations are far smaller it is difficult to detect any pattern.</p>
+<p>The official presentation of these data on the Government website is as a <em>stacked total</em>, where each nations total is successively added to the previous one. While this can be useful for showing the composition between groups of similar sizes, its really not very useful as the case numbers are still dominated by the England data and it’s larger population. This means a lot of detail is obscured and difficult to see.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture3b_TimeSeries_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>What would make more sense is to plotting England separately. Doing so allows us to see the patterns across the UK more clearly. Placing the time series above each other also allows us to easily compare similar times on the same plots.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture3b_TimeSeries_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture3b_TimeSeries_files/figure-html/unnamed-chunk-19-2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>What is obvious now is that the patterns of cases is very similar across the UK, with each of the nations exhibiting peaks in cases around the same time. One feature that does slightly deviate from this trend is that it appears that in Wales the third peak arrived earlier than in other nations.</p>
+<p>An improvement to this plot would be to standardise the case numbers by the population sizes of the nations. As England is much more populous than the other nations, it naturally will have more cases. If we compute the rates of coronavirus (per 100000 people) across the UK then we should have four time series that are directly comparable on the same plot:</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture3b_TimeSeries_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="624"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Using the rates have corrected for the major differences in scale, and now we can see that the case rates are very close all over the UK. One feature that was not visible on the previous plots is the spike in cases in Northern Ireland in October.</p>
+<p>When we have correlated time series such as these, it can also make sense to draw the data as a scatterplot. For instance, we can plot the England data against that for Wales:</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture3b_TimeSeries_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>When we have correlated time series, such as these, an alternative visualisation is to plot one against the other like a scatterplot. Here we have plotted the cases in England versus those in Wales.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture3b_TimeSeries_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture3b_TimeSeries_files/figure-html/unnamed-chunk-22-2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Here we can see the that most of the time cases were low and concentrated in the bottom left corner, and the peaks in cases are visible as the sizable deviations towards the top right corner. The early peak in Wales is visible when the plot moves vertically upwards. A more effective presentation of this information would use <em>animation</em> to show how the data points change over time, rather than showing everything at once.</p>
+<p><img src="output2.gif" class="img-fluid"></p>
+</section>
+<section id="issues-with-time-series" class="level3">
+<h3 class="anchored" data-anchor-id="issues-with-time-series">Issues with Time Series</h3>
+<ul>
+<li><p><em>Length of time series</em> - not all time series will have data for the same period. Are we interested in the long-term or short-term features?</p></li>
+<li><p><em>Irregular vs regular series</em> - time series data may not be recorded on a regular schedule, making detection or exploitation of periodic behaviour difficult. Similarly, where we have multiple time series they may not be all recorded at the same times, making direct comparisons difficult</p></li>
+<li><p><em>Data definitions may change</em> - for long-term time series, the definition of the variable may change during the series, e.g.&nbsp;definitions of unemployment, GDP, net migration etc can change which makes comparison difficult.</p></li>
+<li><p><em>Time series of discrete variables</em> - barcharts may be better for ordinal variables, but categorical variables may be best illustrated by the observed proportions of the different categories. Alternatively, <a href="https://r-graph-gallery.com/sankey-diagram.html">Sankey plots</a> can be used to display how proportions of a categorical variable change.</p></li>
+<li><p><em>Outliers</em> - as usual, be careful with outliers but be mindful that they may be part of the pattern over time, e.g.&nbsp;peaks of the coronavirus epidemic.</p></li>
+<li><p><em>Length of time series</em> - not all time series will have data for the same period, making comparisons difficult. We should also think about whether we are interested in the long-term behaviour (trend) or short-term features?</p></li>
+<li><p><em>Irregular vs regular series</em> - multiple time series may not be all recorded at the same time points, again making direct comparisons difficult</p></li>
+<li><p><em>Data definitions may change</em> - for long-term time series, the definition of the variable may change during the series. The UK changed its definition of unemployment over 20 times duringfrom 1979 to 1993!</p></li>
+<li><p><em>Time series of discrete variables</em> - barcharts may be better for ordinal variables, but categorical variables may be best illustrated by the observed proportions of the different categories.</p></li>
+<li><p><em>Outliers</em> - be careful with outliers, as they may be part of the pattern over time</p></li>
+</ul>
+</section>
+</section>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<ol type="1">
+<li><em>Smoothing</em> is an effective technique for <em>estimating a trend</em> of a data set without requiring complex modelling.</li>
+<li><em>Kernel density estimation</em> does a similar job for <em>estimating the density function</em> of a variable.</li>
+<li>Both techniques are sensitive to their <em>kernel function</em>, and <em>bandwidth parameter.</em></li>
+<li><em>Time series</em> are a special kind of data representing a variable changing over time, and smoothing can be useful to expose the trend.</li>
+<li><em>Simple line plots</em> are effective for time series, but plotting multiple time series simultaneously needs to be done with care.</li>
+</ol>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

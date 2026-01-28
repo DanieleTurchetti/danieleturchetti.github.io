@@ -239,15 +239,6 @@ Use <code>R</code>’s built-in time series decomposition function (<code>stl</c
 </li>
 <p></p>
 </ul></div>
-<p><strong>You will need to install the following packages</strong>:</p>
-<ul>
-<li><code>lattice</code> for drawing trellis plots</li>
-<li><code>lubridate</code> at the very end, if you choose to attempt Exercise 3</li>
-</ul>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"lattice"</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"lubridate"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
 <section id="exploring-time-series" class="level1">
 <h1>Exploring Time Series</h1>
 <p>A graph can be a powerful vehicle for displaying change over time. A <em>time series</em> is a set of quantitative values obtained at successive time points, and time series are most commonly graphed as a simple line graph with time horizontally and the variable being measured shown vertically. Let us have a glance at how to plot time series effectively with an example.</p>
@@ -263,7 +254,24 @@ Use <code>R</code>’s built-in time series decomposition function (<code>stl</c
 </ul>
 <p>The <code>date</code> column is stored in R’s <code>Date</code> format so we can plot it directly. However, this isn’t guaranteed of all data sets and sometimes you will need to convert it (see the <code>as.Date</code> function for how to do so). Thankfully, everything is all set up, so let’s plot the personal savings rate over time:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x=</span>economics<span class="sc">$</span>date,<span class="at">y=</span>economics<span class="sc">$</span>psavert, <span class="at">xlab=</span><span class="st">'Date'</span>,<span class="at">ylab=</span><span class="st">'Personal Savings Rate'</span>, <span class="at">ty=</span><span class="st">'l'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x=</span>economics<span class="sc">$</span>date,<span class="at">y=</span>economics<span class="sc">$</span>psavert, <span class="at">xlab=</span><span class="st">'Date'</span>,<span class="at">ylab=</span><span class="st">'Personal Savings Rate'</span>, <span class="at">ty=</span><span class="st">'l'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Workshop3_TimeSeries_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Time series of financial variables like these are very often quite noisy and variable. While there is obviously a general global trend, where the line between ‘trend’ and ‘noise’ is drawn is debatable and there is no single clear answer for these data. Fitting a smoother would help us identify a clear smooth trend, but using different levels of smoothing will give us quite different results.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="do">## fit the model, note we have to convert our 'date' to numbers here</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>lfit <span class="ot">&lt;-</span> <span class="fu">loess</span>(psavert<span class="sc">~</span><span class="fu">as.numeric</span>(date), <span class="at">data=</span>economics) </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>xs <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">min</span>(<span class="fu">as.numeric</span>(economics<span class="sc">$</span>date)), <span class="fu">max</span>(<span class="fu">as.numeric</span>(economics<span class="sc">$</span>date)), <span class="at">length=</span><span class="dv">200</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>lpred <span class="ot">&lt;-</span> <span class="fu">predict</span>(lfit, <span class="fu">data.frame</span>(<span class="at">date=</span>xs), <span class="at">se =</span> <span class="cn">TRUE</span>) </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="do">## redraw the plot</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x=</span>economics<span class="sc">$</span>date,<span class="at">y=</span>economics<span class="sc">$</span>psavert, <span class="at">xlab=</span><span class="st">'Date'</span>,<span class="at">ylab=</span><span class="st">'Personal Savings Rate'</span>, <span class="at">ty=</span><span class="st">'l'</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="at">x=</span>xs, <span class="at">y=</span>lpred<span class="sc">$</span>fit, <span class="at">col=</span><span class="st">'red'</span>,<span class="at">lwd=</span><span class="dv">4</span>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -272,7 +280,7 @@ Use <code>R</code>’s built-in time series decomposition function (<code>stl</c
 </div>
 </div>
 </div>
-<p>Time series of financial variables like these are very often quite noisy and variable. While there is obviously a general global trend, where the line between ‘trend’ and ‘noise’ is drawn is debatable and there is no single clear answer for these data. Fitting a smoother would help us identify a clear smooth trend, but using different levels of smoothing will give us quite different results.</p>
+<p>This extracts the overall trend quite cleanly! Note that we can easily customise the width and type of the smoothing curve</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="do">## fit the model, note we have to convert our 'date' to numbers here</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>lfit <span class="ot">&lt;-</span> <span class="fu">loess</span>(psavert<span class="sc">~</span><span class="fu">as.numeric</span>(date), <span class="at">data=</span>economics) </span>
@@ -280,7 +288,7 @@ Use <code>R</code>’s built-in time series decomposition function (<code>stl</c
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>lpred <span class="ot">&lt;-</span> <span class="fu">predict</span>(lfit, <span class="fu">data.frame</span>(<span class="at">date=</span>xs), <span class="at">se =</span> <span class="cn">TRUE</span>) </span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="do">## redraw the plot</span></span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x=</span>economics<span class="sc">$</span>date,<span class="at">y=</span>economics<span class="sc">$</span>psavert, <span class="at">xlab=</span><span class="st">'Date'</span>,<span class="at">ylab=</span><span class="st">'Personal Savings Rate'</span>, <span class="at">ty=</span><span class="st">'l'</span>)</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="at">x=</span>xs, <span class="at">y=</span>lpred<span class="sc">$</span>fit, <span class="at">col=</span><span class="st">'red'</span>,<span class="at">lwd=</span><span class="dv">4</span>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="at">x=</span>xs, <span class="at">y=</span>lpred<span class="sc">$</span>fit, <span class="at">col=</span><span class="st">'red'</span>,<span class="at">lwd=</span><span class="fl">1.5</span>, <span class="at">lty=</span><span class="dv">3</span>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -289,7 +297,7 @@ Use <code>R</code>’s built-in time series decomposition function (<code>stl</c
 </div>
 </div>
 </div>
-<p>This extracts the overall trend quite cleanly! If we shrink the span, however, we will fit more closely to the lesser peaks in the data - but is this signal or just noise?</p>
+<p>If we shrink the span, we will fit more closely to the lesser peaks in the data - but is this signal or just noise?</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="do">## reduce span to get a more localised fit</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>lfit2 <span class="ot">&lt;-</span> <span class="fu">loess</span>(psavert<span class="sc">~</span><span class="fu">as.numeric</span>(date), <span class="at">data=</span>economics,<span class="at">span=</span><span class="fl">0.1</span>) </span>
@@ -307,21 +315,11 @@ Use <code>R</code>’s built-in time series decomposition function (<code>stl</c
 </div>
 </div>
 <p>The variation around the trend is quite irregular here, and unless we have any other information to help us explain these features they are difficult to explain. We’ll return to this idea of breaking down a time series into different scales of detail later on.</p>
-<section id="exercise-1-the-fall-and-rise-of-income-inequality" class="level2">
-<h2 class="anchored" data-anchor-id="exercise-1-the-fall-and-rise-of-income-inequality">Exercise 1 (The Fall and Rise of Income Inequality)</h2>
-<p>Now is your turn to try to make sense of another time series to explore the evolution of income equality over time.</p>
+<section id="example-the-fall-and-rise-of-income-inequality" class="level2">
+<h2 class="anchored" data-anchor-id="example-the-fall-and-rise-of-income-inequality">Example (The Fall and Rise of Income Inequality)</h2>
+<p>Let us apply the above to another time series, exploring the evolution of income equality over time.</p>
 <p><i class="fa fa-database"></i> Download data: <a href="income.Rda">income</a></p>
-<p>The <code>income</code> data set contains the mean annual income in the USA from 1913 to 2014. The values are given for two separate groups: the top 1% of earners (<code>U01</code>), and the lower 90% of earners (<code>L90</code>). This gives us two time series to explore - the main questions of interest is how have these time series changed relative to each other, and who has done better over the past 100 years? (though we can probably guess the answer)</p>
-<section id="task-1a" class="level3 unnumbered">
-<h3 class="unnumbered anchored" data-anchor-id="task-1a"><strong>Task 1a</strong></h3>
-<ul>
-<li>Load the data and draw two plots, one above the other, for the incomes in the two groups over time.What features do you see?</li>
-<li>Then make a single plot of both variables. You’ll need to be careful with your vertical axis ranges, which you should set using the <code>ylim</code> argument to span both series. Use a different colour for each series. What do you observe?</li>
-</ul>
-<details>
-<summary>
-Click for solution
-</summary>
+<p>The <code>income</code> data set contains the mean annual income in the USA from 1913 to 2014. The values are given for two separate groups: the top 1% of earners (<code>U01</code>), and the lower 90% of earners (<code>L90</code>). This gives us two time series to explore - the main questions of interest is how have these time series changed relative to each other, and who has done better over the past 100 years? (though we can probably guess the answer).</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>))</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">y=</span>income<span class="sc">$</span>L90,<span class="at">x=</span>income<span class="sc">$</span>year,<span class="at">ty=</span><span class="st">'l'</span>)</span>
@@ -346,21 +344,8 @@ Click for solution
 </div>
 </div>
 </div>
-L90 becomes almost flat due to huge differences in scale!
-</details>
-<p>A common problem when series have very different scales is that the variation of the larger series obscures anything going on in the other. A standard approach to this is to set a time point as a baseline (often the first point), and then calculate and plot the relative changes from that baseline value. If we take our first year as baseline, then we can have a scale-free measure of growth to compare:</p>
-</section>
-<section id="task-1b" class="level3 unnumbered">
-<h3 class="unnumbered anchored" data-anchor-id="task-1b"><strong>Task 1b</strong></h3>
-<ul>
-<li>Standardise (i.e.&nbsp;divide) both series so they are relative to their first observation. Then subtract 1 and multiply by 100 to create the growth above the baseline on a percentage scale. Save the standardised data to two new variables (or new columns within <code>income</code>).</li>
-<li>Now redraw the plot showing both series of income growth together.</li>
-<li>What features do you see? Could you see these features on the previous plots?</li>
-</ul>
-<details>
-<summary>
-Click for solution
-</summary>
+<p>L90 becomes almost flat due to huge differences in scale!</p>
+<p>A common problem when series have very different scales is that the variation of the larger series obscures anything going on in the other. A standard approach to this is to set a time point as a baseline (often the first point), and then calculate and plot the relative changes from that baseline value. If we take our first year as baseline, then we can have a scale-free measure of growth to compare.</p>
 <p>The plot of the standardised data can be obtained with the following code:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>income<span class="sc">$</span>L90rel <span class="ot">&lt;-</span> <span class="dv">100</span><span class="sc">*</span>(income<span class="sc">$</span>L90<span class="sc">/</span>income<span class="sc">$</span>L90[<span class="dv">1</span>]<span class="sc">-</span><span class="dv">1</span>)</span>
@@ -375,12 +360,12 @@ Click for solution
 </div>
 </div>
 </div>
-Here we see the growth relative to the 1913 levels more clearly: both groups changed similarly up to mid 1940s (end of WWI), after this point the income of L90 grew more rapidly until the 1980s, where the U01 income increased dramatically and by the early 2000s the U01 group had income growth larger than the L90 (despite starting from a higher baseline!)
-</details>
+<p>Here we see the growth relative to the 1913 levels more clearly: both groups changed similarly up to mid 1940s (end of WWI), after this point the income of L90 grew more rapidly until the 1980s, where the U01 income increased dramatically and by the early 2000s the U01 group had income growth larger than the L90 (despite starting from a higher baseline!)</p>
 <p>When we have two associated time series, it can be interesting to see how they vary jointly over time. For this we can use a form of scatterplot. However, given the dependence of both variables on time it is importance to connect the points so we can see where the series is coming from and heading to.</p>
-</section>
-<section id="task-1c" class="level3 unnumbered">
-<h3 class="unnumbered anchored" data-anchor-id="task-1c"><strong>Task 1c</strong></h3>
+<div style="background-color: #ffe5e5; border: 2px solid #b22222; padding: 15px; margin: 10px 0; border-radius: 10px;">
+<h2 style="color: #b22222; margin-top: 5px;" class="anchored">
+Challenge
+</h2>
 <ul>
 <li>Return to the original value of the <code>L90</code> and <code>U01</code>, and draw a scatterplot with <code>L90</code> vertically against <code>U01</code> horizontally. Use plot type <code>ty='b'</code> (<code>b</code> for ‘both’) to connect your points with lines. What features do you see?</li>
 <li>To help explain this plot, let’s label the points with the years. The following code will add text labels next to each point, run it and then revisit your plot. See the help on <code>text</code> (type <code>?text</code>) for details. <code>text(x=income$U01,y=income$L90, labels=income$year, cex=0.5, pos=4)</code></li>
@@ -388,6 +373,7 @@ Here we see the growth relative to the 1913 levels more clearly: both groups cha
 <li>Can you create a factor variable with four levels corresponding to: “Before 1936”, “1936-1960”, “1961-1983”, “After 1983”? You can use the <code>cut</code> function here to split a numerical variable up into a categorical factor.</li>
 <li>Use this new factor to colour the points on your plot. What were the main changes in income growth during each of these periods?</li>
 </ul>
+</div>
 <details>
 <summary>
 Click for solution
@@ -408,23 +394,14 @@ Click for solution
 <p>Income for both groups struggles to grow much until the 30s, income growth stalls for all following WW2, and takes until the 60s to recover. L90 income grows steadily until the 70s, after which it grows much more slowly and the U01’s income grows substantially in the 80s/90s. Another stutter in income affects mostly the U01 in the 2000/2010s (financial crisis).</p>
 <p>In theory, it should be possible for incomes to rise for everyone at the same time — for the gains of economic growth to be broadly distributed year after year. But the takeaway from these graphs is that since World War II, that’s never really happened in the U.S.</p>
 </details>
+<p>Note that the analysis of multiple time series is a huge topic of its own: here we are just scratching the surface, but if you are interested to learn more about this I can point you to some references.</p>
 </section>
-</section>
-<section id="exercise-2-co2-concentrations-at-mauna-loa" class="level2">
-<h2 class="anchored" data-anchor-id="exercise-2-co2-concentrations-at-mauna-loa">Exercise 2 (CO2 Concentrations at Mauna Loa)</h2>
+<section id="decomposing-time-series" class="level2">
+<h2 class="anchored" data-anchor-id="decomposing-time-series">Decomposing time series</h2>
+<p>When exploring a time series, we often notice that it follows a general <strong>trend</strong> (given by its smoothing), it often has a periodic, or <strong>seasonal</strong>, behaviour, and then there is some residual <strong>noise</strong> that might be a little or a lot, depending on the time series.</p>
+<p>Let us see an example using a famous data set.</p>
 <p><i class="fa fa-database"></i> Download data: <a href="co2.Rda">co2</a></p>
 <p>The <code>co2</code> data contains the average monthly concentrations of CO2 from 1959 recorded at the Mauna Loa observatory in Hawaii. Environmental time series like this one often have a very strong and regular pattern to them.</p>
-<section id="task-2a" class="level3 unnumbered">
-<h3 class="unnumbered anchored" data-anchor-id="task-2a"><strong>Task 2a</strong></h3>
-<ul>
-<li>Load the data and make a line plot of the average monthly CO2 concentration (<code>co2</code>) over time.</li>
-<li>What features do you see?</li>
-<li>Redraw the plot, drawing only the data for 2010. How do the data behave?</li>
-</ul>
-<details>
-<summary>
-Click for solution
-</summary>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">y=</span>co2<span class="sc">$</span>co2,<span class="at">x=</span>co2<span class="sc">$</span>decimaldate,<span class="at">ty=</span><span class="st">'l'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
@@ -467,29 +444,20 @@ Click for solution
 <p>and plot the results:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(decomp, <span class="at">col =</span> <span class="st">'blue'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Workshop3_TimeSeries_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
 </div>
-</details></section>
-<section id="task-2b" class="level3 unnumbered">
-<h3 class="unnumbered anchored" data-anchor-id="task-2b"><strong>Task 2b</strong></h3>
-<ul>
-<li>Run these commands now and draw the final plot.</li>
-<li>What is being shown here? Can you explain and interpret the different components?</li>
-<li>The results of the decomposition will be saved in a <code>decomp</code> object in a time series object called <code>time.series</code>, with a column for each component.</li>
-<li>Draw a line plot of the time series, and add the trend function on top in red using the values in <code>decomp</code>.</li>
-<li>Try adding the trend+seasonal component to the plot in another colour. Does the model fit look to be good?</li>
-<li>Zoom into 2010-2020 and redraw the same plot with the components. How does it look now?</li>
-</ul>
-<details>
-<summary>
-Click for solution
-</summary>
+</div>
+</div>
+<p>The top panel gives the original data, the second panel gives the estimated regular periodic effect around the overall trend, the third panel shows the overall trend and the final panel shows the residuals (as data - trend - seasonal). The residuals are quite small, suggesting this decomposition describes the data well.</p>
+<p>To visualise the time series and the trend in the same plot, we can run the following code:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>co2ts <span class="ot">&lt;-</span> <span class="fu">ts</span>(<span class="at">data =</span> co2<span class="sc">$</span>co2,</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">start =</span> co2[<span class="dv">1</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>], <span class="co"># columns 1,2 include the year, month</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">end =</span> co2[<span class="fu">nrow</span>(co2), <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>], <span class="co"># final year, month</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">frequency =</span> <span class="dv">12</span>) <span class="co"># 12 months per year</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>decomp <span class="ot">&lt;-</span> <span class="fu">stl</span>(co2ts, <span class="at">s.window =</span> <span class="st">"periodic"</span>)</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(decomp)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">y=</span>co2<span class="sc">$</span>co2,<span class="at">x=</span>co2<span class="sc">$</span>decimaldate,<span class="at">ty=</span><span class="st">'l'</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="do">## draw a red line for the trend</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="at">y=</span>decomp<span class="sc">$</span>time.series[,<span class="dv">2</span>],<span class="at">x=</span>co2<span class="sc">$</span>decimaldate,<span class="at">col=</span><span class="st">'red'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -498,15 +466,9 @@ Click for solution
 </div>
 </div>
 </div>
-<p>The top panel gives the original data, the second panel gives the estimated regular periodic effect around the overall trend, the third panel shows the overall trend and the final panel shows the residuals (as data - trend - seasonal). The residuals are quite small, suggesting this decomposition describes the data well.</p>
-<p>To visualise the time series and the trend in the same plot, we can run the following code:</p>
+<p>We can also add a blue line with the trend plus seasonal component, to check if this is a good fit for the whole time series.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">y=</span>co2<span class="sc">$</span>co2,<span class="at">x=</span>co2<span class="sc">$</span>decimaldate,<span class="at">ty=</span><span class="st">'l'</span>)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="do">## draw a red line for the trend</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="at">y=</span>decomp<span class="sc">$</span>time.series[,<span class="dv">2</span>],<span class="at">x=</span>co2<span class="sc">$</span>decimaldate,<span class="at">col=</span><span class="st">'red'</span>)</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="do">## and a blue line for trend + seasonal</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="at">y=</span>decomp<span class="sc">$</span>time.series[,<span class="dv">1</span>]<span class="sc">+</span>decomp<span class="sc">$</span>time.series[,<span class="dv">2</span>],</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">x=</span>co2<span class="sc">$</span>decimaldate,<span class="at">col=</span><span class="st">'blue'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">y=</span>co2<span class="sc">$</span>co2,<span class="at">x=</span>co2<span class="sc">$</span>decimaldate,<span class="at">ty=</span><span class="st">'l'</span>, <span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">2010</span>,<span class="dv">2020</span>)) <span class="do">## use x-axis limits to zoom in</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -514,10 +476,40 @@ Click for solution
 </figure>
 </div>
 </div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">y=</span>co2<span class="sc">$</span>co2,<span class="at">x=</span>co2<span class="sc">$</span>decimaldate,<span class="at">ty=</span><span class="st">'l'</span>, <span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">2010</span>,<span class="dv">2020</span>), <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">380</span>,<span class="dv">420</span>))</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="at">y=</span>decomp<span class="sc">$</span>time.series[,<span class="dv">2</span>],<span class="at">x=</span>co2<span class="sc">$</span>decimaldate,<span class="at">col=</span><span class="st">'red'</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="at">y=</span>decomp<span class="sc">$</span>time.series[,<span class="dv">1</span>]<span class="sc">+</span>decomp<span class="sc">$</span>time.series[,<span class="dv">2</span>],</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">x=</span>co2<span class="sc">$</span>decimaldate,<span class="at">col=</span><span class="st">'blue'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Workshop3_TimeSeries_files/figure-html/unnamed-chunk-18-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
 </div>
-<p>The blue line is a good fit for the time series. Let’s look a little closer</p>
+</div>
+</div>
+<p>We see some imperfections, but overall this looks good! Decomposing seasonal time series like this can be very effective, however it can be difficult to find such ideally-suited time series with such regular behaviour outside of highly-structured situations.</p>
+</section>
+<section id="multiple-time-series" class="level2">
+<h2 class="anchored" data-anchor-id="multiple-time-series">Multiple time series</h2>
+<p>In lectures, we saw that there are different kinds of multiple time series, and that visualisation methods for comparing them depend on their nature:</p>
+<ul>
+<li><em>Related series for the same population</em> - if possible, show the different time series within the same plot to ease comparison. Be careful of units!</li>
+<li><em>Series for different subgroups</em> - showing subgroups together helps draw comparisons. Are we interested in the values or the proportions of the subgroups?</li>
+<li><em>Series with different scales</em> - may need standardising to a common scale to show together, otherwise separate plots will be needed.</li>
+</ul>
+<p>It is always a good idea to compare not only the full plots of these time series, <strong>but also their decomposition</strong>. In fact, there is a high chance of spurious correlations when it comes to comparisons between time series!</p>
+<p>Let’s see an example: in the <code>economics</code> data set, look at the two variables:</p>
+<ul>
+<li><code>pce</code> - personal consumption expenditures, in billions of dollars</li>
+<li><code>pop</code> - total population, in thousands</li>
+</ul>
+<p>Their corresponding time series, plotted together, look like this</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">y=</span>co2<span class="sc">$</span>co2,<span class="at">x=</span>co2<span class="sc">$</span>decimaldate,<span class="at">ty=</span><span class="st">'l'</span>, <span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">2010</span>,<span class="dv">2020</span>)) <span class="do">## use x-axis limits to zoom in</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">cex=</span><span class="fl">0.85</span>,<span class="at">cex.axis=</span><span class="fl">0.85</span>,<span class="at">cex.lab=</span><span class="fl">0.85</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x=</span>economics<span class="sc">$</span>date,<span class="at">y=</span>economics<span class="sc">$</span>pce, <span class="at">ty=</span><span class="st">'l'</span>,<span class="at">col=</span><span class="st">"red"</span>,<span class="at">lwd=</span><span class="dv">2</span>,<span class="at">xlab=</span><span class="st">''</span>,<span class="at">ylab=</span><span class="st">''</span>, <span class="at">ylim=</span><span class="fu">c</span>(<span class="fu">min</span>(economics<span class="sc">$</span>pce),<span class="fu">max</span>(economics<span class="sc">$</span>pop)))</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="at">x=</span>economics<span class="sc">$</span>date,<span class="at">y=</span>economics<span class="sc">$</span>pop, <span class="at">ty=</span><span class="st">'l'</span>,<span class="at">col=</span><span class="st">"green"</span>,<span class="at">lwd=</span><span class="dv">2</span>,<span class="at">xlab=</span><span class="st">''</span>,<span class="at">ylab=</span><span class="st">''</span>)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="at">x=</span><span class="st">'topleft'</span>,<span class="at">col=</span><span class="dv">2</span><span class="sc">:</span><span class="dv">5</span>,<span class="at">lwd=</span><span class="dv">2</span>,<span class="at">pch=</span><span class="cn">NA</span>,<span class="at">legend=</span><span class="fu">c</span>(<span class="st">'Consumption'</span>,<span class="st">'Population'</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -525,40 +517,20 @@ Click for solution
 </figure>
 </div>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">y=</span>co2<span class="sc">$</span>co2,<span class="at">x=</span>co2<span class="sc">$</span>decimaldate,<span class="at">ty=</span><span class="st">'l'</span>, <span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">2010</span>,<span class="dv">2020</span>), <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">380</span>,<span class="dv">420</span>))</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="at">y=</span>decomp<span class="sc">$</span>time.series[,<span class="dv">2</span>],<span class="at">x=</span>co2<span class="sc">$</span>decimaldate,<span class="at">col=</span><span class="st">'red'</span>)</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="at">y=</span>decomp<span class="sc">$</span>time.series[,<span class="dv">1</span>]<span class="sc">+</span>decomp<span class="sc">$</span>time.series[,<span class="dv">2</span>],</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">x=</span>co2<span class="sc">$</span>decimaldate,<span class="at">col=</span><span class="st">'blue'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Workshop3_TimeSeries_files/figure-html/unnamed-chunk-19-2.png" class="img-fluid figure-img" width="672"></p>
-</figure>
 </div>
-</div>
-</div>
-We start to see some imperfections, but overall it still looks good. De-trending seasonal time series like this can be very effective, however it can be difficult to find such ideally-suited time series with such regular behaviour outside of highly-structured situations.
-</details>
-</section>
-</section>
-<section id="exercise-3-airline-flights-from-nyc---optional" class="level2">
-<h2 class="anchored" data-anchor-id="exercise-3-airline-flights-from-nyc---optional">Exercise 3 (Airline Flights from NYC) - optional</h2>
-<p>The <code>nycflights13</code> library contains a huge amount of data for all flights departing New York City in 2013. We’ll just focus on a simple summary - the number of departures per day.</p>
-<p><i class="fa fa-database"></i> Download data: <a href="flights.Rda">flights</a></p>
-<section id="task-3a" class="level3 unnumbered">
-<h3 class="unnumbered anchored" data-anchor-id="task-3a"><strong>Task 3a</strong></h3>
-<ul>
-<li>Plot the line graph of the number of flights (<code>n</code>) over time (<code>date</code>).</li>
-<li>What features do you see?</li>
-<li>Try smoothing the data with <code>loess</code>, and add your smoothed trend to the plot. You may want to use the decimalised date (e.g.&nbsp;date format written as 2013.1, 2013.2, etc.) as <code>x</code> in your model here.</li>
-<li>Redraw the plot, but only show the first three weeks of data (either extract the first 4 weeks of observations, or adjust your axis limits to only show this period). What do you conclude about the behaviour of this time series? Is there a regular seasonal component?</li>
-</ul>
-<details>
-<summary>
-Click for solution
-</summary>
+<p>Of course, this plot is a bad visualisation for many reasons: the units are different, the scale is different, and one series flatten the other so badly that we can barely notice the increasing trend of <code>pce</code>. In order to meaningfully compare the two time series, let us standardise the two variables:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x=</span>flights<span class="sc">$</span>date, <span class="at">y=</span>flights<span class="sc">$</span>n, <span class="at">xlab=</span><span class="st">'Date'</span>, <span class="at">ylab=</span><span class="st">'Number of Flights'</span>, <span class="at">ty=</span><span class="st">'l'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>pop_z <span class="ot">&lt;-</span> <span class="fu">scale</span>(economics<span class="sc">$</span>pop)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>pce_z <span class="ot">&lt;-</span> <span class="fu">scale</span>(economics<span class="sc">$</span>pce)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>and re-plot the time series:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> economics<span class="sc">$</span>date</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>ylim <span class="ot">&lt;-</span> <span class="fu">range</span>(<span class="fu">c</span>(pop_z, pce_z), <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, pop_z, <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">ylim =</span> ylim, <span class="at">ylab =</span> <span class="st">"z-score"</span>, <span class="at">col=</span><span class="st">"green"</span>)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(x, pce_z, <span class="at">col =</span> <span class="st">"red"</span>)</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="at">x=</span><span class="st">'topleft'</span>,<span class="at">col=</span><span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>,<span class="at">lwd=</span><span class="dv">2</span>,<span class="at">pch=</span><span class="cn">NA</span>,<span class="at">legend=</span><span class="fu">c</span>(<span class="st">'Consumption'</span>,<span class="st">'Population'</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -567,29 +539,41 @@ Click for solution
 </div>
 </div>
 </div>
-<p>Now, let us fit our smoothing:</p>
+<p>We now see that both variables have a strong upward drift, but not quite in the same way. Now, if we compute the correlation of <code>pop</code> versus <code>pce</code>, we get</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>flights<span class="sc">$</span>decimal_date <span class="ot">&lt;-</span> flights<span class="sc">$</span>year <span class="sc">+</span> (<span class="dv">1</span><span class="sc">/</span><span class="dv">12</span>)<span class="sc">*</span>flights<span class="sc">$</span>month <span class="sc">+</span> (<span class="dv">1</span><span class="sc">/</span><span class="dv">365</span>)<span class="sc">*</span>flights<span class="sc">$</span>day</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>lfit <span class="ot">&lt;-</span> <span class="fu">loess</span>(n<span class="sc">~</span><span class="fu">as.numeric</span>(decimal_date), <span class="at">data=</span>flights) </span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>xs <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">min</span>(flights<span class="sc">$</span>decimal_date), <span class="fu">max</span>(<span class="fu">as.numeric</span>(flights<span class="sc">$</span>decimal_date)), <span class="at">length=</span><span class="dv">200</span>)</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>lpred <span class="ot">&lt;-</span> <span class="fu">predict</span>(lfit, <span class="fu">data.frame</span>(<span class="at">decimal_date=</span>xs), <span class="at">se =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(economics<span class="sc">$</span>pop, economics<span class="sc">$</span>pce)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.9872421</code></pre>
 </div>
-<p>and redraw the plot</p>
+</div>
+<p>so, population and consumption are almost perfectly correlated! However, it is important to understand why it is so: does the very high correlation result from the fact that one variable influences the other or only from the fact that both variables grow over time? In order to establish this, we need to compare the correlation of the different components of the time series.</p>
+<div style="background-color: #ffe5e5; border: 2px solid #b22222; padding: 15px; margin: 10px 0; border-radius: 10px;">
+<h2 style="color: #b22222; margin-top: 5px;" class="anchored">
+Challenge
+</h2>
+<ul>
+<li>Create two time series objects, one for the time series of <code>economics$pop</code> and one for the time series of <code>economics$pce</code>.</li>
+<li>Apply STL decomposition to both <code>economics$pop</code> and <code>economics$pce</code></li>
+<li>Compare the trends, seasonal components and residuals of the two time series. What do you notice?</li>
+<li>Compute the correlation of trends, seasonal components and residuals. Does this help you establish if the overall correlation is simply the result of a time effect?</li>
+</ul>
+</div>
+<details>
+<summary>
+Click for solution
+</summary>
+<p>Here is the code for the STL decomposition</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x=</span>flights<span class="sc">$</span>decimal_date, <span class="at">y=</span>flights<span class="sc">$</span>n, <span class="at">xlab=</span><span class="st">'Date'</span>, <span class="at">ylab=</span><span class="st">'Number of Flights'</span>, <span class="at">ty=</span><span class="st">'l'</span>)</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="at">x=</span>xs, <span class="at">y=</span>lpred<span class="sc">$</span>fit, <span class="at">col=</span><span class="st">'red'</span>,<span class="at">lwd=</span><span class="dv">4</span>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Workshop3_TimeSeries_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>pop_ts <span class="ot">&lt;-</span> <span class="fu">ts</span>(<span class="fu">as.numeric</span>(<span class="fu">scale</span>(economics<span class="sc">$</span>pop)), <span class="at">frequency =</span> <span class="dv">12</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>pce_ts <span class="ot">&lt;-</span> <span class="fu">ts</span>(<span class="fu">as.numeric</span>(<span class="fu">scale</span>(economics<span class="sc">$</span>pce)), <span class="at">frequency =</span> <span class="dv">12</span>)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>pop_decomp <span class="ot">&lt;-</span> <span class="fu">stl</span>(pop_ts, <span class="at">s.window =</span> <span class="st">"periodic"</span>)</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>pce_decomp <span class="ot">&lt;-</span> <span class="fu">stl</span>(pce_ts, <span class="at">s.window =</span> <span class="st">"periodic"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-</div>
-</div>
-<p>The smoothing shows a slight quadratic trend (i.e.&nbsp;it follows the path of a parabola), but not too far from being uniform. There is a clear periodic trend showing drastic fall in the number of flights at regular intervals. To see the period more clearly, we need to zoom in a shorter timeframe:</p>
+<p>Here is the plot of trends</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>flights<span class="sc">$</span>decimal_date <span class="ot">&lt;-</span> flights<span class="sc">$</span>year<span class="sc">+</span>flights<span class="sc">$</span>month<span class="sc">*</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">12</span>)<span class="sc">+</span>flights<span class="sc">$</span>day<span class="sc">*</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">365</span>)</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x=</span>flights<span class="sc">$</span>decimal_date, <span class="at">y=</span>flights<span class="sc">$</span>n, <span class="at">xlab=</span><span class="st">'Date'</span>, <span class="at">ylab=</span><span class="st">'Number of Flights'</span>, <span class="at">ty=</span><span class="st">'l'</span>, <span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">2013</span><span class="sc">+</span><span class="dv">1</span><span class="sc">/</span><span class="dv">12</span>, <span class="dv">2013</span><span class="sc">+</span><span class="dv">2</span><span class="sc">/</span><span class="dv">12</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">y=</span>pop_decomp<span class="sc">$</span>time.series[,<span class="dv">2</span>], <span class="at">x=</span>economics<span class="sc">$</span>date, <span class="at">ty=</span><span class="st">'l'</span>, <span class="at">col=</span><span class="st">"green"</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="at">y=</span>pce_decomp<span class="sc">$</span>time.series[,<span class="dv">2</span>], <span class="at">x=</span>economics<span class="sc">$</span>date, <span class="at">col=</span><span class="st">"red"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -598,49 +582,22 @@ Click for solution
 </div>
 </div>
 </div>
-It looks like the fall happens every week! Might it be because there are less flights on the weekend than on weekdays? In task 3b we check if this idea is correct.
-</details>
-</section>
-<section id="task-3b" class="level3 unnumbered">
-<h3 class="unnumbered anchored" data-anchor-id="task-3b"><strong>Task 3b</strong></h3>
-<ul>
-<li>Divide the data set into groups, according to the day of the week (hint: use the <code>weekdays()</code> function applied to the <code>date</code> variable).</li>
-<li>Draw a linegraph of time series of number of departures by date. Which day has the least traffic?</li>
-<li>Does this help to explain the seasonal pattern in the original data?</li>
-</ul>
-<details>
-<summary>
-Click for solution
-</summary>
+<p>Here is the plot of seasonal components. Since this is periodic, it makes sense to look at this over a limited period of time</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>flights<span class="sc">$</span>weekday <span class="ot">&lt;-</span> <span class="fu">weekdays</span>(flights<span class="sc">$</span>date)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">y=</span>pop_decomp<span class="sc">$</span>time.series[,<span class="dv">1</span>], <span class="at">x=</span>economics<span class="sc">$</span>date, <span class="at">ty=</span><span class="st">'l'</span>, <span class="at">col=</span><span class="st">"green"</span>, <span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1000</span>))</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="at">y=</span>pce_decomp<span class="sc">$</span>time.series[,<span class="dv">1</span>], <span class="at">x=</span>economics<span class="sc">$</span>date, <span class="at">col=</span><span class="st">"red"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Workshop3_TimeSeries_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
 </div>
-<p>Here is an example of solution using <code>ggplot</code> (for illustration only! You are not expected to know how to use <code>ggplot</code> but some of you might have seen this in other courses).</p>
-<p>We can either visualise the groups separately:</p>
+</div>
+</div>
+<p>There is a bit of lagged correlation, but an essentially different seasonal pattern.</p>
+<p>The plot of residuals is better done as a scatterplot:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>
-Attaching package: 'dplyr'</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>The following objects are masked from 'package:stats':
-
-    filter, lag</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>The following objects are masked from 'package:base':
-
-    intersect, setdiff, setequal, union</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(flights, <span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> n)) <span class="sc">+</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> weekday, <span class="at">scales =</span> <span class="st">"free_y"</span>) <span class="sc">+</span> </span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Daily Departures by Day of the Week"</span>,</span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Date"</span>,</span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Number of Departures"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">y=</span>pop_decomp<span class="sc">$</span>time.series[,<span class="dv">3</span>], <span class="at">x=</span>pce_decomp<span class="sc">$</span>time.series[,<span class="dv">3</span>], <span class="at">ty=</span><span class="st">'p'</span>, <span class="at">col=</span><span class="st">"blue"</span>, <span class="at">pch=</span><span class="dv">16</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -649,105 +606,26 @@ Attaching package: 'dplyr'</code></pre>
 </div>
 </div>
 </div>
-<p>or together in a single plot for comparison (Saturdays are clearly the less traveled days and so the corresponding time series is highlighted in red)</p>
+<p>This shows no association of residuals. In summary, almost all the correlation between the two time series is induced by time. We can only conclude that both variables have a constant increasing trend with time, and that’s why they are correlated. In other words, this is a spurious correlation.</p>
+<p>As a sanity check, let us compute the correlation coefficient of the components.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(flights, <span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> n, <span class="at">color =</span> <span class="fu">ifelse</span>(weekday <span class="sc">==</span> <span class="st">"Saturday"</span>, <span class="st">"Saturday"</span>, <span class="st">"Other"</span>))) <span class="sc">+</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Saturday"</span> <span class="ot">=</span> <span class="st">"red"</span>, <span class="st">"Other"</span> <span class="ot">=</span> <span class="st">"black"</span>)) <span class="sc">+</span></span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Daily Departures (2013)"</span>,</span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Date"</span>,</span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Number of Departures"</span>,</span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">"Day of the week"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Workshop3_TimeSeries_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(<span class="at">x=</span>pop_decomp<span class="sc">$</span>time.series[,<span class="dv">1</span>], <span class="at">y=</span>pce_decomp<span class="sc">$</span>time.series[,<span class="dv">1</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.5350119</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(<span class="at">x=</span>pop_decomp<span class="sc">$</span>time.series[,<span class="dv">2</span>], <span class="at">y=</span>pce_decomp<span class="sc">$</span>time.series[,<span class="dv">2</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.9873021</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(<span class="at">x=</span>pop_decomp<span class="sc">$</span>time.series[,<span class="dv">3</span>], <span class="at">y=</span>pce_decomp<span class="sc">$</span>time.series[,<span class="dv">3</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.1676072</code></pre>
 </div>
 </div>
-</div>
-The weekly pattern is explained by lower numbers of flights on Saturdays! There are still five unexplained sudden falls in flight numbers. What are those?
+The only meaningful correlation is the one between trends!
 </details>
-<p>This is one example of a well-structured and regular time series where we can apply the decomposition technique. We have regular variation according to the day of the week, and the pattern repeats every week. First, we setup the data as a time series object using that information:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>flts <span class="ot">&lt;-</span> <span class="fu">ts</span>(flights<span class="sc">$</span>n, <span class="at">frequency=</span><span class="dv">7</span>,<span class="at">start=</span><span class="dv">0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>We can then use the <code>stl</code> function to decompose the series into its components:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>decomp <span class="ot">&lt;-</span> <span class="fu">stl</span>(flts, <span class="at">s.window=</span><span class="st">'periodic'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</section>
-<section id="task-3c" class="level3 unnumbered">
-<h3 class="unnumbered anchored" data-anchor-id="task-3c"><strong>Task 3c</strong></h3>
-<ul>
-<li>Plot the <code>decomp</code> object to view the decomposition. What features do you see?</li>
-<li>Does the decomposed trend look like your smoothed trend? Which do you think explains the data best? Can you explain any differences?</li>
-<li>The trend function appears to exhibit a number of substantial drops in traffic. Let’s look closer:
-<ul>
-<li>Plot the decomposed trend from <code>decomp$time.series[,2]</code> against the <code>date</code> variable in the original data set.</li>
-<li>Can you identify the dates of any of these downward spikes in traffic? Hint: you can install the package <code>lubridate</code> and use the function <code>abline(v=ymd('2013-12-25'),col='red')</code> to draw a vertical line on Christmas Day.</li>
-</ul></li>
-</ul>
-<details>
-<summary>
-Click for solution
-</summary>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a> <span class="fu">plot</span>(decomp)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Workshop3_TimeSeries_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>The decomposition seems to be different from our smoothed trend above. This is due to the effect of variations that are not periodic, in this case the variation in flights number that do not occur on Saturdays. The decomposition is finer and allows us to pinpoint drops in traffic that are not periodic.</p>
-<p>Let’s have a closer look at these:</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">y =</span> decomp<span class="sc">$</span>time.series[,<span class="dv">2</span>], <span class="at">x =</span> flights<span class="sc">$</span>date, <span class="at">ty=</span><span class="st">'l'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Workshop3_TimeSeries_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>and let’s draw lines in correspondence of main festivities in US</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>
-Attaching package: 'lubridate'</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>The following objects are masked from 'package:base':
-
-    date, intersect, setdiff, union</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">y =</span> decomp<span class="sc">$</span>time.series[,<span class="dv">2</span>], <span class="at">x =</span> flights<span class="sc">$</span>date, <span class="at">ty=</span><span class="st">'l'</span>)</span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">ymd</span>(<span class="st">'2013-12-25'</span>),<span class="at">col=</span><span class="st">'red'</span>) <span class="co">#Christmas</span></span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">ymd</span>(<span class="st">'2013-10-31'</span>),<span class="at">col=</span><span class="st">'red'</span>) <span class="co">#Halloween</span></span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">ymd</span>(<span class="st">'2013-11-28'</span>),<span class="at">col=</span><span class="st">'red'</span>) <span class="co">#Thanksgiving</span></span>
-<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">ymd</span>(<span class="st">'2013-07-04'</span>),<span class="at">col=</span><span class="st">'red'</span>) <span class="co">#Independence Day</span></span>
-<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">ymd</span>(<span class="st">'2013-09-02'</span>),<span class="at">col=</span><span class="st">'red'</span>) <span class="co">#Labor Day</span></span>
-<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">ymd</span>(<span class="st">'2013-05-27'</span>),<span class="at">col=</span><span class="st">'red'</span>) <span class="co">#Memorial Day</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Workshop3_TimeSeries_files/figure-html/unnamed-chunk-32-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-These explain the reasons of drops in flights, as during festivities people are less inclined to travel.
-</details>
-<p>Time series of human activity are often very cyclical, with many predictable features. Whilst perhaps not hugely surprising, part of the job of an exploratory analysis is to check whether what might think should be obvious actually is obvious in the data!</p>
 
 
-</section>
 </section>
 </section>
 </section></main></div>

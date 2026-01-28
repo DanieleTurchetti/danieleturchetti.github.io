@@ -168,6 +168,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="./Workshop2_DepRelAss.html">
  <span class="dropdown-text">Workshop 2</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./Lecture3a_SmoothingKDE.html">
+ <span class="dropdown-text">Lecture 3a</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lecture3b_TimeSeries.html">
+ <span class="dropdown-text">Lecture 3b</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lab3_Smoothing.html">
+ <span class="dropdown-text">Practical 3</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Workshop3_TimeSeries.html">
+ <span class="dropdown-text">Workshop 3</span></a>
+  </li>  
     </ul>
   </li>
 </ul>
@@ -192,7 +208,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#lab-2---exploring-many-categorical-variables-with-r" id="toc-lab-2---exploring-many-categorical-variables-with-r" class="nav-link active" data-scroll-target="#lab-2---exploring-many-categorical-variables-with-r">Lab 2 - Exploring Many Categorical Variables with R</a></li>
+  <li><a href="#practical-2---exploring-many-categorical-variables-with-r" id="toc-practical-2---exploring-many-categorical-variables-with-r" class="nav-link active" data-scroll-target="#practical-2---exploring-many-categorical-variables-with-r">Practical 2 - Exploring Many Categorical Variables with R</a></li>
   </ul>
 </nav>
     </div>
@@ -202,10 +218,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<section id="lab-2---exploring-many-categorical-variables-with-r" class="level1">
-<h1>Lab 2 - Exploring Many Categorical Variables with R</h1>
+<section id="practical-2---exploring-many-categorical-variables-with-r" class="level1">
+<h1>Practical 2 - Exploring Many Categorical Variables with R</h1>
 <div style="background-color: #f0f8ff; border: 2px solid #4682b4; padding: 15px; margin: 10px 0; border-radius: 10px;">
-<h2 style="color: #4682b4; margin-top: 5px;" class="anchored" data-anchor-id="lab-2---exploring-many-categorical-variables-with-r">
+<h2 style="color: #4682b4; margin-top: 5px;" class="anchored" data-anchor-id="practical-2---exploring-many-categorical-variables-with-r">
 Introduction
 </h2>
 <p>
@@ -283,8 +299,8 @@ Plotting <code>doubledecker</code> and <code>mosaicplot</code> plots for more co
 </div>
 </div>
 </div>
-<section id="task-1b" class="level3 unnumbered">
-<h3 class="unnumbered anchored" data-anchor-id="task-1b"><strong>Task 1b</strong></h3>
+<section id="task-1a" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="task-1a"><strong>Task 1a</strong></h3>
 <ul>
 <li>Using the <code>mosaicplot</code> command, try to reproduce the mosaicplot above</li>
 <li>What are the new features that become apparent when you reverse the positions of the variables?</li>
@@ -329,8 +345,8 @@ Now we have three vertical bars for <code>Improved</code>, each sub-divided into
 </ul>
 <p>It is often worth reordering the variables in the mosaic plot formula to see if a different sequence of splits is a more effective visualisation for your problem. Generally, our dependent variable of interest is split last following the <code>~</code> in the function call.</p>
 </section>
-<section id="task-1b-1" class="level3 unnumbered">
-<h3 class="unnumbered anchored" data-anchor-id="task-1b-1"><strong>Task 1b</strong></h3>
+<section id="task-1b" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="task-1b"><strong>Task 1b</strong></h3>
 <ul>
 <li>Produce mosaicplots of combinations of one, two and three variables for the built-in R data set <code>HairEyeColor</code></li>
 <li>Experiment with the ordering of the variables in the call to the <code>mosaicplot</code> function to see how different orderings produce different presentations of the data.</li>
@@ -881,7 +897,7 @@ San Francisco is the worse airport and Phoenix the best in terms of flights bein
 <summary>
 Click for solution
 </summary>
-<p>Here is the mosaicplot</p>
+<p>Here is the mosaicplot:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mosaicplot</span>(<span class="sc">~</span>Airport<span class="sc">+</span>Result<span class="sc">+</span>Airline, <span class="at">data=</span>airlineArrival,<span class="at">col=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">7</span>),<span class="at">main=</span><span class="st">''</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
@@ -892,7 +908,8 @@ Click for solution
 </div>
 </div>
 </div>
-<p>Here is the doubledecker plot</p>
+<p>Without reformatting, it is hard to infer any possible associations from this. In fact, while some differences between airports exist, the contribution of the airline variable doesn’t show a clear pattern. THis is due to the relatively wide size of the empty spaces in a mosaicplot.</p>
+<p>In this sense, the doubledecker plot gives a more precise picture</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">doubledecker</span>(<span class="fu">xtabs</span>(<span class="sc">~</span>Airport<span class="sc">+</span>Airline<span class="sc">+</span>Result, <span class="at">data=</span>airlineArrival))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
@@ -903,8 +920,8 @@ Click for solution
 </div>
 </div>
 </div>
-<p>The doubledecker is better at showing that Alaska airlines is doing a good job getting flights from Phoenix to be ontime.</p>
-<p>The shaded mosaicplot confirms this finding, but gives much more information about unusual associations:</p>
+<p>There one can see that airlines show differences: Alaska airlines flights are slightly more on time compared to AmericaWest flights, from every airport in the data set.</p>
+<p>The shaded mosaicplot confirms this finding, and gives much more information about unusual associations:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mosaicplot</span>(<span class="sc">~</span>Airport<span class="sc">+</span>Result<span class="sc">+</span>Airline, <span class="at">data=</span>airlineArrival, <span class="at">col=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">7</span>), <span class="at">shade=</span><span class="cn">TRUE</span>, <span class="at">main=</span><span class="st">''</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">

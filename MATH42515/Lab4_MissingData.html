@@ -1,0 +1,1680 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>lab4_missingdata – DEVUL Course Notes</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-e3b7bb8e06e71ba88653cd3334f68afa.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">DEVUL Course Notes</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-notes" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Notes</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-notes">    
+        <li>
+    <a class="dropdown-item" href="./Lecture1a_IntroViz.html">
+ <span class="dropdown-text">Lecture 1a</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lecture1b_Variables.html">
+ <span class="dropdown-text">Lecture 1b</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lab1_ExplContVar.html">
+ <span class="dropdown-text">Practical 1</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Workshop1_CategoricalVariables.html">
+ <span class="dropdown-text">Workshop 1</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lecture2a_ManyCatVar.html">
+ <span class="dropdown-text">Lecture 2a</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lecture2b_ManyContVar.html">
+ <span class="dropdown-text">Lecture 2b</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lab2_ManyCatVariables.html">
+ <span class="dropdown-text">Practical 2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Workshop2_DepRelAss.html">
+ <span class="dropdown-text">Workshop 2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lecture3a_SmoothingKDE.html">
+ <span class="dropdown-text">Lecture 3a</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lecture3b_TimeSeries.html">
+ <span class="dropdown-text">Lecture 3b</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lab3_Smoothing.html">
+ <span class="dropdown-text">Practical 3</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Workshop3_TimeSeries.html">
+ <span class="dropdown-text">Workshop 3</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lecture4a_CompDataQual.html">
+ <span class="dropdown-text">Lecture 4a</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lecture4b_MissingData.html">
+ <span class="dropdown-text">Lecture 4b</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lab4_MissingData.html">
+ <span class="dropdown-text">Practical 4</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#practical-4---missing-data-analysis" id="toc-practical-4---missing-data-analysis" class="nav-link active" data-scroll-target="#practical-4---missing-data-analysis">Practical 4 - Missing Data Analysis</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+
+
+
+
+<section id="practical-4---missing-data-analysis" class="level1">
+<h1>Practical 4 - Missing Data Analysis</h1>
+<div style="background-color: #f0f8ff; border: 2px solid #4682b4; padding: 15px; margin: 10px 0; border-radius: 10px;">
+<h2 style="color: #4682b4; margin-top: 5px;" class="anchored" data-anchor-id="practical-4---missing-data-analysis">
+Introduction
+</h2>
+<p>
+This practical is designed to enhance your understanding of missing data mechanism and imputation techniques.
+</p>
+<p>
+By the end of the lab, you will have acquired the following skills:
+</p><ul style="font-size: 16px; color: #333;">
+<li>
+Perform missing data analysis with listwise deletion
+</li>
+<li>
+Distinguish between different types of single imputation and how to check their effectiveness
+</li>
+<li>
+Perform multiple imputation using the <code>mice</code> algorithm
+</li>
+<li>
+Assess effectiveness of multiple imputation on a different range of data sets
+</li>
+<p></p>
+</ul></div>
+<section id="missing-data" class="level2">
+<h2 class="anchored" data-anchor-id="missing-data">Missing data</h2>
+<p>Data sets with missing values are very common: missing data is a crucial issue in many disciplines such as social and medical sciences: questionnaire respondents do not answer every question; countries do not collect statistics every year; archives can be incomplete; subjects may drop out of longitudinal studies, and so on.</p>
+<p>There are many packages for dealing with missing data in <code>R</code>. These include <a href="https://cran.r-project.org/web/packages/Amelia/vignettes/amelia.pdf">Amelia</a>, <a href="https://stat.ethz.ch/education/semesters/ss2012/ams/paper/missForest_1.2.pdf">missForest</a>, <a href="https://cran.r-project.org/web/packages/Hmisc/index.html">Hmisc</a>, <a href="http://www.stat.columbia.edu/~gelman/research/published/mipaper.pdf">mi</a> and <a href="https://www.jstatsoft.org/article/view/v045i03">mice</a>. We will focus on the use of <code>mice</code>, as this is the one discussed in lectures.</p>
+<p><strong>You will need to install the following packages</strong>:</p>
+<ul>
+<li><code>mice</code> for missing data analysis</li>
+<li><code>VIM</code> for the <em>Visualisation and Imputation of Missing values</em></li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"mice"</span>,<span class="st">"VIM"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>We will work through an example of dealing with missing data using the <code>nhanes</code> (national health and nutrition examination survey) data. The data contains 25 observations on 4 variables. We will explore the data and use both single and multiple imputation techniques.</p>
+</section>
+<section id="data-exploration" class="level2">
+<h2 class="anchored" data-anchor-id="data-exploration">Data Exploration:</h2>
+<p>We first load the required packages and load the data set.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mice)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(VIM)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(nhanes)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(nhanes)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  age  bmi hyp chl
+1   1   NA  NA  NA
+2   2 22.7   1 187
+3   1   NA   1 187
+4   3   NA  NA  NA
+5   1 20.4   1 113
+6   3   NA  NA 184</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(nhanes)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   25 obs. of  4 variables:
+ $ age: num  1 2 1 3 1 3 1 1 2 2 ...
+ $ bmi: num  NA 22.7 NA NA 20.4 NA 22.5 30.1 22 NA ...
+ $ hyp: num  NA 1 1 NA 1 NA 1 1 1 NA ...
+ $ chl: num  NA 187 187 NA 113 184 118 187 238 NA ...</code></pre>
+</div>
+</div>
+<p>We can explore the missing data pattern using <code>md.pattern</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">md.pattern</span>(nhanes)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab4_MissingData_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   age hyp bmi chl   
+13   1   1   1   1  0
+3    1   1   1   0  1
+1    1   1   0   1  1
+1    1   0   0   1  2
+7    1   0   0   0  3
+     0   8   9  10 27</code></pre>
+</div>
+</div>
+<p>1’s and 0’s under each variable represent their presence and missing state respectively. There are 13 (out of 25) rows that are complete. There is one row for which only bmi is missing, and there are seven rows for which only age is known.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">md.pairs</span>(nhanes)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$rr
+    age bmi hyp chl
+age  25  16  17  15
+bmi  16  16  16  13
+hyp  17  16  17  14
+chl  15  13  14  15
+
+$rm
+    age bmi hyp chl
+age   0   9   8  10
+bmi   0   0   0   3
+hyp   0   1   0   3
+chl   0   2   1   0
+
+$mr
+    age bmi hyp chl
+age   0   0   0   0
+bmi   9   0   1   2
+hyp   8   0   0   1
+chl  10   3   3   0
+
+$mm
+    age bmi hyp chl
+age   0   0   0   0
+bmi   0   9   8   7
+hyp   0   8   8   7
+chl   0   7   7  10</code></pre>
+</div>
+</div>
+<p>The matrices above represent the number of observations per patterns for all pairs of variables: * The <code>rr</code> matrix represents the number of observations where both pairs of values are observed (recorded) * The <code>mm</code> matrix the observations where both variables are missing * The <code>rm</code> matrix the observations where row variables are observed, columns missing * The <code>mr</code> matrix is the transpose of the <code>rm</code> matrix</p>
+<p>The proportion of missing values can be visualized using <code>VIM</code></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">aggr</span>(nhanes, <span class="at">col=</span><span class="fu">mdc</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>), <span class="at">numbers=</span><span class="cn">TRUE</span>, <span class="at">sortVars=</span><span class="cn">TRUE</span>, <span class="at">labels=</span><span class="fu">names</span>(nhanes),</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a> <span class="at">cex.axis=</span>.<span class="dv">7</span>, <span class="at">gap=</span><span class="dv">3</span>, <span class="at">ylab=</span><span class="fu">c</span>(<span class="st">"Proportion of missingness"</span>,<span class="st">"Missingness Pattern"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab4_MissingData_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ Variables sorted by number of missings: 
+ Variable Count
+      chl  0.40
+      bmi  0.36
+      hyp  0.32
+      age  0.00</code></pre>
+</div>
+</div>
+<p>The plot showed that almost 52% of the samples are not missing any information. We have made a convenient color choice using col=mdc(1:2), a transparent blue color for the observed data, and a transparent red color for the imputed data. You can change this as you want, for example <code>col=mdc(3:4)</code>.</p>
+<p>We can also make a <em>margin plot</em>. It plots two variables at the same time and the plot can be used to explore the distribution of missing data and the observed data. Let us look at <code>bmi</code> and <code>chl</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">marginplot</span>(nhanes[, <span class="fu">c</span>(<span class="st">"chl"</span>, <span class="st">"bmi"</span>)], <span class="at">col =</span> <span class="fu">mdc</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>), </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">cex.numbers =</span> <span class="fl">1.2</span>, <span class="at">pch =</span> <span class="dv">19</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab4_MissingData_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>There are 13 blue points for which both <code>bmi</code> and <code>chl</code> were observed. The three red dots in the left margin correspond to the records for which <code>bmi</code> is observed and <code>chl</code> is missing. The bottom margin contains two red points with observed <code>chl</code> and missing <code>bmi</code>. The red dot at the intersection of the bottom and left margin indicates that there are records for which both bmi and chl are missing. There are 7 records in which both are missing. 10 (bottom margin): Indicates the number of missing bmi values (when chl is observed).</p>
+<p>The nice thing about a margin plot, is that for each variable it includes a boxplot of the two variables observed</p>
+<p>There are other graphs implemented in VIM package for visualizing missing data. Please see <a href="https://cran.rstudio.com/web/packages/VIM/vignettes/VisualImp.html">Supportive Graphic Methods</a> at your leisure for more details.</p>
+<p><br>
+</p>
+<section id="listwise-deletion-complete-case-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="listwise-deletion-complete-case-analysis"><em>Listwise deletion</em> (Complete case analysis)</h3>
+<p>Suppose we want to fit the following linear regression model to the data, <strong>lm(bmi~ age+chl+hyp)</strong>. The <code>lm()</code> function will automatically remove the missing values before fitting the model.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>fit.c <span class="ot">&lt;-</span> <span class="fu">lm</span>(bmi<span class="sc">~</span> age<span class="sc">+</span>chl<span class="sc">+</span>hyp, <span class="at">data=</span>nhanes) </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit.c)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = bmi ~ age + chl + hyp, data = nhanes)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-5.9482 -1.1453  0.1893  2.1127  3.6352 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)   
+(Intercept) 18.26967    3.82835   4.772  0.00101 **
+age         -5.78652    1.56876  -3.689  0.00501 **
+chl          0.08045    0.02337   3.443  0.00736 **
+hyp          2.10468    2.38189   0.884  0.39989   
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 3.099 on 9 degrees of freedom
+  (12 observations deleted due to missingness)
+Multiple R-squared:  0.6588,    Adjusted R-squared:  0.545 
+F-statistic: 5.792 on 3 and 9 DF,  p-value: 0.01738</code></pre>
+</div>
+</div>
+<p>Note that in the output it says “12 observations deleted due to missingness”. This is, of course, acceptable only if the missing data is MCAR and if it is a small proportion of the whole dataset. But this is not the case here (12/25 is a big proportion), so we want to look for better alternatives.</p>
+</section>
+</section>
+<section id="exercise-1-single-imputation" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-1-single-imputation">Exercise 1 (Single imputation)</h2>
+<p>The <code>mice</code> package provides a plethora of methods for single and multiple imputation</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">methods</span>(mice)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] mice.impute.2l.bin              mice.impute.2l.lmer            
+ [3] mice.impute.2l.norm             mice.impute.2l.pan             
+ [5] mice.impute.2lonly.mean         mice.impute.2lonly.norm        
+ [7] mice.impute.2lonly.pmm          mice.impute.cart               
+ [9] mice.impute.jomoImpute          mice.impute.lasso.logreg       
+[11] mice.impute.lasso.norm          mice.impute.lasso.select.logreg
+[13] mice.impute.lasso.select.norm   mice.impute.lda                
+[15] mice.impute.logreg              mice.impute.logreg.boot        
+[17] mice.impute.mean                mice.impute.midastouch         
+[19] mice.impute.mnar.logreg         mice.impute.mnar.norm          
+[21] mice.impute.mpmm                mice.impute.norm               
+[23] mice.impute.norm.boot           mice.impute.norm.nob           
+[25] mice.impute.norm.predict        mice.impute.panImpute          
+[27] mice.impute.passive             mice.impute.pmm                
+[29] mice.impute.polr                mice.impute.polyreg            
+[31] mice.impute.quadratic           mice.impute.rf                 
+[33] mice.impute.ri                  mice.impute.sample             
+[35] mice.mids                       mice.theme                     
+see '?methods' for accessing help and source code</code></pre>
+</div>
+</div>
+<p>Let’s explore some of these. When using <code>mice</code>, both single and multiple imputation follows the pattern:</p>
+<p><span class="math display">\[\begin{equation*}
+mice() ----&gt; with() ----&gt; pool()
+\end{equation*}\]</span></p>
+<ul>
+<li><p>mice() imputes each missing value with a plausible value (simulates a value to fill-in the missing one) until all missing values are imputed and dataset is completed. When specified, the process is repeated multiple times and all the complete(d)/imputed datasets are stored in the output.</p></li>
+<li><p>with() analyses each of the completed data sets separately based on the analysis model you want.</p></li>
+<li><p>pool() combines (pools) all the results together based on Rubin’s Rules (see lecture notes on missing data).</p></li>
+</ul>
+<section id="mean-imputation" class="level3">
+<h3 class="anchored" data-anchor-id="mean-imputation">Mean imputation</h3>
+<p>Recall that mean imputation consists in replacing missing values on a certain variable by the mean of the available cases.</p>
+<div style="background-color: #fff1d6; border: 2px solid #ff4500; padding: 15px; margin: 10px 0; border-radius: 10px;">
+<h3 style="color: #ff4500; margin-top: 5px;" class="anchored">
+Task 1a
+</h3>
+<ul style="font-size: 16px; color: #333;">
+<li>
+Run the <code>mice()</code> function on the <code>nhanes</code> dataset, specifying the option <code>method = "mean"</code> and <code>m=1</code>
+</li>
+<li>
+Run the <code>with()</code> command to fit the linear regression <code>bmi~ age+chl+hyp</code> using the imputed dataset.
+</li>
+<li>
+Pool together the parameter estimates using <code>pool()</code> and print out a summary of the output.
+</li>
+<li>
+Does it make sense to pool the results together in this case? Why/why not?
+</li>
+</ul>
+<p>If you don’t know where to start with this task, look at how the <code>mice()</code> —-&gt; <code>with()</code> —-&gt; <code>pool()</code> sequence is performed in the lecture notes and try to mimic that.</p>
+</div>
+<details>
+<summary>
+Click for solution
+</summary>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>imp_mean <span class="ot">&lt;-</span> <span class="fu">mice</span>(nhanes, <span class="at">method =</span> <span class="st">"mean"</span>,<span class="at">m =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ iter imp variable
+  1   1  bmi  hyp  chl
+  2   1  bmi  hyp  chl
+  3   1  bmi  hyp  chl
+  4   1  bmi  hyp  chl
+  5   1  bmi  hyp  chl</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>model_mean <span class="ot">&lt;-</span> <span class="fu">with</span>(imp_mean,<span class="fu">lm</span>(bmi<span class="sc">~</span> age<span class="sc">+</span>chl<span class="sc">+</span>hyp))</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">pool</span>(model_mean))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in pool(model_mean): Number of multiple imputations m = 1. No pooling
+done.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = bmi ~ age + chl + hyp)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-6.3120 -1.5890  0.5018  1.7622  5.9258 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) 19.63677    3.42047   5.741 1.07e-05 ***
+age         -2.09083    0.80161  -2.608   0.0164 *  
+chl          0.05143    0.01894   2.715   0.0130 *  
+hyp          0.61726    1.86730   0.331   0.7442    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 2.87 on 21 degrees of freedom
+Multiple R-squared:  0.3509,    Adjusted R-squared:  0.2582 
+F-statistic: 3.785 on 3 and 21 DF,  p-value: 0.02578</code></pre>
+</div>
+</div>
+<p>Notice the warning; <code>Warning: Number of multiple imputations m = 1. No pooling done.</code> This is because we are running a single imputation, but pooling makes sense only for multiple imputations. In fact, doing</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_mean)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 7
+  term        estimate std.error statistic   p.value  nobs df.residual
+  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt; &lt;int&gt;       &lt;dbl&gt;
+1 (Intercept)  19.6       3.42       5.74  0.0000107    25          21
+2 age          -2.09      0.802     -2.61  0.0164       25          21
+3 chl           0.0514    0.0189     2.71  0.0130       25          21
+4 hyp           0.617     1.87       0.331 0.744        25          21</code></pre>
+</div>
+</div>
+returns the same values, with no need for pooling.
+</details>
+<p>The completed dataset can be obtained using <code>complete()</code></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>data_mean <span class="ot">&lt;-</span> <span class="fu">complete</span>(imp_mean)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>We can check that fitting a linear regression using the completed dataset agrees with the linear model above</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>res_mean <span class="ot">&lt;-</span> <span class="fu">lm</span>(bmi<span class="sc">~</span> age<span class="sc">+</span>chl<span class="sc">+</span>hyp, <span class="at">data =</span> data_mean)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(res_mean)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = bmi ~ age + chl + hyp, data = data_mean)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-6.3120 -1.5890  0.5018  1.7622  5.9258 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) 19.63677    3.42047   5.741 1.07e-05 ***
+age         -2.09083    0.80161  -2.608   0.0164 *  
+chl          0.05143    0.01894   2.715   0.0130 *  
+hyp          0.61726    1.86730   0.331   0.7442    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 2.87 on 21 degrees of freedom
+Multiple R-squared:  0.3509,    Adjusted R-squared:  0.2582 
+F-statistic: 3.785 on 3 and 21 DF,  p-value: 0.02578</code></pre>
+</div>
+</div>
+<p>One can access the method used for imputation as follows:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>imp_mean<span class="sc">$</span>method</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   age    bmi    hyp    chl 
+    "" "mean" "mean" "mean" </code></pre>
+</div>
+</div>
+<p>Quite reassuring, as we have used mean imputation.</p>
+<p>We can visualize the density of the mean imputed data set</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">densityplot</span>(imp_mean)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab4_MissingData_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This compares the observed and imputed densities. It seems that the densities are quite different. Perhaps mean imputation is not ideal for the data.</p>
+</section>
+<section id="regression-imputation" class="level3">
+<h3 class="anchored" data-anchor-id="regression-imputation">Regression imputation</h3>
+<p>Regression imputation uses a regression model to estimate the missing values. It can do better than mean imputation because it incorporates knowledge of other variables with the idea of producing more accurate imputations.</p>
+<div style="background-color: #fff1d6; border: 2px solid #ff4500; padding: 15px; margin: 10px 0; border-radius: 10px;">
+<h3 style="color: #ff4500; margin-top: 5px;" class="anchored">
+Task 1b
+</h3>
+<ul style="font-size: 16px; color: #333;">
+<li>
+Perform single imputation using <code>mice()</code> with an option <code>method = "norm.predict</code>
+</li>
+<li>
+Use this imputed dataset to fit a regression of the variable <code>bmi</code> using covariates <code>age+chl+hyp</code> as above. How do the coefficient compare with respect to mean imputation?
+</li>
+<li>
+Draw a <code>densityplot</code> of the imputed dataset. Has this method changed the distribution by much?
+</li>
+</ul>
+</div>
+<details>
+<summary>
+Click for solution
+</summary>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>imp_reg <span class="ot">&lt;-</span> <span class="fu">mice</span>(nhanes, <span class="at">method =</span> <span class="st">"norm.predict"</span>, <span class="at">m =</span> <span class="dv">1</span>, <span class="at">maxit =</span> <span class="dv">1</span>,</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">seed =</span> <span class="dv">123</span>, <span class="at">print =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>model_reg <span class="ot">&lt;-</span> <span class="fu">with</span>(imp_reg,<span class="fu">lm</span>(bmi<span class="sc">~</span> age<span class="sc">+</span>chl<span class="sc">+</span>hyp))</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_reg)  </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 7
+  term        estimate std.error statistic      p.value  nobs df.residual
+  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;        &lt;dbl&gt; &lt;int&gt;       &lt;dbl&gt;
+1 (Intercept)  16.6       2.26        7.36 0.000000307     25          21
+2 age          -6.07      0.678      -8.95 0.0000000130    25          21
+3 chl           0.0924    0.0134      6.89 0.000000826     25          21
+4 hyp           1.95      1.47        1.33 0.199           25          21</code></pre>
+</div>
+</div>
+<p>If you used the <code>pool()</code> function, you receive the same warning as above: there is no pooling done as we have only imputed one data set (<span class="math inline">\(m=1\)</span>). However, the output is correct and the same as the one so this is not a problem (but again, the cleanest code would be to just input <code>summary(model_reg)</code>).</p>
+<p>We can extract the data completed by the imputation method using <code>complete function</code>. Regression model can then be fitted to this data. You can see that the result is the same as above.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>reg_dat <span class="ot">&lt;-</span> <span class="fu">complete</span>(imp_reg )<span class="co"># extract the completed data set</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">lm</span>(bmi<span class="sc">~</span> age<span class="sc">+</span>chl<span class="sc">+</span>hyp, <span class="at">data =</span> reg_dat))<span class="co"># model fitting and summary</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = bmi ~ age + chl + hyp, data = reg_dat)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-6.4307 -0.9303  0.2356  1.2856  3.7733 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) 16.63816    2.26161   7.357 3.07e-07 ***
+age         -6.07200    0.67837  -8.951 1.30e-08 ***
+chl          0.09239    0.01341   6.891 8.26e-07 ***
+hyp          1.94892    1.47043   1.325    0.199    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 2.203 on 21 degrees of freedom
+Multiple R-squared:  0.8192,    Adjusted R-squared:  0.7934 
+F-statistic: 31.71 on 3 and 21 DF,  p-value: 5.494e-08</code></pre>
+</div>
+</div>
+<p>The fit of the imputation method can be compared using <code>densityplot</code> function as we did with the mean imputation.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">densityplot</span>(imp_reg)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab4_MissingData_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+If there is agreement, the two densities will almost superimpose. This is not the case here and as such both mean and regression imputation are not particularly suitable for this data.
+</details>
+</section>
+<section id="predictive-mean-matching" class="level3">
+<h3 class="anchored" data-anchor-id="predictive-mean-matching">Predictive mean matching</h3>
+<p><em>Predictive mean matching (PMM)</em> can be used as a single imputation method. It works by replacing missing values with observed values from “similar” cases, where similarity is defined through a predictive model. For a variable with missing data, a regression model is first fitted using the observed cases, and predicted values are computed for both observed and missing observations. For each missing value, a small set of observed cases with predicted values closest to the missing case is identified, and one of their observed values is selected (often at random) and used as the imputation. Because PMM imputes only values that were actually observed, it preserves the variable’s original scale and distribution and avoids implausible extrapolation, while still exploiting relationships with covariates.</p>
+<div style="background-color: #fff1d6; border: 2px solid #ff4500; padding: 15px; margin: 10px 0; border-radius: 10px;">
+<h3 style="color: #ff4500; margin-top: 5px;" class="anchored">
+Task 1c
+</h3>
+<ul style="font-size: 16px; color: #333;">
+<li>
+Perform single imputation using <code>mice()</code> with the option <code>method="pmm"</code>
+</li>
+<li>
+Compare the density plots of <code>bmi</code> for mean, regression, and PMM imputation. Ensure that the three plots are placed side by side
+</li>
+<li>
+Fit a regression model to each imputed dataset and compare the coefficients. Which method produces the most plausible results?
+</li>
+</ul>
+<p><em>Hint</em>: In order to draw the plots side by side you can use <code>par()</code> or check the package <code>gridextra</code></p>
+</div>
+<details>
+<summary>
+Click for solution
+</summary>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>imp_pmm <span class="ot">&lt;-</span> <span class="fu">mice</span>(nhanes, <span class="at">method =</span> <span class="st">"pmm"</span>, <span class="at">m =</span> <span class="dv">1</span>, <span class="at">maxit =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ iter imp variable
+  1   1  bmi  hyp  chl</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gridExtra)</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">densityplot</span>(imp_pmm)[<span class="dv">1</span>]</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">densityplot</span>(imp_reg)[<span class="dv">1</span>]</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> <span class="fu">densityplot</span>(imp_mean)[<span class="dv">1</span>]</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(p1, p2, p3, <span class="at">ncol =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab4_MissingData_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>If we want to label the plot, we can do the following</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">update</span>(<span class="fu">densityplot</span>(imp_pmm)[<span class="dv">1</span>], <span class="at">main =</span> <span class="st">"imp_pmm"</span>)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">update</span>(<span class="fu">densityplot</span>(imp_reg)[<span class="dv">1</span>], <span class="at">main =</span> <span class="st">"imp_reg"</span>)</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> <span class="fu">update</span>(<span class="fu">densityplot</span>(imp_mean)[<span class="dv">1</span>], <span class="at">main =</span> <span class="st">"imp_mean"</span>)</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(p1, p2, p3, <span class="at">ncol =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab4_MissingData_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</details>
+</section>
+</section>
+<section id="exercise-2-multiple-imputation" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-2-multiple-imputation">Exercise 2 (Multiple imputation)</h2>
+<p>We can now step up to multiple imputation. This is done by setting the value of <code>m</code> to the desired number of parallel imputations that we want to make. For example, to create 10 imputed data sets (<code>m=10</code>) via the <code>mice</code> package we can proceed as follows</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>mice_nhanes <span class="ot">&lt;-</span> <span class="fu">mice</span>(nhanes, <span class="at">m=</span><span class="dv">10</span>, <span class="at">seed=</span><span class="dv">123</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mice_nhanes)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Class: mids
+Number of multiple imputations:  10 
+Imputation methods:
+  age   bmi   hyp   chl 
+   "" "pmm" "pmm" "pmm" 
+PredictorMatrix:
+    age bmi hyp chl
+age   0   1   1   1
+bmi   1   0   1   1
+hyp   1   1   0   1
+chl   1   1   1   0</code></pre>
+</div>
+</div>
+<p><br>
+We have 10 imputed data sets (<span class="math inline">\(m=10\)</span>). The default number of iteration (5) is used, and the three variables (age, chl and hypertension) were imputed using <em>predictive mean matching</em>.</p>
+<p>The so-called <em>predictor matrix</em> has 0/1 entries. This is a way to specify the set of predictors to be used for each target column. For example, all the variables in the <code>nhanes</code> data set are used to impute <code>chl</code> variable (except <code>chl</code> itself, of course).</p>
+<p>We can override the default <code>pmm</code> imputation method by setting a vector of methods:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>mice_nhanes2 <span class="ot">&lt;-</span> <span class="fu">mice</span>(nhanes, <span class="at">m=</span><span class="dv">10</span>, <span class="at">seed=</span><span class="dv">123</span>, <span class="at">method =</span><span class="fu">c</span>(<span class="st">""</span>,<span class="st">"norm.nob"</span>,<span class="st">"norm"</span>, <span class="st">"pmm"</span>) )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>mice_nhanes2<span class="sc">$</span>method</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       age        bmi        hyp        chl 
+        "" "norm.nob"     "norm"      "pmm" </code></pre>
+</div>
+</div>
+<p><br>
+This implies that we have imputed <code>chl</code> based on <code>Bayesian linear regression (norm)</code> and <code>bmi</code> using Linear regression ignoring model error (<code>norm.nob</code>). Obviously, age is not imputed.</p>
+<p>What if we want to impute <code>bmi</code> without using the <code>age</code> variable? To do this, we can either delete <code>age</code> from the data set or modify the predictor matrix. We can extract the predictor matrix as follows:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>pred <span class="ot">&lt;-</span> mice_nhanes<span class="sc">$</span>predictorMatrix</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>pred</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>To impute bmi without the <em>age</em> variable, we can modify the predictor matrix to exclude <code>age</code> as a predictor for <code>bmi</code></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>pred[<span class="st">"bmi"</span>, <span class="st">"age"</span>] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(pred) <span class="co">#Checks the updated predictor matrix</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    age bmi hyp chl
+age   0   1   1   1
+bmi   0   0   1   1
+hyp   1   1   0   1
+chl   1   1   1   0</code></pre>
+</div>
+</div>
+<p>Now that <code>age</code> is excluded from the covariates, we can use the modified predictor matrix for the imputation process as follows:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>mice_nhanes4 <span class="ot">&lt;-</span> <span class="fu">mice</span>(nhanes, <span class="at">m =</span> <span class="dv">10</span>, <span class="at">seed =</span> <span class="dv">123</span>, <span class="at">predictorMatrix =</span> pred)</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mice_nhanes4)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><br>
+We can inspect the distribution of original and imputed data using <code>xyplot</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">xyplot</span>(mice_nhanes, bmi <span class="sc">~</span> chl <span class="sc">|</span> .imp, <span class="at">pch =</span> <span class="dv">20</span>, <span class="at">cex =</span> <span class="fl">1.4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab4_MissingData_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>What we would like to see is that the position of the red points (imputed) does not distort the features of the scatterplot with only the blue points (observed). The matching shape tells us that the imputed values are indeed <em>plausible values</em>. The density plot used for single imputation can also be used here:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">densityplot</span>(mice_nhanes)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lab4_MissingData_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br>
+</p>
+<p>The next step in the analysis is to use the <code>with()</code> function. This will now fit 10 separate linear regression models to each of the imputed data sets:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>model_final <span class="ot">&lt;-</span> <span class="fu">with</span>(mice_nhanes,<span class="fu">lm</span>(bmi<span class="sc">~</span> age<span class="sc">+</span>chl<span class="sc">+</span>hyp))</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>model_final</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>We cannot make sense of the 10 separate analyses (results) except we combine them in some way. That is where the <code>Rubin's Rules</code> seen in lectures enter into play. The parameter estimates are averaged over the 10 results. The standard errors are combined by averaging <em>within-imputation variance</em> and <em>between-imputation variance</em> (see lectures). This responds to the need to take into account two sources of variability: the variability within each imputed data sets and variability between the 10 imputed data sets.<br>
+<br>
+</p>
+<div style="background-color: #fff1d6; border: 2px solid #ff4500; padding: 15px; margin: 10px 0; border-radius: 10px;">
+<h3 style="color: #ff4500; margin-top: 5px;" class="anchored">
+Task 2a
+</h3>
+<ul style="font-size: 16px; color: #333;">
+<li>
+Calculate the average of the estimated parameters (<code>(Intercept), age, chl, hyp</code>) over the 10 analyses.
+</li>
+<li>
+Compare the estimates with the output of <code>summary(pool(model_final))</code>. What can you see?
+</li>
+</ul>
+</div>
+<details>
+<summary>
+Click for solution
+</summary>
+<p>To manually extract the coefficients from a given model, we have to look inside the <code>model_final</code> output</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>model_final<span class="sc">$</span>analyses[[<span class="dv">1</span>]]<span class="sc">$</span>coefficients</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(Intercept)         age         chl         hyp 
+21.84881821 -2.57565537  0.04382633  0.26258315 </code></pre>
+</div>
+</div>
+<p>Alternatively, one can use the output of the <code>summary</code> to build a data set that has all the estimates in a unique variable called <code>estimate</code></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>coeff <span class="ot">&lt;-</span> <span class="fu">summary</span>(model_final)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Then, we compute the average for the observations belonging to the estimates of the same coefficients</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(coeff<span class="sc">$</span>estimate[coeff<span class="sc">$</span>term <span class="sc">==</span> <span class="st">"(Intercept)"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 20.25634</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(coeff<span class="sc">$</span>estimate[coeff<span class="sc">$</span>term <span class="sc">==</span> <span class="st">"age"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -3.702813</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(coeff<span class="sc">$</span>estimate[coeff<span class="sc">$</span>term <span class="sc">==</span> <span class="st">"chl"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.05643052</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(coeff<span class="sc">$</span>estimate[coeff<span class="sc">$</span>term <span class="sc">==</span> <span class="st">"hyp"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.574474</code></pre>
+</div>
+</div>
+<p>Even quicker, we can do all at the same time using <code>aggregate</code></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">aggregate</span>(estimate <span class="sc">~</span> term, <span class="at">data =</span> coeff, mean)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         term    estimate
+1 (Intercept) 20.25633745
+2         age -3.70281280
+3         chl  0.05643052
+4         hyp  1.57447405</code></pre>
+</div>
+</div>
+<p>Even if we are able to compute the average for the terms, the computation of the standard errors is not straightforward. Instead, we shall use the <code>pool</code> function in <code>mice</code> to summarize the 10 results:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">pool</span>(model_final))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         term    estimate  std.error  statistic        df      p.value
+1 (Intercept) 20.25633745 3.57914955  5.6595393 14.453645 5.220259e-05
+2         age -3.70281280 1.27110597 -2.9130638  9.428827 1.642428e-02
+3         chl  0.05643052 0.01901666  2.9674261 14.851278 9.670916e-03
+4         hyp  1.57447405 2.07581749  0.7584839 10.772710 4.644325e-01</code></pre>
+</div>
+</div>
+<br>
+Note that the estimates coincide with those manually calculated above!
+</details>
+<section id="the-random-forest-method" class="level3">
+<h3 class="anchored" data-anchor-id="the-random-forest-method">The random forest method</h3>
+<p>We have seen that the random forest imputation method is implemented in <code>mice</code>. Imputation using random forests fills in missing values by training a random forest model on the observed data for each variable with missing values. Then using the model’s predictions to replace the missing entries. Because random forests can capture nonlinear relationships and interactions among variables without requiring parametric assumptions, this approach often produces more realistic imputations than mean or regression-based methods.</p>
+<p>We see here an example of simple imputation using random forests. However, keep in mind that if random forests are to be used for inference, then simple imputation with random forests leads to overconfidence (too small variance), so it is better to use multiple imputation in that case.</p>
+<div style="background-color: #fff1d6; border: 2px solid #ff4500; padding: 15px; margin: 10px 0; border-radius: 10px;">
+<h3 style="color: #ff4500; margin-top: 5px;" class="anchored">
+Task 2b
+</h3>
+<ul style="font-size: 16px; color: #333;">
+<li>
+Impute the <code>nhanes</code> dataset using random forests. Use only one model and three trees.
+</li>
+<li>
+Create a density plot and assess the imputation.
+</li>
+<li>
+Next, increase the number of trees to 100 and generate another density plot. Does the number of trees affect the density plots?
+</li>
+</ul>
+</div>
+<details>
+<summary>
+Click for solution
+</summary>
+<p>The random forest method is calle using <code>method = "rf"</code> and the number of trees is specified as <code>ntree = 3</code></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>imp_rf_3 <span class="ot">&lt;-</span> <span class="fu">mice</span>(nhanes, <span class="at">m=</span><span class="dv">1</span>, <span class="at">seed=</span><span class="dv">123</span>, <span class="at">method =</span> <span class="st">"rf"</span>, <span class="at">ntree =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ iter imp variable
+  1   1  bmi  hyp  chl
+  2   1  bmi  hyp  chl
+  3   1  bmi  hyp  chl
+  4   1  bmi  hyp  chl
+  5   1  bmi  hyp  chl</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">densityplot</span>(imp_rf_3)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab4_MissingData_files/figure-html/unnamed-chunk-37-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>By changing the number of trees to 100 we compute</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>imp_rf_100 <span class="ot">&lt;-</span> <span class="fu">mice</span>(nhanes, <span class="at">m=</span><span class="dv">1</span>, <span class="at">seed=</span><span class="dv">123</span>, <span class="at">method =</span> <span class="st">"rf"</span>, <span class="at">ntree =</span> <span class="dv">100</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ iter imp variable
+  1   1  bmi  hyp  chl
+  2   1  bmi  hyp  chl
+  3   1  bmi  hyp  chl
+  4   1  bmi  hyp  chl
+  5   1  bmi  hyp  chl</code></pre>
+</div>
+</div>
+<p>and we can redraw the density plots</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">densityplot</span>(imp_rf_100)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab4_MissingData_files/figure-html/unnamed-chunk-39-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+Increasing the number of trees doesn’t seem to improve the accuracy of distributional features. This is because increasing the number of trees improves predictive stability, but not distributions, so density agreement between observed and imputed data is not guaranteed to improve. It may even get worse!
+</details>
+</section>
+</section>
+<section id="exercise-3-air-quality" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-3-air-quality">Exercise 3 (Air quality)</h2>
+<p>In this exercise, you will work through an example of dealing with missing data using the <code>airquality</code> data. This contains 153 observations of 6 variables. We will explore the data and use both single and multiple imputation techniques</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(airquality)</span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(airquality)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Ozone Solar.R Wind Temp Month Day
+1    41     190  7.4   67     5   1
+2    36     118  8.0   72     5   2
+3    12     149 12.6   74     5   3
+4    18     313 11.5   62     5   4
+5    NA      NA 14.3   56     5   5
+6    28      NA 14.9   66     5   6</code></pre>
+</div>
+</div>
+<p><br>
+The first step is to explore the missing data pattern.</p>
+<div style="background-color: #fff1d6; border: 2px solid #ff4500; padding: 15px; margin: 10px 0; border-radius: 10px;">
+<h3 style="color: #ff4500; margin-top: 5px;" class="anchored">
+Task 3a
+</h3>
+<ul style="font-size: 16px; color: #333;">
+<li>
+Use <code>md.pattern()</code> and <code>md.pairs()</code> to explore the missing data pattern. What do you see?
+</li>
+<li>
+Draw a margin plot of the two variables with missing data. Which features emerge from the plot?
+</li>
+<li>
+Can you try to make some hypotheses about the reason data is missing as well as about the missing data mechanisms?
+</li>
+</ul>
+</div>
+<details>
+<summary>
+Click for solution
+</summary>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="fu">md.pattern</span>(airquality)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab4_MissingData_files/figure-html/unnamed-chunk-41-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    Wind Temp Month Day Solar.R Ozone   
+111    1    1     1   1       1     1  0
+35     1    1     1   1       1     0  1
+5      1    1     1   1       0     1  1
+2      1    1     1   1       0     0  2
+       0    0     0   0       7    37 44</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="fu">md.pairs</span>(airquality)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$rr
+        Ozone Solar.R Wind Temp Month Day
+Ozone     116     111  116  116   116 116
+Solar.R   111     146  146  146   146 146
+Wind      116     146  153  153   153 153
+Temp      116     146  153  153   153 153
+Month     116     146  153  153   153 153
+Day       116     146  153  153   153 153
+
+$rm
+        Ozone Solar.R Wind Temp Month Day
+Ozone       0       5    0    0     0   0
+Solar.R    35       0    0    0     0   0
+Wind       37       7    0    0     0   0
+Temp       37       7    0    0     0   0
+Month      37       7    0    0     0   0
+Day        37       7    0    0     0   0
+
+$mr
+        Ozone Solar.R Wind Temp Month Day
+Ozone       0      35   37   37    37  37
+Solar.R     5       0    7    7     7   7
+Wind        0       0    0    0     0   0
+Temp        0       0    0    0     0   0
+Month       0       0    0    0     0   0
+Day         0       0    0    0     0   0
+
+$mm
+        Ozone Solar.R Wind Temp Month Day
+Ozone      37       2    0    0     0   0
+Solar.R     2       7    0    0     0   0
+Wind        0       0    0    0     0   0
+Temp        0       0    0    0     0   0
+Month       0       0    0    0     0   0
+Day         0       0    0    0     0   0</code></pre>
+</div>
+</div>
+<p>We can see that there are 111 complete cases (as shown in the left and right columns). A zero in the last column indicates there are no missing values. The second row indicates that there are 35 patterns with only one missing value (Ozone). In the third row we have 5 patterns with only one missing value, which is on Solar.R. Only two patterns have two missing values, which are on Solar.R and Ozone.</p>
+<p>The last row tells us how many values are missing from each variable (column). No value is missing on Wind, Temp, Month and Day, 7 observations are missing on Solar.R and 37 missing on Ozone. Overall, 44 observations are missing out of 153.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="fu">marginplot</span>(airquality[, <span class="fu">c</span>(<span class="st">"Solar.R"</span>, <span class="st">"Ozone"</span>)], <span class="at">col =</span> <span class="fu">mdc</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>), <span class="at">cex.numbers =</span> <span class="fl">1.2</span>, <span class="at">pch =</span> <span class="dv">19</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab4_MissingData_files/figure-html/unnamed-chunk-42-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The blue box plots summarize the distribution of observed data given the other variable is observed, and red box plots summarize the distribution of observed data given the other variable is missing.</p>
+<p>The five red dots in the left margin correspond to the records for which <code>Ozone</code> is observed and <code>Solar.R</code> is missing. Notice that the points are drawn at the known values of <code>Ozone</code>. Similarly, the bottom margin contains red points with observed <code>Solar.R</code> and missing <code>Ozone</code>. There are 7 observations in which Solar.R is missing and 2 records in which both are missing (records 5 &amp; 27).</p>
+<p>As the red and blue distributions are not very different, the marginplot does not provide strong evidence for MAR mechanism, but it can not be ruled out either.<br>
+Some plausible explanations for missingness are:</p>
+<ul>
+<li><em>Instrument or recording failures</em> (MCAR) Measurements of Ozone and Solar.R relied on monitoring equipment that could malfunction, be improperly calibrated, or fail intermittently, leading to missing readings on certain days. If the malfunctioning is related to observable weather conditions, then the mechanism is MAR.</li>
+<li><em>Weather-related constraints</em> (plausible MAR) Some meteorological conditions (e.g.&nbsp;heavy cloud cover, storms) can prevent reliable measurement of solar radiation and indirectly affect ozone monitoring, resulting in missing values.</li>
+<li><em>Operational gaps</em> (MCAR or MAR) Data may not have been collected every day due to staffing limitations, maintenance, or reporting delays, especially earlier on, when automated monitoring was less robust. If gaps are more likely during specific months or seasons then the mechanism is MAR.</li>
+<li><em>Dependence on observed variables</em> (MAR) Missingness in Ozone or Solar.R appears related to seasonal patterns, temperature, and wind, which are observed variables—making a Missing At Random (MAR) mechanism plausible.</li>
+</ul>
+There is no indication to believe that high or low ozone values are selectively unrecorded after conditioning on observed weather, so MNAR is implausible.
+</details>
+<p>Suppose we want to fit the linear regression model to the airquality data, <code>lm(Ozone ~ Wind + Temp + Solar.R)</code>. With complete case analysis (the default option), there would be 42 deleted observations. This leads to bias in the analysis if the missingness process is not MCAR. Even if the data is MCAR, the fit of the model may be quite poor. We’d rather fit the linear regression using multiple imputation by chained equations (MICE).</p>
+<div style="background-color: #fff1d6; border: 2px solid #ff4500; padding: 15px; margin: 10px 0; border-radius: 10px;">
+<h3 style="color: #ff4500; margin-top: 5px;" class="anchored">
+Task 3b
+</h3>
+<ul style="font-size: 16px; color: #333;">
+<li>
+Use <code>mice</code> to perform multiple imputation of the <code>airquality</code> data. Choose your preferred <code>method</code>, <code>m</code> and <code>maxit</code> values.
+</li>
+<li>
+Now, run the same command, but change it in such a way that the variables <code>Day</code> and <code>Month</code> are not used in the imputation process.
+</li>
+<li>
+Finally, change the code in such a way that the imputation methods for <code>Ozone</code> is set to <code>norm</code> and for <code>Solar.R</code> is set to <code>norm.nob</code> (linear regression ignoring model error).
+</li>
+<li>
+Compare the density plots in the three cases. How does the picture change in the three cases?
+</li>
+</ul>
+</div>
+<details>
+<summary>
+Click for solution
+</summary>
+<p>We can fit a multiple imputation with Bayesian linear regression and 5 imputed datasets.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a>mice_air1 <span class="ot">&lt;-</span> <span class="fu">mice</span>(airquality, <span class="at">method =</span> <span class="st">"pmm"</span>,<span class="at">m =</span> <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>To exclude the <code>Day</code> and <code>Month</code> variable from the imputation, we change the predictorMatrix</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>pred_air <span class="ot">&lt;-</span> mice_air1<span class="sc">$</span>predictorMatrix</span>
+<span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a>pred_air[, <span class="fu">c</span>(<span class="st">"Month"</span>,<span class="st">"Day"</span>)] <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>)</span>
+<span id="cb81-3"><a href="#cb81-3" aria-hidden="true" tabindex="-1"></a>pred_air</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        Ozone Solar.R Wind Temp Month Day
+Ozone       0       1    1    1     0   0
+Solar.R     1       0    1    1     0   0
+Wind        1       1    0    1     0   0
+Temp        1       1    1    0     0   0
+Month       1       1    1    1     0   0
+Day         1       1    1    1     0   0</code></pre>
+</div>
+</div>
+<p>then we run the multiple imputation with the new matrix</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>mice_air2 <span class="ot">&lt;-</span> <span class="fu">mice</span>(airquality, <span class="at">method =</span> <span class="st">"pmm"</span>,<span class="at">m =</span> <span class="dv">5</span>, <span class="at">predictorMatrix =</span> pred_air)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Finally, we can differentiate the imputation method by inputing a vector of methods instead of a single method</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a>mice_air3<span class="ot">&lt;-</span> <span class="fu">mice</span>(airquality, <span class="at">m =</span> <span class="dv">5</span>, </span>
+<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">method =</span><span class="fu">c</span>(<span class="st">"norm"</span>,<span class="st">"norm.nob"</span>,<span class="st">""</span>, <span class="st">""</span>, <span class="st">""</span>,<span class="st">""</span>),</span>
+<span id="cb84-3"><a href="#cb84-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">predictorMatrix =</span> pred_air)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">densityplot</span>(mice_air1)[<span class="dv">1</span>]</span>
+<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">densityplot</span>(mice_air2)[<span class="dv">1</span>]</span>
+<span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> <span class="fu">densityplot</span>(mice_air3)[<span class="dv">1</span>]</span>
+<span id="cb85-4"><a href="#cb85-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb85-5"><a href="#cb85-5" aria-hidden="true" tabindex="-1"></a>q1 <span class="ot">&lt;-</span> <span class="fu">densityplot</span>(mice_air1)[<span class="dv">2</span>]</span>
+<span id="cb85-6"><a href="#cb85-6" aria-hidden="true" tabindex="-1"></a>q2 <span class="ot">&lt;-</span> <span class="fu">densityplot</span>(mice_air2)[<span class="dv">2</span>]</span>
+<span id="cb85-7"><a href="#cb85-7" aria-hidden="true" tabindex="-1"></a>q3 <span class="ot">&lt;-</span> <span class="fu">densityplot</span>(mice_air3)[<span class="dv">2</span>]</span>
+<span id="cb85-8"><a href="#cb85-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb85-9"><a href="#cb85-9" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(p1, p2, p3, q1, q2, q3, <span class="at">ncol =</span> <span class="dv">3</span>, <span class="at">nrow =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab4_MissingData_files/figure-html/unnamed-chunk-47-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+In terms of density estimation, pmm seems to be the best choice. Excluding <code>Day</code> and <code>Month</code> makes sense both conceptually and in terms of visual results.
+</details>
+<p>Remember that creating the different imputed data sets is just the first step of MI. Carrying the analysis and pooling the results is required for the process to make sense. This is the content of your final task:</p>
+<div style="background-color: #fff1d6; border: 2px solid #ff4500; padding: 15px; margin: 10px 0; border-radius: 10px;">
+<h3 style="color: #ff4500; margin-top: 5px;" class="anchored">
+Task 3c
+</h3>
+<ul style="font-size: 16px; color: #333;">
+<li>
+Extract the best set of imputations from Task 3b. Then, use the <code>with()</code> function in to fit separate linear regression models to each of the imputed data sets
+</li>
+<li>
+Then, use the <code>pool()</code> function to summarize the 10 results.
+</li>
+<li>
+Compare the results with those obtained by fitting the linear model only on complete cases. Which estimates differ and why? Which SEs are larger?
+</li>
+</ul>
+</div>
+<details>
+<summary>
+Click for solution
+</summary>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>model_final <span class="ot">&lt;-</span> <span class="fu">with</span>(mice_air2,<span class="fu">lm</span>(Ozone <span class="sc">~</span> Wind <span class="sc">+</span> Temp <span class="sc">+</span> Solar.R))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>This is what we get as estimate from the multiple imputation</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">pool</span>(model_final))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         term     estimate   std.error statistic       df      p.value
+1 (Intercept) -74.43442155 26.79030126 -2.778409 19.65930 1.172048e-02
+2        Wind  -2.93234227  0.70977278 -4.131382 32.20605 2.395603e-04
+3        Temp   1.73105798  0.29198912  5.928502 21.74834 6.032614e-06
+4     Solar.R   0.06028454  0.02301146  2.619761 85.61616 1.040772e-02</code></pre>
+</div>
+</div>
+<p>This is what we get from complete case analysis</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a>fit_cc <span class="ot">&lt;-</span> <span class="fu">lm</span>(Ozone <span class="sc">~</span> Wind <span class="sc">+</span> Temp <span class="sc">+</span> Solar.R,</span>
+<span id="cb89-2"><a href="#cb89-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">data =</span> airquality,</span>
+<span id="cb89-3"><a href="#cb89-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">na.action =</span> na.omit)</span>
+<span id="cb89-4"><a href="#cb89-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_cc)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = Ozone ~ Wind + Temp + Solar.R, data = airquality, 
+    na.action = na.omit)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-40.485 -14.219  -3.551  10.097  95.619 
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) -64.34208   23.05472  -2.791  0.00623 ** 
+Wind         -3.33359    0.65441  -5.094 1.52e-06 ***
+Temp          1.65209    0.25353   6.516 2.42e-09 ***
+Solar.R       0.05982    0.02319   2.580  0.01124 *  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 21.18 on 107 degrees of freedom
+  (42 observations deleted due to missingness)
+Multiple R-squared:  0.6059,    Adjusted R-squared:  0.5948 
+F-statistic: 54.83 on 3 and 107 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+The coefficients are not widely different in the two cases, but we get a better p-value for the estimate of the intercept. In other situations, the difference can be more marked.
+</details>
+
+
+</section>
+</section></main></div>
+
+
+ <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+ <!-- /content -->
+
+
+
+
+</body></html>

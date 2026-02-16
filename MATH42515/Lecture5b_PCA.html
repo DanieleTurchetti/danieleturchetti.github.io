@@ -6,9 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Daniele Turchetti">
 
-<title>DEVUL 2025/26 – DEVUL Course Notes</title>
+<title>lecture5b_pca – DEVUL Course Notes</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -70,6 +69,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -92,7 +120,7 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="./index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item dropdown ">
@@ -204,98 +232,198 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#welcome-to-math42515" id="toc-welcome-to-math42515" class="nav-link active" data-scroll-target="#welcome-to-math42515">Welcome to MATH42515</a>
+  <li><a href="#limitations-and-generalisations-of-pca" id="toc-limitations-and-generalisations-of-pca" class="nav-link active" data-scroll-target="#limitations-and-generalisations-of-pca">Limitations and generalisations of PCA</a>
   <ul class="collapse">
-  <li><a href="#content" id="toc-content" class="nav-link" data-scroll-target="#content">Content</a>
+  <li><a href="#proportion-of-variance" id="toc-proportion-of-variance" class="nav-link" data-scroll-target="#proportion-of-variance">Proportion of variance</a>
   <ul class="collapse">
-  <li><a href="#week-1" id="toc-week-1" class="nav-link" data-scroll-target="#week-1">Week 1</a></li>
-  <li><a href="#week-2" id="toc-week-2" class="nav-link" data-scroll-target="#week-2">Week 2</a></li>
-  <li><a href="#week-3" id="toc-week-3" class="nav-link" data-scroll-target="#week-3">Week 3</a></li>
-  <li><a href="#week-4" id="toc-week-4" class="nav-link" data-scroll-target="#week-4">Week 4</a></li>
-  <li><a href="#week-5" id="toc-week-5" class="nav-link" data-scroll-target="#week-5">Week 5</a></li>
+  <li><a href="#possible-issues" id="toc-possible-issues" class="nav-link" data-scroll-target="#possible-issues">Possible issues</a></li>
+  <li><a href="#scaling-the-original-data" id="toc-scaling-the-original-data" class="nav-link" data-scroll-target="#scaling-the-original-data">Scaling the original data</a></li>
+  </ul></li>
+  <li><a href="#factor-analysis" id="toc-factor-analysis" class="nav-link" data-scroll-target="#factor-analysis">Factor Analysis</a>
+  <ul class="collapse">
+  <li><a href="#case-study" id="toc-case-study" class="nav-link" data-scroll-target="#case-study">Case Study</a></li>
+  <li><a href="#the-factor-model" id="toc-the-factor-model" class="nav-link" data-scroll-target="#the-factor-model">The factor model</a></li>
+  <li><a href="#assumptions" id="toc-assumptions" class="nav-link" data-scroll-target="#assumptions">Assumptions</a></li>
+  <li><a href="#fa-parameter-estimation" id="toc-fa-parameter-estimation" class="nav-link" data-scroll-target="#fa-parameter-estimation">FA: parameter estimation</a></li>
+  <li><a href="#principal-factor-analysis" id="toc-principal-factor-analysis" class="nav-link" data-scroll-target="#principal-factor-analysis">Principal factor analysis</a></li>
+  <li><a href="#maximum-likelihood-factor-analysis" id="toc-maximum-likelihood-factor-analysis" class="nav-link" data-scroll-target="#maximum-likelihood-factor-analysis">Maximum likelihood factor analysis</a></li>
+  <li><a href="#number-of-factors" id="toc-number-of-factors" class="nav-link" data-scroll-target="#number-of-factors">Number of factors</a></li>
+  <li><a href="#factor-estimation" id="toc-factor-estimation" class="nav-link" data-scroll-target="#factor-estimation">Factor estimation</a></li>
+  <li><a href="#fa-vs-pca" id="toc-fa-vs-pca" class="nav-link" data-scroll-target="#fa-vs-pca">FA vs PCA</a></li>
+  <li><a href="#factor-analysis-with-r" id="toc-factor-analysis-with-r" class="nav-link" data-scroll-target="#factor-analysis-with-r">Factor Analysis with <code>R</code></a></li>
   </ul></li>
   </ul></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">DEVUL 2025/26</h1>
-</div>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
 
 
 
-<div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Daniele Turchetti </p>
-          </div>
-  </div>
-    
-  
-    
-  </div>
-  
-
-
-</header>
-
-
-<section id="welcome-to-math42515" class="level1 unnumbered">
-<h1 class="unnumbered">Welcome to MATH42515</h1>
-<p>This website contains the HTML version of lecture notes for the module in 2025/26. Use the left bar to navigate through the different lectures and the right bar to navigate through different sections in the same lecture.</p>
-<p>The content of these notes integrates the material of previous lecturers of this module (Jonathan Cummings, Emmanuel Ogundimu and Hyeyoung Maeng). Without their input, the overall quality of the material would be much worse. It shall be noted however that any mistake in the notes is my responsibility: if you spot one, please let me know at <strong>daniele.turchetti@durham.ac.uk</strong>.</p>
-<section id="content" class="level2">
-<h2 class="anchored" data-anchor-id="content">Content</h2>
-<section id="week-1" class="level3">
-<h3 class="anchored" data-anchor-id="week-1">Week 1</h3>
+<section id="limitations-and-generalisations-of-pca" class="level1">
+<h1>Limitations and generalisations of PCA</h1>
+<section id="proportion-of-variance" class="level2">
+<h2 class="anchored" data-anchor-id="proportion-of-variance">Proportion of variance</h2>
+<p>We want to establish a technique to select the more relevant <span class="math inline">\(PC_k\)</span>, to minimize loss of information when we reduce the dimension. So our main question is how to measure the amount of structure captured by each <span class="math inline">\(PC_k\)</span>.</p>
+<p>The <strong>proportion of variance</strong> is what we need to use here. Recall that the variance explained by <span class="math inline">\(\phi_k\)</span> is [_k = _k^T _k,] which is exactly the { <span class="math inline">\(k\)</span>-th eigenvalue of <span class="math inline">\(\mathbf{\Sigma}\)</span>}.</p>
+<p>The <em>proportion of variance</em> explained by <span class="math inline">\(\phi_k\)</span> is then</p>
+<p>[ .]</p>
+<p>A good dimension reduction technique must retain at least 80% of the original variance.</p>
+<section id="possible-issues" class="level3">
+<h3 class="anchored" data-anchor-id="possible-issues">Possible issues</h3>
+<p>The procedure always works well in theory, but presents some issues when looking at data in real life.</p>
 <ul>
-<li><a href="./Lecture1a_IntroViz.html">Lecture 1a</a></li>
-<li><a href="./Lecture1b_Variables.html">Lecture 1b</a></li>
-<li><a href="./Lab1_ExplContVar.html">Practical 1</a></li>
-<li><a href="./Workshop1_CategoricalVariables.html">Workshop 1</a></li>
+<li><p>If the original variables are highly uncorrelated, we need too many principal components to explain at least 80% of variance</p></li>
+<li><p>By changing units of measurement, the variances also change, for the very same data!</p></li>
+<li><p>Even when the units are the same, the standard deviation of the original variables can vary a lot (e.g.&nbsp;Iris data): the variables with higher standard deviation will be more represented in the first PCs.</p></li>
+</ul>
+<p>Issue 1 is structural, so no solution can be found. Issues 2 and 3 can be solved by scaling the data set.</p>
+</section>
+<section id="scaling-the-original-data" class="level3">
+<h3 class="anchored" data-anchor-id="scaling-the-original-data">Scaling the original data</h3>
+<p>Let <span class="math inline">\(\mathbf{X}\)</span> be the matrix of a data set. Scaling <span class="math inline">\(\mathbf{X}\)</span> means replacing each column <span class="math inline">\(\mathbf{X}\)</span> of <span class="math inline">\(\mathbf{X}\)</span> with</p>
+<p>[ ,] where <span class="math inline">\(\mathbf{\mu} = \begin{pmatrix}
+\mu \\
+\mu\\
+\vdots \\
+\mu
+\end{pmatrix}\)</span> is the mean vector of <span class="math inline">\(\mathbf{X}\)</span> and <span class="math inline">\(sd\)</span> is the standard deviation of <span class="math inline">\(\mathbf{X}\)</span>.</p>
+<p>The covariance matrix of the scaled data is called the <em>correlation matrix</em> of the original data.</p>
+<p>Other relevant notions for PCA are:</p>
+<ul>
+<li><em>Correlation between PC and original variables</em>: these are obtained as dot products of the loadings against the PCs</li>
+<li><em>Quality of representation</em> (cos2):</li>
+<li><em>Absolute contributions</em> (contrib):</li>
 </ul>
 </section>
-<section id="week-2" class="level3">
-<h3 class="anchored" data-anchor-id="week-2">Week 2</h3>
+</section>
+<section id="factor-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="factor-analysis">Factor Analysis</h2>
+<section id="case-study" class="level3">
+<h3 class="anchored" data-anchor-id="case-study">Case Study</h3>
+<p>Accurate measurement of observations is a central component of the scientific process. However, some quantities (ex. <code>intelligence'',</code>love’‘, ``quality of life’’, ) are very hard to measure. These quantities are called {latent variables}.\[.5cm]</p>
+<p>Direct measurement being impossible, one looks for those measurable features, { manifest variables}, that can tell us something about a latent variable. But how can we uncover the relationship between manifest and latent variables?\[.5cm]</p>
+<p>Consider the case of researchers that want to measure the quality of life in several countries of the world. Possible associated manifest variables might be { life expectancies}, { socio-economic metrics}, { vaccination rates}, etc. How shall we use the observations to make statements about quality of life?</p>
+<p>###{Latent variable models} One possible solution to the problem above is to perform { PCA} on the life expectancy data. Then, one can interpret the principal components as being latent variables, and the relation with the manifest variables is clear.</p>
+<p>But there is a problem: this method is too and rarely produces good results.</p>
+<p>A possible solution is to use factor analysis, a method employed in psychology, sociology, economics, marketing, health sciences, and many other disciplines.</p>
+<p>Factor analysis works as follows: let <span class="math inline">\(\mathbf{X}=(X_1, \dots, X_n)\)</span> be the random variable representing our features.</p>
+<p>The goal of factor analysis is to find a smaller number of { factors <span class="math inline">\(f_1, \dots, f_q\)</span>} <span class="math inline">\(\in \mathbb{R}^n\)</span> explaining the behaviour of the observable variables.</p>
+<p>FA considers multiple linear regressions</p>
+<p>[X_1 = <em>1 + </em>{11}f_1+ <em>{21}f_2 + + </em>{q1}f_q + <em>1] [ ] [X_p = <em>p + </em>{1p}f_1+ </em>{2p}f_2 + + _{qp}f_q +_p]</p>
+<p>where <span class="math inline">\(\mu_j\)</span> is the mean vector of <span class="math inline">\(X_j\)</span>, and searches for the ``best possible’’ <span class="math inline">\(f_1, \dots, f_q\)</span>.</p>
+</section>
+<section id="the-factor-model" class="level3">
+<h3 class="anchored" data-anchor-id="the-factor-model">The factor model</h3>
+<p>If we put all the { loadings} <span class="math inline">\(\ell_{ij}\)</span> in a matrix</p>
+[ =
+<span class="math display">\[\begin{pmatrix}
+\ell_{11} &amp; \ell_{12} &amp; \cdots &amp; \ell_{1p} \\
+\ell_{21} &amp; \ell_{22} &amp; \cdots &amp; \ell_{2p} \\
+\vdots &amp; \vdots &amp; \vdots &amp; \vdots \\
+\ell_{q1} &amp; \ell_{q2} &amp; \cdots &amp; \ell_{qp} \\
+\end{pmatrix}\]</span>
+<p>] and we set [ = ( f_1, , f_q), =(_1, , _p), =(_1, , _p),]</p>
+<p>we find the regression model in matricial form:</p>
+<p>[ = + + .]</p>
+</section>
+<section id="assumptions" class="level3">
+<h3 class="anchored" data-anchor-id="assumptions">Assumptions</h3>
+<p>It is useful to assume:</p>
 <ul>
-<li><a href="./Lecture2a_ManyCatVar.html">Lecture 2a</a></li>
-<li><a href="./Lecture2b_ManyContVar.html">Lecture 2b</a></li>
-<li><a href="./Lab2_ManyCatVariables.html">Practical 2</a></li>
-<li><a href="./Workshop2_DepRelAss.html">Workshop 2</a></li>
+<li><span class="math inline">\(\mathbf{\mu}=E(\mathbf{\epsilon})=E(\mathbf{F})=0\)</span>,</li>
+<li><span class="math inline">\(\mathrm{Cov}(\epsilon_i, \epsilon_j)=0\)</span> for <span class="math inline">\(i\neq j\)</span>,</li>
+<li><span class="math inline">\(\mathrm{Cov}(\epsilon_i, f_j)=0\)</span> for all <span class="math inline">\(i=1, \dots, p\)</span>, <span class="math inline">\(j=1, \dots, q\)</span>,</li>
+<li><span class="math inline">\(\mathrm{Cov}(f_i, f_j)=0\)</span> for <span class="math inline">\(i\neq j\)</span> and <span class="math inline">\(\mathrm{Cov}(f_i, f_i)=1\)</span> for all <span class="math inline">\(i=1, \dots, q\)</span>.</li>
+</ul>
+<p>We set <span class="math inline">\(\mathbf{\Sigma}_{\epsilon}:=\mathrm{Cov}{(\mathbf{\epsilon})}\)</span> and <span class="math inline">\(\mathbf{\Sigma}_{\chi}:= \mathbf{L}\mathbf{L}^T\)</span>. Then, the covariance matrix of <span class="math inline">\(\mathbf{X}\)</span> is: [ <em>X = ^T = </em>{} + _{}.]</p>
+<p>Note that <span class="math inline">\(\mathbf{\Sigma}_{\epsilon}\)</span> is a diagonal matrix.</p>
+</section>
+<section id="fa-parameter-estimation" class="level3">
+<h3 class="anchored" data-anchor-id="fa-parameter-estimation">FA: parameter estimation</h3>
+<p>With the assumptions made, the remaining tasks of FA are:</p>
+<ul>
+<li>Estimating the parameters <span class="math inline">\(\widehat{\mathbf{L}}\)</span> and <span class="math inline">\(\widehat{\mathbf{\epsilon}}\)</span> that represent the data more closely,</li>
+<li>Choose the most suitable number <span class="math inline">\(q\)</span> of factors,</li>
+<li>Use the previous points to estimate the factors <span class="math inline">\(\widehat{\mathbf{F}}\)</span>.</li>
+</ul>
+<p>For step 1, we have two methods:</p>
+<ul>
+<li>Principal factor analysis (parameter estimation using PCA)</li>
+<li>Maximum likelihood factor analysis (parameter estimation using MLE)</li>
 </ul>
 </section>
-<section id="week-3" class="level3">
-<h3 class="anchored" data-anchor-id="week-3">Week 3</h3>
+<section id="principal-factor-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="principal-factor-analysis">Principal factor analysis</h3>
+<p>Recall from PCA: performed via diagonalization of the estimated covariance matrix <span class="math inline">\(\widehat{\Sigma}_X\)</span>.</p>
+<p>A possible approach is to note that the matrix <span class="math inline">\(\mathbf{L}\mathbf{L}^\top = \mathbf{\Sigma_X} - \mathbf{\Sigma}_{\epsilon}\)</span> is symmetric and hence easy to diagonalize. Perform eigencomposition and retain only the first <span class="math inline">\(q\)</span> eigenvalues and eigenvectors.</p>
+<p>In practice, this is done in two steps:</p>
+<p><em>[Step 1] Estimate <span class="math inline">\(\mathbf{\Sigma_X} - \mathbf{\Sigma}_{\epsilon}\)</span> (i.e.&nbsp;replace the 1 on the diagonal of <span class="math inline">\(\Sigma_X\)</span> with suitable values called ) </em>[Step 2] Obtain first <span class="math inline">\(q\)</span> eigenvalues <span class="math inline">\(\widehat{\lambda}_1 &gt; \dots &gt; \widehat{\lambda}_q\)</span> and eigenvectors <span class="math inline">\((\widehat{\phi}_1, \dots, \widehat{\phi}_q)\)</span></p>
+<p>The formula for the estimated factor loadings is then <span class="math display">\[\begin{align*}
+\widehat{\ell}_{ij} = \widehat{\phi}_{ji} \sqrt{\widehat{\lambda}_j}.
+\end{align*}\]</span></p>
+</section>
+<section id="maximum-likelihood-factor-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="maximum-likelihood-factor-analysis">Maximum likelihood factor analysis</h3>
+<p>Let us assume that the variable <span class="math inline">\(\mathbf{X}\)</span> has a multivariate normal distribution.</p>
+<p>Under this assumption, we can find an explicit form for the { likelihood function}.</p>
+<p>In this setting, we can pick the loadings <span class="math inline">\(\ell_{ij}\)</span> and diagonal matrix <span class="math inline">\(\mathbf{\Sigma}_{\epsilon}\)</span> that maximise the likelihood function.</p>
+<p>Explicitly, this means maximising the value of the { log likelihood}</p>
+<p></p>
+<p>where <span class="math inline">\(\mathbf{S}\)</span> is the sample covariance matrix.</p>
+</section>
+<section id="number-of-factors" class="level3">
+<h3 class="anchored" data-anchor-id="number-of-factors">Number of factors</h3>
+<p>We now need to choose a suitable number of factors for our analysis (highly challenging!)</p>
+<p>Some good choices to account for enough correlation:</p>
 <ul>
-<li><a href="./Lecture3a_SmoothingKDE.html">Lecture 3a</a></li>
-<li><a href="./Lecture3b_TimeSeries.html">Lecture 3b</a></li>
-<li><a href="./Lab3_Smoothing.html">Practical 3</a></li>
-<li><a href="./Workshop3_TimeSeries.html">Workshop 3</a></li>
+<li>In PFA, the number of factors <span class="math inline">\(q\)</span> is selected by considering the variance explained by the first <span class="math inline">\(q\)</span> eigenvalues of the covariance matrix: <span class="math display">\[\begin{equation*}
+\frac{\lambda_{1} + \lambda_{2} + \cdots +\lambda_{q}}{\sum_{j=1}^{p} \lambda_{j}}.
+\end{equation*}\]</span> and using { elbow method} or { 80% rule of thumb} to choose <span class="math inline">\(q\)</span>.</li>
+<li>In MLFA, one can apply a { likelihood ratio test}. For each <span class="math inline">\(k=1, \dots, p\)</span> the test statistics provides an index of fit for the model with <span class="math inline">\(k\)</span> factors. This can be used to set up hypothesis testing and choose an appropriate <span class="math inline">\(k\)</span>. More details in Chapter 3 of .</li>
 </ul>
 </section>
-<section id="week-4" class="level3">
-<h3 class="anchored" data-anchor-id="week-4">Week 4</h3>
+<section id="factor-estimation" class="level3">
+<h3 class="anchored" data-anchor-id="factor-estimation">Factor estimation</h3>
+<p>Recall the factor model <span class="math display">\[\begin{align*}
+\mathbf{X} = \mathbf{L} \mathbf{F} + \mathbf{\epsilon},
+\end{align*}\]</span></p>
+<p>After estimating <span class="math inline">\(\mathbf{L}\)</span> and <span class="math inline">\(\mathbf{\Sigma}_{\epsilon}\)</span> we now estimate the factor scores <span class="math inline">\(\mathbf{F}\)</span>. The aim is to get an error <span class="math inline">\(\mathbf{\epsilon}\)</span> as little as possible. </p>
+<p>Problem: Find <span class="math inline">\(\widehat{\mathbf{F}}\)</span> that minimizes the sum of the squared residuals: <span class="math display">\[\begin{align*}
+(\mathbf{X} - \mathbf{L} \mathbf{F})^\top (\mathbf{X} - \mathbf{L} \mathbf{F}),
+\end{align*}\]</span></p>
+<p>The solution is computed mathematically as: [ = (<sup>)</sup>{-1} ^.]</p>
+<p>In summary, factor analysis identifies hidden variables (factors) using observable variables as input and a .</p>
+<p>Out of all possible factor models, we select those that are more closely representing the data collected. This is {done in three steps}:</p>
 <ul>
-<li><a href="./Lecture4a_CompDataQual.html">Lecture 4a</a></li>
-<li><a href="./Lecture4b_MissingData.html">Lecture 4b</a></li>
-<li><a href="./Lab4_MissingData.html">Practical 4</a></li>
-<li><a href="./Workshop4_AdvancedFunctions.html">Workshop 4</a></li>
+<li>Estimation of loadings and errors</li>
+<li>Selection of best number of factors</li>
+<li>Factor scores estimation</li>
+</ul>
+<p>The fitness of the model is assessed looking at {cumulative variance explained} and/or {likelihood ratio test} (where MLFA is appropriate).</p>
+</section>
+<section id="fa-vs-pca" class="level3">
+<h3 class="anchored" data-anchor-id="fa-vs-pca">FA vs PCA</h3>
+<p>Principal component analysis and factor analysis are two ways of achieving dimension reduction, but they are quite different.</p>
+<p>Let us compare the decomposition of the covariance matrix:</p>
+<p><span class="math display">\[\begin{align*}
+\text{PCA} : \mathbf{\Sigma_X} =&amp; \mathbf{\Sigma_{X[q]}}  +\mathbf{\Sigma_{e}} \\
+\text{FA} : \mathbf{\Sigma_X} =&amp; \mathbf{\Sigma_{\chi}}  +\mathbf{\Sigma_{\epsilon}}
+\end{align*}\]</span></p>
+<p>where <span class="math inline">\(\mathbf{\Sigma_{X[q]}}\)</span> and <span class="math inline">\(\mathbf{\Sigma_{\chi}}\)</span> have rank <span class="math inline">\(q\)</span>.</p>
+<ul>
+<li>PCA is performed by maximising the variance of the first <span class="math inline">\(q\)</span> components and <span class="math inline">\(\mathbf{\Sigma_{e}}\)</span> is not necessarily diagonal.<br>
+</li>
+<li>In FA, <span class="math inline">\(\mathbf{\Sigma_{\epsilon}}\)</span> is assumed to be diagonal, but <span class="math inline">\(Var(\epsilon_i)\)</span> may still be large! In contrast to FA, all entries of <span class="math inline">\(\mathbf{\Sigma}_{e}\)</span> are minimised in PCA.<br>
+</li>
+<li>PCA is an algebraic results without statistical modelling, while FA relies on underlying model with assumptions on the data generating process.</li>
 </ul>
 </section>
-<section id="week-5" class="level3">
-<h3 class="anchored" data-anchor-id="week-5">Week 5</h3>
-<ul>
-<li><a href="./Lecture5a_PCA.html">Lecture 5a</a></li>
-<li><a href="./Lecture5b_PCA.html">Lecture 5b</a></li>
-<li><a href="./Lab5_PCA.html">Practical 5</a></li>
-<li><a href="./Workshop5_PCA.html">Workshop 5</a></li>
-</ul>
+<section id="factor-analysis-with-r" class="level3">
+<h3 class="anchored" data-anchor-id="factor-analysis-with-r">Factor Analysis with <code>R</code></h3>
+<p>The standard command for factor analysis in `R’ is . This uses { maximum likelihood factor analysis}, hence one needs to check that the normality assumption is reasonable.</p>
 
 
 </section>

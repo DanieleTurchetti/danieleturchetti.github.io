@@ -1,0 +1,1332 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>lab5_pca – DEVUL Course Notes</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-e3b7bb8e06e71ba88653cd3334f68afa.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">DEVUL Course Notes</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-notes" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Notes</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-notes">    
+        <li>
+    <a class="dropdown-item" href="./Lecture1a_IntroViz.html">
+ <span class="dropdown-text">Lecture 1a</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lecture1b_Variables.html">
+ <span class="dropdown-text">Lecture 1b</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lab1_ExplContVar.html">
+ <span class="dropdown-text">Practical 1</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Workshop1_CategoricalVariables.html">
+ <span class="dropdown-text">Workshop 1</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lecture2a_ManyCatVar.html">
+ <span class="dropdown-text">Lecture 2a</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lecture2b_ManyContVar.html">
+ <span class="dropdown-text">Lecture 2b</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lab2_ManyCatVariables.html">
+ <span class="dropdown-text">Practical 2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Workshop2_DepRelAss.html">
+ <span class="dropdown-text">Workshop 2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lecture3a_SmoothingKDE.html">
+ <span class="dropdown-text">Lecture 3a</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lecture3b_TimeSeries.html">
+ <span class="dropdown-text">Lecture 3b</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lab3_Smoothing.html">
+ <span class="dropdown-text">Practical 3</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Workshop3_TimeSeries.html">
+ <span class="dropdown-text">Workshop 3</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lecture4a_CompDataQual.html">
+ <span class="dropdown-text">Lecture 4a</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lecture4b_MissingData.html">
+ <span class="dropdown-text">Lecture 4b</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lab4_MissingData.html">
+ <span class="dropdown-text">Practical 4</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Workshop4_AdvancedFunctions.html">
+ <span class="dropdown-text">Workshop 4</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lecture5a_PCA.html">
+ <span class="dropdown-text">Lecture 5a</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lecture5b_PCA.html">
+ <span class="dropdown-text">Lecture 5b</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lab5_PCA.html">
+ <span class="dropdown-text">Practical 5</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Workshop5_PCA.html">
+ <span class="dropdown-text">Workshop 5</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#practical-5---principal-component-analysis" id="toc-practical-5---principal-component-analysis" class="nav-link active" data-scroll-target="#practical-5---principal-component-analysis">Practical 5 - Principal Component Analysis</a>
+  <ul class="collapse">
+  <li><a href="#exercise-1-factoextra" id="toc-exercise-1-factoextra" class="nav-link" data-scroll-target="#exercise-1-factoextra">Exercise 1 (factoextra)</a>
+  <ul class="collapse">
+  <li><a href="#task-1a" id="toc-task-1a" class="nav-link" data-scroll-target="#task-1a"><strong>Task 1a</strong></a></li>
+  <li><a href="#task-1b" id="toc-task-1b" class="nav-link" data-scroll-target="#task-1b"><strong>Task 1b</strong></a></li>
+  <li><a href="#task-1c" id="toc-task-1c" class="nav-link" data-scroll-target="#task-1c"><strong>Task 1c</strong></a></li>
+  </ul></li>
+  <li><a href="#exercise-2" id="toc-exercise-2" class="nav-link" data-scroll-target="#exercise-2">Exercise 2</a>
+  <ul class="collapse">
+  <li><a href="#task-2a" id="toc-task-2a" class="nav-link" data-scroll-target="#task-2a"><strong>Task 2a</strong></a></li>
+  <li><a href="#task-2b" id="toc-task-2b" class="nav-link" data-scroll-target="#task-2b"><strong>Task 2b</strong></a></li>
+  </ul></li>
+  <li><a href="#exercise-3" id="toc-exercise-3" class="nav-link" data-scroll-target="#exercise-3">Exercise 3</a>
+  <ul class="collapse">
+  <li><a href="#task-3a" id="toc-task-3a" class="nav-link" data-scroll-target="#task-3a"><strong>Task 3a</strong></a></li>
+  <li><a href="#task-3b" id="toc-task-3b" class="nav-link" data-scroll-target="#task-3b"><strong>Task 3b</strong></a></li>
+  <li><a href="#task-3c" id="toc-task-3c" class="nav-link" data-scroll-target="#task-3c"><strong>Task 3c</strong></a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+
+
+
+
+<section id="practical-5---principal-component-analysis" class="level1">
+<h1>Practical 5 - Principal Component Analysis</h1>
+<p>This computer practical consists of three exercises.</p>
+<ul>
+<li>In exercise 1, you will use <em>factoextra</em> package to extract more information and visualise the results obtained by principal component analysis on the USArrests dataset;</li>
+<li>In exercise 2, you will examine how the strength of existing redundancy in data affects the PCA results;</li>
+<li>In exercise 3, you will get a taste of principal component regression.</li>
+</ul>
+<p><br>
+</p>
+<section id="exercise-1-factoextra" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="exercise-1-factoextra">Exercise 1 (factoextra)</h2>
+<p>First load the following package into your workspace for visualisation.</p>
+<p><code>library(factoextra)</code></p>
+<p>In this first part, you will analyze data from the database USArrests, which is already in R.</p>
+<p>For each of the <span class="math inline">\(n = 50\)</span> states in the United States, the data set contains the number of arrests per 100,000 residents made in 1973 for each of three types of violent crimes: Assault, Murder, and Rape. Moreover, the data set records also for each state the percent of the population living in urban areas.<br>
+</p>
+<section id="task-1a" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="task-1a"><strong>Task 1a</strong></h3>
+<p>Perform principal component analysis on USArrests and answer the following questions:</p>
+<ul>
+<li>Is PCA a tool that can be successfully applied to this data set? Why?</li>
+<li>Do you need to scale the data? Why?</li>
+<li>What are the loading vectors, the scores, and the importance of the principal components?</li>
+</ul>
+<br>
+<strong>Solution to Task 1a</strong>
+<details>
+<summary>
+Click for solution
+</summary>
+<p><br>
+</p>
+<p>PCA is justified by the fact that the crime rates variables (especially assault and murder) are highly correlated, as shown by the correlation matrix:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(USArrests)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             Murder   Assault   UrbanPop      Rape
+Murder   1.00000000 0.8018733 0.06957262 0.5635788
+Assault  0.80187331 1.0000000 0.25887170 0.6652412
+UrbanPop 0.06957262 0.2588717 1.00000000 0.4113412
+Rape     0.56357883 0.6652412 0.41134124 1.0000000</code></pre>
+</div>
+</div>
+<p>It is therefore appropriate to perform dimension reduction via PCA.</p>
+<p>As we did in the workshop, we can perform PCA using the <em>prcomp()</em> command. We need to scale the data because the units are not the same for each variable, and the variance of one variable (Assault) is significantly higher than the rest. This makes sense, as assault is on average much more common than the other two types of crime (see summary table).</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(USArrests)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(USArrests, <span class="dv">2</span>, sd)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>pr.out <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(USArrests, <span class="at">scale =</span><span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The loading vectors are the columns of the rotation matrix</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>pr.out<span class="sc">$</span>rotation</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                PC1        PC2        PC3         PC4
+Murder   -0.5358995 -0.4181809  0.3412327  0.64922780
+Assault  -0.5831836 -0.1879856  0.2681484 -0.74340748
+UrbanPop -0.2781909  0.8728062  0.3780158  0.13387773
+Rape     -0.5434321  0.1673186 -0.8177779  0.08902432</code></pre>
+</div>
+</div>
+<p>The scores are obtained as follows</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>pr.out<span class="sc">$</span>x</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>and the importance of the principal components can be computed from <code>pr.out$sd</code> as in the workshop, or more easily from the summary:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(pr.out)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Importance of components:
+                          PC1    PC2     PC3     PC4
+Standard deviation     1.5749 0.9949 0.59713 0.41645
+Proportion of Variance 0.6201 0.2474 0.08914 0.04336
+Cumulative Proportion  0.6201 0.8675 0.95664 1.00000</code></pre>
+</div>
+</div>
+We clearly see here that <span class="math inline">\(PC1\)</span> encodes 62% of variance, so it does not retain enough information. However, <span class="math inline">\(PC1\)</span> and <span class="math inline">\(PC2\)</span> together encode 86.75% of variance in the data, enough to give an informative picture.
+</details>
+<p><br>
+</p>
+<p>The library <em>factoextra</em> has a simple command that can be used to make a nice scree plot:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(factoextra)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_screeplot</span>(pr.out, <span class="at">addlabels =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab5_PCA_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This is an effective way to visualize the importance of the principal components.</p>
+<p>Other useful functions for visualization in the <em>factoextra</em> package are <em>fviz_pca_ind</em>, <em>fviz_pca_var</em> and <em>fviz_pca_biplot</em>.</p>
+</section>
+<section id="task-1b" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="task-1b"><strong>Task 1b</strong></h3>
+<p>Explore the functions above (e.g.&nbsp;by typing <code>?fviz_pca_ind</code>) and describe the kind of plots that you can obtain using them.<br>
+</p>
+<strong>Solution to Task 1b</strong>
+<details>
+<summary>
+Click for solution
+</summary>
+<p>Let us start with <em>fviz_pca_ind()</em>. This command plots the scores of observations of the first two principal components. This is informative, as we saw that <span class="math inline">\(PC1\)</span> and <span class="math inline">\(PC2\)</span> explain a big proportion (&gt; 80%) of the variance.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_pca_ind</span>(pr.out, <span class="at">axes =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="at">repel =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">col.ind =</span> <span class="st">"blue"</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lab5_PCA_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br>
+</p>
+<p>We can compare this to the <em>autoplot()</em> function and see that it is just another way of creating the same visualization. The advantage of <em>fviz_pca_ind()</em> is that it is somewhat more flexibile if you want to change options.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages('ggfortify')</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggfortify)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(pr.out, <span class="at">data =</span> USArrests, <span class="at">label =</span> <span class="cn">TRUE</span>) <span class="co">#, label = TRUE</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lab5_PCA_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The command <em>fviz_pca_var()</em> plots the loadings of the first two principal components.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_pca_var</span>(pr.out, <span class="at">axes =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="at">repel =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">col.var =</span> <span class="st">"red"</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lab5_PCA_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>In the case of <code>USArrests</code>, we can see that the length of the four vectors are very similar. This means that the first two principal components represent quite fairly the original variables. As expected, the crime variables are the one that mostly contribute to the first principal component, while the <code>UrbanPop</code> variable is predominantly contributing to the second principal component.</p>
+<p>Finally, the <em>fviz_pca_biplot()</em> plots together scores and loading.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_pca_biplot</span>(pr.out, <span class="at">axes =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="at">repel =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">col.var =</span> <span class="st">"red"</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lab5_PCA_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+This is very helpful to interpret the data: based only on the plot of the scores, one could think that a higher <span class="math inline">\(PC1\)</span> score corresponds to higher crime rates. The biplot shows instead that the states on the left of the plot are those with higher crime rates.
+</details>
+<p><br>
+You can plot the contribution of the variables to PC1 as follows:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_contrib</span>(pr.out, <span class="at">choice =</span> <span class="st">"var"</span>, <span class="at">axes =</span> <span class="dv">1</span>, <span class="at">top =</span> <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lab5_PCA_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br>
+</p>
+</section>
+<section id="task-1c" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="task-1c"><strong>Task 1c</strong></h3>
+<p>Modify the code to plot the contribution of the variables to PC2.</p>
+<p><br>
+</p>
+<strong>Solution to Task 1c</strong>
+<details>
+<summary>
+Click for solution
+</summary>
+<p><br>
+</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Contributions of variables to PC2</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_contrib</span>(pr.out, <span class="at">choice =</span> <span class="st">"var"</span>, <span class="at">axes =</span> <span class="dv">2</span>, <span class="at">top =</span> <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lab5_PCA_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+</details>
+<p>The library <em>factoextra</em> has commands to quickly extract PCA results for variables. These results include correlation between variables and principal components (cor), quality of representation (cos2), and contributions (contrib). They can be obtained respectively as follows:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>var <span class="ot">&lt;-</span> <span class="fu">get_pca_var</span>(pr.out)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>var<span class="sc">$</span>cor</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              Dim.1      Dim.2      Dim.3       Dim.4
+Murder   -0.8439764 -0.4160354  0.2037600  0.27037052
+Assault  -0.9184432 -0.1870211  0.1601192 -0.30959159
+UrbanPop -0.4381168  0.8683282  0.2257242  0.05575330
+Rape     -0.8558394  0.1664602 -0.4883190  0.03707412</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>var<span class="sc">$</span>cos2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             Dim.1     Dim.2      Dim.3       Dim.4
+Murder   0.7122962 0.1730854 0.04151814 0.073100217
+Assault  0.8435380 0.0349769 0.02563817 0.095846950
+UrbanPop 0.1919463 0.7539938 0.05095143 0.003108430
+Rape     0.7324611 0.0277090 0.23845544 0.001374491</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>var<span class="sc">$</span>contrib</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             Dim.1     Dim.2     Dim.3     Dim.4
+Murder   28.718825 17.487524 11.643977 42.149674
+Assault  34.010315  3.533859  7.190358 55.265468
+UrbanPop  7.739016 76.179065 14.289594  1.792325
+Rape     29.531844  2.799553 66.876071  0.792533</code></pre>
+</div>
+</div>
+<p>If you have a hard time making sense of these numbers, don’t worry: there will be more on this in the lectures.<br>
+<br>
+</p>
+</section>
+</section>
+<section id="exercise-2" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="exercise-2">Exercise 2</h2>
+<p>Generate n = 200 observations and p=30 variables from a multivariate normal distribution with correlation matrix given as <span class="math inline">\(corr(x_{i},x_{j}) = \rho^{|i-j|}\)</span>. You can create the covariance matrix using</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>covmat <span class="ot">&lt;-</span> <span class="cf">function</span>(rho, p) {</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  rho<span class="sc">^</span>(<span class="fu">abs</span>(<span class="fu">outer</span>(<span class="fu">seq</span>(p), <span class="fu">seq</span>(p), <span class="st">"-"</span>)))</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>and use the <code>mvrnorm</code> function in <code>MASS</code> package to generate the multivariate Gaussian data.</p>
+<p><br>
+</p>
+<section id="task-2a" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="task-2a"><strong>Task 2a</strong></h3>
+<p>Take <span class="math inline">\(\rho=0.95\)</span> and carry out PCA. For reproducibility, set the pseudo-number generator seed = 123. How many PCs are sufficient to retain at least 80% of variance? Comment on your general observation. (Hint: Use the following codes to generate the data called <em>dd</em>.<br>
+</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>p <span class="ot">=</span> <span class="dv">30</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="dv">200</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>cov.e <span class="ot">=</span> <span class="fu">covmat</span>(<span class="fl">0.95</span>, p)</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>mean.e <span class="ot">=</span> <span class="fu">rep</span>(<span class="dv">0</span>, p)</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>dd <span class="ot">&lt;-</span> <span class="fu">mvrnorm</span>(n, mean.e, cov.e)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><br>
+</p>
+<strong>Solution to Task 2a</strong>
+<details>
+<summary>
+Click for solution
+</summary>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>prr <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(dd)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(prr)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Importance of components:
+                          PC1    PC2    PC3     PC4     PC5     PC6     PC7
+Standard deviation     4.1415 2.2933 1.3464 1.00341 0.77935 0.63838 0.48520
+Proportion of Variance 0.6179 0.1895 0.0653 0.03627 0.02188 0.01468 0.00848
+Cumulative Proportion  0.6179 0.8073 0.8726 0.90886 0.93074 0.94542 0.95390
+                           PC8     PC9    PC10    PC11    PC12    PC13   PC14
+Standard deviation     0.41615 0.40216 0.37139 0.29564 0.29060 0.26536 0.2469
+Proportion of Variance 0.00624 0.00583 0.00497 0.00315 0.00304 0.00254 0.0022
+Cumulative Proportion  0.96014 0.96597 0.97093 0.97408 0.97712 0.97966 0.9819
+                          PC15    PC16    PC17    PC18    PC19    PC20    PC21
+Standard deviation     0.24380 0.22571 0.21583 0.20360 0.18959 0.18087 0.17804
+Proportion of Variance 0.00214 0.00184 0.00168 0.00149 0.00129 0.00118 0.00114
+Cumulative Proportion  0.98400 0.98583 0.98751 0.98900 0.99030 0.99148 0.99262
+                         PC22    PC23    PC24    PC25    PC26    PC27   PC28
+Standard deviation     0.1744 0.16711 0.16001 0.15574 0.15240 0.14561 0.1390
+Proportion of Variance 0.0011 0.00101 0.00092 0.00087 0.00084 0.00076 0.0007
+Cumulative Proportion  0.9937 0.99472 0.99564 0.99652 0.99735 0.99812 0.9988
+                          PC29    PC30
+Standard deviation     0.12848 0.12825
+Proportion of Variance 0.00059 0.00059
+Cumulative Proportion  0.99941 1.00000</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">summary</span>(prr)<span class="sc">$</span>importance[<span class="dv">2</span>,], <span class="at">type=</span><span class="st">"b"</span>, <span class="at">xlab=</span><span class="st">"PCs"</span>, <span class="at">ylab=</span><span class="st">"Variability explained"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab5_PCA_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+The summary shows that 2 components are enough to keep 80% of the variability in data.
+</details>
+<p><br>
+</p>
+<p><br>
+</p>
+</section>
+<section id="task-2b" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="task-2b"><strong>Task 2b</strong></h3>
+<p>Take <span class="math inline">\(\rho=0.2\)</span> and carry out PCA. As done before, use the pseudo-number generator, <code>seed = 123</code> for reproducibility. How many PCs are sufficient to retain at least 80% of variance? Compare your results with the case of <span class="math inline">\(\rho=0.95\)</span>.</p>
+<p><br>
+</p>
+<strong>Solution to task 2b</strong>
+<details>
+<summary>
+Click for solution
+</summary>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>p <span class="ot">=</span> <span class="dv">30</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="dv">200</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>cov.e <span class="ot">=</span> <span class="fu">covmat</span>(<span class="fl">0.2</span>, p)</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>mean.e <span class="ot">=</span> <span class="fu">rep</span>(<span class="dv">0</span>, p)</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>dd <span class="ot">&lt;-</span> <span class="fu">mvrnorm</span>(n, mean.e, cov.e)</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>prr <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(dd)</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(prr)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Importance of components:
+                           PC1     PC2     PC3     PC4     PC5     PC6     PC7
+Standard deviation     1.46267 1.33775 1.32938 1.28976 1.22917 1.17781 1.17183
+Proportion of Variance 0.07223 0.06042 0.05966 0.05616 0.05101 0.04683 0.04636
+Cumulative Proportion  0.07223 0.13265 0.19231 0.24847 0.29948 0.34631 0.39267
+                           PC8     PC9   PC10    PC11    PC12    PC13    PC14
+Standard deviation     1.16283 1.13430 1.1074 1.05365 1.03779 1.01332 0.99861
+Proportion of Variance 0.04565 0.04344 0.0414 0.03748 0.03636 0.03467 0.03367
+Cumulative Proportion  0.43832 0.48176 0.5232 0.56065 0.59701 0.63167 0.66534
+                          PC15    PC16    PC17    PC18    PC19    PC20    PC21
+Standard deviation     0.96032 0.92220 0.91021 0.88108 0.85584 0.83619 0.81532
+Proportion of Variance 0.03114 0.02871 0.02797 0.02621 0.02473 0.02361 0.02244
+Cumulative Proportion  0.69648 0.72519 0.75316 0.77937 0.80410 0.82770 0.85015
+                          PC22    PC23    PC24    PC25    PC26    PC27    PC28
+Standard deviation     0.78841 0.75942 0.74078 0.71840 0.70589 0.69243 0.66375
+Proportion of Variance 0.02099 0.01947 0.01853 0.01742 0.01682 0.01619 0.01487
+Cumulative Proportion  0.87113 0.89060 0.90913 0.92655 0.94338 0.95956 0.97444
+                          PC29    PC30
+Standard deviation     0.62502 0.60544
+Proportion of Variance 0.01319 0.01238
+Cumulative Proportion  0.98762 1.00000</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">summary</span>(prr)<span class="sc">$</span>importance[<span class="dv">2</span>,], <span class="at">type=</span><span class="st">"b"</span>, <span class="at">xlab=</span><span class="st">"PCs"</span>, <span class="at">ylab=</span><span class="st">"Variability explained"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab5_PCA_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The summary shows that 19 components are needed to keep 80% of the variability in data. This shows that the higher the correlation, the higher the redundancy in the data in which case PCA becomes more useful and gives more clear interpretation.</p>
+</details>
+<p><br>
+</p>
+<p><br>
+<br>
+</p>
+</section>
+</section>
+<section id="exercise-3" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="exercise-3">Exercise 3</h2>
+<p>One of the many uses of PCA is principal component regression (PCR). We will get a taste of how this works on the Iris data.</p>
+<p>We have seen that Sepal length is highly correlated with Petal length and Petal width. Suppose that we want to carryout regression analysis between Sepal length (<strong>response variable</strong>) and the three remaining variables (<strong>covariates</strong>). Then we can use PCA to improve our analysis.<br>
+</p>
+<section id="task-3a" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="task-3a"><strong>Task 3a</strong></h3>
+<p>Perform the PCA and find the scores of the principal components of the covariates.<br>
+</p>
+<strong>Solution to task 3a</strong>
+<details>
+<summary>
+Click for solution
+</summary>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>iris.pca <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(iris[,<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>], <span class="at">scale=</span><span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The rotation matrix is given by</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>iris.pca<span class="sc">$</span>rotation</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                    PC1        PC2         PC3
+Sepal.Width  -0.4181177 -0.9067335  0.05488053
+Petal.Length  0.6482670 -0.2555198  0.71725833
+Petal.Width   0.6363391 -0.3354757 -0.69464280</code></pre>
+</div>
+</div>
+<p>and the scores by</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>iris.pca<span class="sc">$</span>x</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              PC1          PC2          PC3
+  [1,] -2.1248387 -0.139743260  0.008370721
+  [2,] -1.6451988  0.900407772 -0.054584971
+  [3,] -1.8737775  0.498821958 -0.070033694
+  [4,] -1.7044039  0.677902966 -0.001362832
+  [5,] -2.2207666 -0.347773466  0.020961859
+  [6,] -2.2314161 -1.103311779 -0.001635822
+  [7,] -1.9454276  0.024274998 -0.095352466
+  [8,] -1.9921879  0.053812348  0.036410583
+  [9,] -1.5492708  1.108437978 -0.067176109
+ [10,] -1.7878870  0.721914915  0.089769216
+ [11,] -2.2799718 -0.570278271  0.074183997
+ [12,] -1.9554651  0.039337749  0.077041583
+ [13,] -1.7286818  0.944419721  0.036547077
+ [14,] -1.8388502  0.987843518 -0.085345923
+ [15,] -2.6779242 -1.150945093 -0.009935588
+ [16,] -2.7845016 -2.114513613 -0.019942131
+ [17,] -2.3783073 -1.045413383 -0.164159822
+ [18,] -2.0413556 -0.183755209 -0.082761327
+ [19,] -2.2189712 -0.851269624  0.076905088
+ [20,] -2.2924168 -0.822320426 -0.004356912
+ [21,] -1.9187423  0.024863150  0.117672583
+ [22,] -2.1130058 -0.658302169 -0.108080099
+ [23,] -2.3676579 -0.289875070 -0.141562142
+ [24,] -1.5723652  0.100857509 -0.168314699
+ [25,] -1.8452967 -0.004086048  0.198934583
+ [26,] -1.5717531  0.871458574  0.026677030
+ [27,] -1.7884990 -0.048686149 -0.105222513
+ [28,] -2.0881159 -0.154217859  0.049001721
+ [29,] -2.0289107  0.068286947 -0.004220418
+ [30,] -1.7636091  0.455398161  0.051859306
+ [31,] -1.6676811  0.663428368  0.039268168
+ [32,] -1.8252218 -0.034211550 -0.145853513
+ [33,] -2.7471668 -1.358387147  0.215680599
+ [34,] -2.7963345 -1.595954703  0.096508689
+ [35,] -1.7044039  0.677902966 -0.001362832
+ [36,] -1.9105003  0.513296557 -0.110664695
+ [37,] -2.1615615 -0.125268661 -0.032260280
+ [38,] -2.3042497 -0.303761517  0.112093907
+ [39,] -1.6819216  0.914882371 -0.095215971
+ [40,] -1.9921879  0.053812348  0.036410583
+ [41,] -2.0780784 -0.169280610 -0.123392328
+ [42,] -0.9269427  2.327081865 -0.274485987
+ [43,] -1.8737775  0.498821958 -0.070033694
+ [44,] -1.7174609 -0.344740253 -0.274895471
+ [45,] -2.0620425 -0.924230771  0.067035040
+ [46,] -1.5617157  0.856395823 -0.145717019
+ [47,] -2.3391770 -0.792783076  0.127406136
+ [48,] -1.8370547  0.484347359 -0.029402694
+ [49,] -2.2799718 -0.570278271  0.074183997
+ [50,] -1.9329827  0.276317153 -0.016811556
+ [51,]  0.3765942 -0.521457794  0.217835736
+ [52,]  0.3866316 -0.536520545  0.045441688
+ [53,]  0.6294508 -0.386388735  0.195374550
+ [54,]  0.8994033  1.496148204 -0.088769462
+ [55,]  0.8070663  0.281125681  0.035708135
+ [56,]  0.6033775  0.383624178  0.177341231
+ [57,]  0.4476323 -0.817511898  0.048162778
+ [58,]  0.2959666  1.521476037 -0.087199181
+ [59,]  0.5441723  0.161119373  0.230563369
+ [60,]  0.5624516  0.634490029 -0.170167957
+ [61,]  0.7531242  2.324647664 -0.056301734
+ [62,]  0.4683191 -0.077036336 -0.101633589
+ [63,]  0.7448822  1.836214257  0.172035544
+ [64,]  0.6643781  0.102632825  0.180062321
+ [65,]  0.1769442  0.305865362 -0.175746633
+ [66,]  0.3623537 -0.270003791  0.083351597
+ [67,]  0.5784876 -0.120460133  0.020259411
+ [68,]  0.3019651  0.781588627  0.275622236
+ [69,]  1.3459114  1.543781517 -0.080469695
+ [70,]  0.5038585  1.182586288  0.078045911
+ [71,]  0.7472491 -0.711980189 -0.106061456
+ [72,]  0.4197634  0.455997173 -0.025813770
+ [73,]  1.2050187  0.861792503  0.119827721
+ [74,]  0.5933400  0.398686929  0.349735279
+ [75,]  0.4340039  0.204543170  0.108670369
+ [76,]  0.4582817 -0.061973585  0.070760459
+ [77,]  0.7970289  0.296188432  0.208102183
+ [78,]  0.9290676 -0.280857025  0.041150316
+ [79,]  0.6744155  0.087570074  0.007668273
+ [80,]  0.1775563  1.076466427  0.019245096
+ [81,]  0.5630637  1.405091093  0.024823772
+ [82,]  0.4428579  1.463577641  0.075324820
+ [83,]  0.3954856  0.722513927  0.012096139
+ [84,]  1.1700913  0.372770943  0.135139949
+ [85,]  0.5784876 -0.120460133  0.020259411
+ [86,]  0.2782587 -0.996592907 -0.020508084
+ [87,]  0.5560052 -0.357439537  0.114112550
+ [88,]  1.0462946  1.438249808  0.073754539
+ [89,]  0.2646303  0.025462161  0.039999506
+ [90,]  0.7075474  1.080087791 -0.063587185
+ [91,]  0.6750276  0.858171138  0.202660002
+ [92,]  0.5317273 -0.090922783  0.152022459
+ [93,]  0.5281364  0.916069534  0.040136001
+ [94,]  0.3918946  1.729506244 -0.099790319
+ [95,]  0.5891370  0.635078181  0.042857092
+ [96,]  0.2178701  0.054999511  0.171762555
+ [97,]  0.3972811  0.219017768  0.068039368
+ [98,]  0.4340039  0.204543170  0.108670369
+ [99,]  0.1733533  1.312857679 -0.287633091
+[100,]  0.4564862  0.441522574  0.014817230
+[101,]  1.6763760 -1.401789225 -0.243822651
+[102,]  1.4205404  0.240735097 -0.138256195
+[103,]  1.5935050 -0.587176212  0.042301126
+[104,]  1.3288155 -0.203686362  0.181213131
+[105,]  1.6402652 -0.616713562 -0.089461922
+[106,]  1.8505646 -0.688498405  0.326718127
+[107,]  1.2250935  0.831667001 -0.224960376
+[108,]  1.5858751 -0.305008555  0.465630132
+[109,]  1.7859730  0.599485265  0.212110578
+[110,]  1.4253148 -2.040354443 -0.165418236
+[111,]  1.0243836 -0.843427884 -0.166432551
+[112,]  1.4939861  0.211785899 -0.056994194
+[113,]  1.4466138 -0.529277816 -0.120222875
+[114,]  1.6591566  0.627258159 -0.295201519
+[115,]  1.7420276 -0.187354854 -0.581325296
+[116,]  1.3482783 -1.004412928 -0.358566695
+[117,]  1.1961647 -0.397241969  0.153173269
+[118,]  1.2033466 -2.411226602  0.376946186
+[119,]  2.5114110  0.012174726  0.215982479
+[120,]  1.5295254  1.471408523  0.122685306
+[121,]  1.4951695 -1.062311324 -0.196042694
+[122,]  1.3346499  0.017642139 -0.298059105
+[123,]  1.9956603 -0.242900642  0.433298899
+[124,]  1.2636118  0.313696243 -0.128386147
+[125,]  1.2322754 -1.182317633 -0.001187460
+[126,]  1.1879227 -0.885675376  0.381510547
+[127,]  1.1309610  0.120140636 -0.156426009
+[128,]  0.9758279 -0.310394375 -0.090612732
+[129,]  1.6751925 -0.127692002 -0.104774151
+[130,]  1.1393670 -0.352641868  0.457330366
+[131,]  1.6918405 -0.112041099  0.280644946
+[132,]  0.9262121 -2.279778908  0.437317281
+[133,]  1.7586756 -0.171703951 -0.195906199
+[134,]  0.9906803  0.208752686  0.238863136
+[135,]  1.2826673  0.596452053  0.507967908
+[136,]  1.8339167 -0.704149308 -0.058700970
+[137,]  1.3500738 -1.507909087 -0.302623466
+[138,]  1.1002367 -0.605272175  0.165764407
+[139,]  0.9391051 -0.295919776 -0.131243732
+[140,]  1.3139630 -0.722833423 -0.148262737
+[141,]  1.6378577 -0.883818468 -0.340396881
+[142,]  1.3707607 -0.767433524 -0.452419834
+[143,]  1.4205404  0.240735097 -0.138256195
+[144,]  1.5686151 -1.091260522 -0.114780694
+[145,]  1.5662076 -1.358365428 -0.365715652
+[146,]  1.5034114 -0.573877917 -0.424379972
+[147,]  1.5756736  0.671270108 -0.204069471
+[148,]  1.2529623 -0.441842070 -0.150983828
+[149,]  1.1931451 -1.434947940 -0.292753418
+[150,]  1.0492735 -0.339343573 -0.009350732</code></pre>
+</div>
+</div>
+</details>
+<p><br>
+</p>
+</section>
+<section id="task-3b" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="task-3b"><strong>Task 3b</strong></h3>
+<p>Run a linear regression by using the <em>lm()</em> command. This carries out the <strong>principal component regression</strong> (PCR, not PCA!). Use just the first 2 principal components as covariates in the linear regression model. As hinted before, the response variable should be <code>Sepal length</code>.<br>
+</p>
+<strong>Solution to task 3b</strong>
+<details>
+<summary>
+Click for solution
+</summary>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>Z <span class="ot">=</span> iris.pca<span class="sc">$</span>x[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>] <span class="co"># select the first two PCs</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>iris.lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(iris<span class="sc">$</span>Sepal.Length<span class="sc">~</span>Z)</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>iris.lm</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = iris$Sepal.Length ~ Z)
+
+Coefficients:
+(Intercept)         ZPC1         ZPC2  
+     5.8433       0.4230      -0.4348  </code></pre>
+</div>
+</div>
+</details>
+<p><br>
+</p>
+<p>Now, you can transform this coefficient vector to the scale of the original variables as follows (might look mysterious for now: come back and see this again after the lecture!). This gives the final PCR estimator, whose dimension is equal to the total number of original covariates.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>iris.pca<span class="sc">$</span>rotation[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]<span class="sc">%*%</span><span class="fu">matrix</span>(<span class="fu">coef</span>(iris.lm)[<span class="sc">-</span><span class="dv">1</span>], <span class="at">ncol=</span><span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                  [,1]
+Sepal.Width  0.2173767
+Petal.Length 0.3853085
+Petal.Width  0.4150270</code></pre>
+</div>
+</div>
+<p><br>
+</p>
+</section>
+<section id="task-3c" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="task-3c"><strong>Task 3c</strong></h3>
+<p>In practice, we do not need to do PCR ourselves in this way, as this is implemented in the <em>pls</em> R package. Carryout PCR using the <code>pcr</code> function in R (check <a href="https://www.rdocumentation.org/packages/analogue/versions/0.17-6/topics/pcr"> HERE</a>) and compare the results.<br>
+</p>
+<strong>Solution to task 3c</strong>
+<details>
+<summary>
+Click for solution
+</summary>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pls)</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>iris.pcr <span class="ot">&lt;-</span> <span class="fu">pcr</span>(Sepal.Length<span class="sc">~</span> Sepal.Width<span class="sc">+</span>Petal.Length<span class="sc">+</span>Petal.Width, <span class="dv">2</span>, </span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">scale=</span><span class="cn">TRUE</span>, <span class="at">data=</span>iris) <span class="co"># 2 stands for number of principal components used in pcr,</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(iris.pcr)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>, , 2 comps
+
+             Sepal.Length
+Sepal.Width     0.2173767
+Petal.Length    0.3853085
+Petal.Width     0.4150270</code></pre>
+</div>
+</div>
+</details>
+
+
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

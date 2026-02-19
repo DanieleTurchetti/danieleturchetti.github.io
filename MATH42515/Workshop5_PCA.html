@@ -8,7 +8,7 @@
 
 <meta name="author" content="Emmanuel Ogundimu">
 
-<title>Workshop 1 Principal Component Analysis – DEVUL Course Notes</title>
+<title>workshop5_pca – DEVUL Course Notes</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -229,11 +229,11 @@ window.Quarto = {
  <span class="dropdown-text">Workshop 4</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./Lecture5a_PCA.html">
+    <a class="dropdown-item" href="./Lecture5_PCA.html">
  <span class="dropdown-text">Lecture 5a</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./Lecture5b_PCA.html">
+    <a class="dropdown-item" href="./Lecture5_PCA.html">
  <span class="dropdown-text">Lecture 5b</span></a>
   </li>  
         <li>
@@ -268,7 +268,9 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#iris-data" id="toc-iris-data" class="nav-link active" data-scroll-target="#iris-data">Iris data</a>
+  <li><a href="#workshop-5---principal-component-analysis" id="toc-workshop-5---principal-component-analysis" class="nav-link active" data-scroll-target="#workshop-5---principal-component-analysis">Workshop 5 - Principal Component Analysis</a>
+  <ul class="collapse">
+  <li><a href="#iris-data" id="toc-iris-data" class="nav-link" data-scroll-target="#iris-data">Iris data</a>
   <ul class="collapse">
   <li><a href="#task-using-linear-algebra-to-compute-scores" id="toc-task-using-linear-algebra-to-compute-scores" class="nav-link" data-scroll-target="#task-using-linear-algebra-to-compute-scores"><strong>Task: Using linear algebra to compute scores</strong></a></li>
   </ul></li>
@@ -277,6 +279,7 @@ window.Quarto = {
   <li><a href="#task-using-svd" id="toc-task-using-svd" class="nav-link" data-scroll-target="#task-using-svd"><strong>Task: Using SVD</strong></a></li>
   </ul></li>
   <li><a href="#reconstruction-error" id="toc-reconstruction-error" class="nav-link" data-scroll-target="#reconstruction-error">Reconstruction Error</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -285,7 +288,6 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Workshop 1 Principal Component Analysis</h1>
 </div>
 
 
@@ -308,6 +310,8 @@ window.Quarto = {
 </header>
 
 
+<section id="workshop-5---principal-component-analysis" class="level1">
+<h1>Workshop 5 - Principal Component Analysis</h1>
 <p>Principal component analysis (PCA) is a technique that produces a smaller set of uncorrelated variables from a larger set of correlated variables. This allows us to visualize, explore, and discover hidden features of the data set. It is also very useful to perform a special type of multilinear regression (see Principal Components Regression). Here we explore how to perform PCA using R, how to read and visualize the output, as well as good practices and how to avoid pitfalls. For a more theoretical viewpoint on PCA, you are referred to the lecture notes.</p>
 <p>In <strong>R</strong>, PCA is performed using either <em>princomp()</em> or <em>prcomp()</em> (the latter being the preferred method).<br>
 </p>
@@ -774,6 +778,7 @@ Update the code above to compute the reconstruction errors when 2 and 3 PCs are 
 <p>Compare the reconstruction errors when 2 and 3 PCs are retained. How do these errors relate to the cumulative variance explained by the retained components? Can you explain the results?</p>
 
 
+</section>
 </section>
 </section>
 

@@ -6,9 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Daniele Turchetti">
 
-<title>DEVUL 2025/26 – DEVUL Course Notes</title>
+<title>Correspondence Analysis, an example – DEVUL Course Notes</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +19,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -70,6 +104,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -92,7 +155,7 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="./index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item dropdown ">
@@ -216,19 +279,7 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#welcome-to-math42515" id="toc-welcome-to-math42515" class="nav-link active" data-scroll-target="#welcome-to-math42515">Welcome to MATH42515</a>
-  <ul class="collapse">
-  <li><a href="#content" id="toc-content" class="nav-link" data-scroll-target="#content">Content</a>
-  <ul class="collapse">
-  <li><a href="#week-1" id="toc-week-1" class="nav-link" data-scroll-target="#week-1">Week 1</a></li>
-  <li><a href="#week-2" id="toc-week-2" class="nav-link" data-scroll-target="#week-2">Week 2</a></li>
-  <li><a href="#week-3" id="toc-week-3" class="nav-link" data-scroll-target="#week-3">Week 3</a></li>
-  <li><a href="#week-4" id="toc-week-4" class="nav-link" data-scroll-target="#week-4">Week 4</a></li>
-  <li><a href="#week-5-reading-week-no-new-material" id="toc-week-5-reading-week-no-new-material" class="nav-link" data-scroll-target="#week-5-reading-week-no-new-material">Week 5 (Reading week, no new material)</a></li>
-  <li><a href="#week-6" id="toc-week-6" class="nav-link" data-scroll-target="#week-6">Week 6</a></li>
-  <li><a href="#week-7" id="toc-week-7" class="nav-link" data-scroll-target="#week-7">Week 7</a></li>
-  </ul></li>
-  </ul></li>
+  <li><a href="#ca-on-biscuit-purchase-data" id="toc-ca-on-biscuit-purchase-data" class="nav-link active" data-scroll-target="#ca-on-biscuit-purchase-data">CA on biscuit purchase data</a></li>
   </ul>
 </nav>
     </div>
@@ -237,19 +288,13 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">DEVUL 2025/26</h1>
+<h1 class="title">Correspondence Analysis, an example</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Daniele Turchetti </p>
-          </div>
-  </div>
     
   
     
@@ -260,71 +305,111 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="welcome-to-math42515" class="level1 unnumbered">
-<h1 class="unnumbered">Welcome to MATH42515</h1>
-<p>This website contains the HTML version of lecture notes for the module in 2025/26. Use the left bar to navigate through the different lectures and the right bar to navigate through different sections in the same lecture.</p>
-<p>The content of these notes integrates the material of previous lecturers of this module (Jonathan Cummings, Emmanuel Ogundimu and Hyeyoung Maeng). Without their input, the overall quality of the material would be much worse. It shall be noted however that any mistake in the notes is my responsibility: if you spot one, please let me know at <strong>daniele.turchetti@durham.ac.uk</strong>.</p>
-<section id="content" class="level2">
-<h2 class="anchored" data-anchor-id="content">Content</h2>
-<section id="week-1" class="level3">
-<h3 class="anchored" data-anchor-id="week-1">Week 1</h3>
-<ul>
-<li><a href="./Lecture1a_IntroViz.html">Lecture 1a</a></li>
-<li><a href="./Lecture1b_Variables.html">Lecture 1b</a></li>
-<li><a href="./Lab1_ExplContVar.html">Practical 1</a></li>
-<li><a href="./Workshop1_CategoricalVariables.html">Workshop 1</a></li>
-</ul>
-</section>
-<section id="week-2" class="level3">
-<h3 class="anchored" data-anchor-id="week-2">Week 2</h3>
-<ul>
-<li><a href="./Lecture2a_ManyCatVar.html">Lecture 2a</a></li>
-<li><a href="./Lecture2b_ManyContVar.html">Lecture 2b</a></li>
-<li><a href="./Lab2_ManyCatVariables.html">Practical 2</a></li>
-<li><a href="./Workshop2_DepRelAss.html">Workshop 2</a></li>
-</ul>
-</section>
-<section id="week-3" class="level3">
-<h3 class="anchored" data-anchor-id="week-3">Week 3</h3>
-<ul>
-<li><a href="./Lecture3a_SmoothingKDE.html">Lecture 3a</a></li>
-<li><a href="./Lecture3b_TimeSeries.html">Lecture 3b</a></li>
-<li><a href="./Lab3_Smoothing.html">Practical 3</a></li>
-<li><a href="./Workshop3_TimeSeries.html">Workshop 3</a></li>
-</ul>
-</section>
-<section id="week-4" class="level3">
-<h3 class="anchored" data-anchor-id="week-4">Week 4</h3>
-<ul>
-<li><a href="./Lecture4a_CompDataQual.html">Lecture 4a</a></li>
-<li><a href="./Lecture4b_MissingData.html">Lecture 4b</a></li>
-<li><a href="./Lab4_MissingData.html">Practical 4</a></li>
-<li><a href="./Workshop4_AdvancedFunctions.html">Workshop 4</a></li>
-</ul>
-</section>
-<section id="week-5-reading-week-no-new-material" class="level3">
-<h3 class="anchored" data-anchor-id="week-5-reading-week-no-new-material">Week 5 (Reading week, no new material)</h3>
-</section>
-<section id="week-6" class="level3">
-<h3 class="anchored" data-anchor-id="week-6">Week 6</h3>
-<ul>
-<li><a href="./Lecture5_PCA.html">Lecture 5a</a></li>
-<li><a href="./Lecture5_PCA.html">Lecture 5b</a></li>
-<li><a href="./Lab5_PCA.html">Practical 5</a></li>
-<li><a href="./Workshop5_PCA.html">Workshop 5</a></li>
-</ul>
-</section>
-<section id="week-7" class="level3">
-<h3 class="anchored" data-anchor-id="week-7">Week 7</h3>
-<ul>
-<li><a href="./Lecture5_PCA.html">Lecture 6b</a></li>
-<li><a href="./Lab6_CA.html">Practical 6</a></li>
-<li><a href="./Workshop6_FA.html">Workshop 6</a></li>
-</ul>
+<section id="ca-on-biscuit-purchase-data" class="level2">
+<h2 class="anchored" data-anchor-id="ca-on-biscuit-purchase-data">CA on biscuit purchase data</h2>
+<p>Let’s see how to perform Correspondence Analysis with <code>R</code>. (You can download the data set from Blackboard as biscuit.csv). We first start by loading the datasets in our environment together with the libraries.</p>
+<div class="cell" data-warnings="false">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("factoextra, gplots")</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(factoextra)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"gplots"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"biscuit.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in read.table(file = file, header = header, sep = sep, quote = quote, :
+incomplete final line found by readTableHeader on 'biscuit.csv'</code></pre>
+</div>
+</div>
+<p>Then we use the <em>balloonplot()</em> function from the gplots package to visualize the contingency</p>
+<div class="cell" data-warnings="false">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>dd <span class="ot">&lt;-</span> <span class="fu">as.table</span>(<span class="fu">as.matrix</span>(dat[,<span class="sc">-</span><span class="dv">1</span>]))</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">balloonplot</span>(<span class="fu">t</span>(dd), <span class="at">main=</span> <span class="st">"Biscuit purchases"</span>, <span class="at">xlab=</span><span class="st">""</span>, <span class="at">ylab =</span><span class="st">""</span>, <span class="at">label=</span><span class="cn">FALSE</span>, <span class="at">show.margins =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lecture6b_CA_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Is there enough association to justify performing CA? Let’s see it with a <span class="math inline">\(\chi^2\)</span>-test</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chisq.test</span>(dat[,<span class="sc">-</span><span class="dv">1</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Pearson's Chi-squared test
+
+data:  dat[, -1]
+X-squared = 113.24, df = 9, p-value &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<p>The <span class="math inline">\(p\)</span>-value is exceptionally small! We can then expect CA to give us significant results.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(FactoMineR)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">CA</span>(dat[,<span class="sc">-</span><span class="dv">1</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lecture6b_CA_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We see a very strong association between categories: Brands 1 and 3 are big favourites in England and Wales; Brand 2 in Scotland and Brand 4 in Northern Ireland.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>res<span class="sc">$</span>row</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$coord
+       Dim 1      Dim 2        Dim 3
+1 -0.1809579 -0.2156873 -0.072909726
+2  1.0385758  0.2195956  0.005666833
+3 -0.1654913 -0.4838897  0.082995013
+4 -0.5219437  0.7755216  0.025402494
+
+$contrib
+      Dim 1     Dim 2      Dim 3
+1  4.110045  8.347489 51.4555087
+2 75.032226  4.795499  0.1722747
+3  2.319275 28.347159 44.9857399
+4 18.538454 58.509852  3.3864767
+
+$cos2
+      Dim 1      Dim 2        Dim 3
+1 0.3871453 0.55000695 6.284779e-02
+2 0.9571793 0.04279217 2.849691e-05
+3 0.1020300 0.87230855 2.566146e-02
+4 0.3115196 0.68774249 7.378886e-04
+
+$inertia
+[1] 0.03052328 0.22537879 0.06535561 0.17109867</code></pre>
+</div>
+</div>
+<p>Based on this analysis, the retail company can optimize their sales of this item.</p>
+<p>How good is this plot? Are two dimensions effective to explain the association? We can check this using our good old friend, the proportion of variance explained by the first two dimensions.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>res<span class="sc">$</span>eig</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       eigenvalue percentage of variance cumulative percentage of variance
+dim 1 0.287513686             58.3954461                          58.39545
+dim 2 0.201114547             40.8473553                          99.24280
+dim 3 0.003728115              0.7571985                         100.00000</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>pr.var <span class="ot">&lt;-</span> <span class="fu">t</span>(res<span class="sc">$</span>eig[,<span class="dv">2</span>])</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(pr.var, <span class="at">names.arg=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, </span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">"Variances"</span>,</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">"Dimensions"</span>,</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">"Percentage of variances"</span>,</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> <span class="st">"steelblue"</span>)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, pr.var, <span class="at">type=</span><span class="st">"b"</span>, <span class="at">pch=</span><span class="dv">19</span>, <span class="at">col =</span> <span class="st">"red"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture6b_CA_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The first two dimension explain more than 99% of the variance: the analysis is then very accurate and reliable. We’ll see more on this in the CA Workshop.</p>
 
 
-</section>
-</section>
 </section>
 
 </main> <!-- /main -->

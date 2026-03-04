@@ -1,0 +1,1423 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>lab7_kmeans – DEVUL Course Notes</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-e3b7bb8e06e71ba88653cd3334f68afa.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">DEVUL Course Notes</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-notes" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Notes</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-notes">    
+        <li>
+    <a class="dropdown-item" href="./Lecture1a_IntroViz.html">
+ <span class="dropdown-text">Lecture 1a</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lecture1b_Variables.html">
+ <span class="dropdown-text">Lecture 1b</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lab1_ExplContVar.html">
+ <span class="dropdown-text">Practical 1</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Workshop1_CategoricalVariables.html">
+ <span class="dropdown-text">Workshop 1</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lecture2a_ManyCatVar.html">
+ <span class="dropdown-text">Lecture 2a</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lecture2b_ManyContVar.html">
+ <span class="dropdown-text">Lecture 2b</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lab2_ManyCatVariables.html">
+ <span class="dropdown-text">Practical 2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Workshop2_DepRelAss.html">
+ <span class="dropdown-text">Workshop 2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lecture3a_SmoothingKDE.html">
+ <span class="dropdown-text">Lecture 3a</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lecture3b_TimeSeries.html">
+ <span class="dropdown-text">Lecture 3b</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lab3_Smoothing.html">
+ <span class="dropdown-text">Practical 3</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Workshop3_TimeSeries.html">
+ <span class="dropdown-text">Workshop 3</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lecture4a_CompDataQual.html">
+ <span class="dropdown-text">Lecture 4a</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lecture4b_MissingData.html">
+ <span class="dropdown-text">Lecture 4b</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lab4_MissingData.html">
+ <span class="dropdown-text">Practical 4</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Workshop4_AdvancedFunctions.html">
+ <span class="dropdown-text">Workshop 4</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lecture5_PCA.html">
+ <span class="dropdown-text">Lecture 5a</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lecture5_PCA.html">
+ <span class="dropdown-text">Lecture 5b</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lab5_PCA.html">
+ <span class="dropdown-text">Practical 5</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Workshop5_PCA.html">
+ <span class="dropdown-text">Workshop 5</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lecture6b_CA.html">
+ <span class="dropdown-text">Lecture 6b - R Demo</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lab6_CA.html">
+ <span class="dropdown-text">Practical 6</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Workshop6_FA.html">
+ <span class="dropdown-text">Workshop 6</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lecture7a_Kmeans.html">
+ <span class="dropdown-text">Lecture 7a</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lecture7b_Demo.html">
+ <span class="dropdown-text">Lecture 7b - R Demo</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lab7_Kmeans.html">
+ <span class="dropdown-text">Practical 7</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Workshop7_Clustering.html">
+ <span class="dropdown-text">Workshop 7</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#practical-7---k-means-clustering" id="toc-practical-7---k-means-clustering" class="nav-link active" data-scroll-target="#practical-7---k-means-clustering">Practical 7 - K-means clustering</a>
+  <ul class="collapse">
+  <li><a href="#exercise-1" id="toc-exercise-1" class="nav-link" data-scroll-target="#exercise-1">Exercise 1</a>
+  <ul class="collapse">
+  <li><a href="#task-1a" id="toc-task-1a" class="nav-link" data-scroll-target="#task-1a"><strong>Task 1a</strong></a></li>
+  <li><a href="#task-1b" id="toc-task-1b" class="nav-link" data-scroll-target="#task-1b"><strong>Task 1b</strong></a></li>
+  <li><a href="#task-1c" id="toc-task-1c" class="nav-link" data-scroll-target="#task-1c"><strong>Task 1c</strong></a></li>
+  <li><a href="#task-1d" id="toc-task-1d" class="nav-link" data-scroll-target="#task-1d"><strong>Task 1d</strong></a></li>
+  </ul></li>
+  <li><a href="#exercise-2" id="toc-exercise-2" class="nav-link" data-scroll-target="#exercise-2">Exercise 2</a>
+  <ul class="collapse">
+  <li><a href="#task-2a" id="toc-task-2a" class="nav-link" data-scroll-target="#task-2a"><strong>Task 2a</strong></a></li>
+  <li><a href="#task-2b" id="toc-task-2b" class="nav-link" data-scroll-target="#task-2b"><strong>Task 2b</strong></a></li>
+  <li><a href="#task-2c" id="toc-task-2c" class="nav-link" data-scroll-target="#task-2c"><strong>Task 2c</strong></a></li>
+  </ul></li>
+  <li><a href="#exercise-3" id="toc-exercise-3" class="nav-link" data-scroll-target="#exercise-3">Exercise 3</a>
+  <ul class="collapse">
+  <li><a href="#task-3a" id="toc-task-3a" class="nav-link" data-scroll-target="#task-3a"><strong>Task 3a</strong></a></li>
+  <li><a href="#task-3b" id="toc-task-3b" class="nav-link" data-scroll-target="#task-3b"><strong>Task 3b</strong></a></li>
+  <li><a href="#task-3c" id="toc-task-3c" class="nav-link" data-scroll-target="#task-3c"><strong>Task 3c</strong></a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+
+
+
+
+<section id="practical-7---k-means-clustering" class="level1">
+<h1>Practical 7 - K-means clustering</h1>
+<p>In this session, you are going to get some hands-on practice of how clustering works in <code>R</code>.</p>
+<ul>
+<li>In exercise 1, you will perform K-means cluster analysis on simulated data;</li>
+<li>In exercise 2, you will perform K-means and K-medoids cluster analysis on a data set with higher complexity than the Iris one;</li>
+<li>In exercise 3, you will examine how to combine cluster analysis and correspondence analysis.</li>
+</ul>
+<p><br>
+</p>
+<section id="exercise-1" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="exercise-1">Exercise 1</h2>
+<p>In this exercise, we will simulate data, and then perform PCA and K-means clustering on the data.</p>
+<p>We are required to generate a data set with 20 observations in each of three classes (i.e.&nbsp;60 observations in total), and 50 variables. Read and run the code given below which will help you to start:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Part (a) generate data:</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>K <span class="ot">=</span> <span class="dv">3</span>  <span class="co"># the number of classes</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="dv">20</span> <span class="co"># the number of samples per class</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>p <span class="ot">=</span> <span class="dv">50</span> <span class="co"># the number of variables</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Create data for class 1:</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>X_1 <span class="ot">=</span> <span class="fu">matrix</span>( <span class="fu">rnorm</span>(n<span class="sc">*</span>p), <span class="at">nrow=</span>n, <span class="at">ncol=</span>p )</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>( row <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n ){</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  X_1[row,] <span class="ot">=</span> X_1[row,] <span class="sc">+</span> <span class="fu">rep</span>( <span class="dv">1</span>, p )</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Create data for class 2:</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>X_2 <span class="ot">=</span> <span class="fu">matrix</span>( <span class="fu">rnorm</span>(n<span class="sc">*</span>p), <span class="at">nrow=</span>n, <span class="at">ncol=</span>p )</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>( row <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n ){</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  X_2[row,] <span class="ot">=</span> X_2[row,] <span class="sc">+</span> <span class="fu">rep</span>( <span class="sc">-</span><span class="dv">1</span>, p )</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Create data for class 3:</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>X_3 <span class="ot">=</span> <span class="fu">matrix</span>( <span class="fu">rnorm</span>(n<span class="sc">*</span>p), <span class="at">nrow=</span>n, <span class="at">ncol=</span>p )</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>( row <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n ){</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  X_3[row,] <span class="ot">=</span> X_3[row,] <span class="sc">+</span> <span class="fu">c</span>( <span class="fu">rep</span>( <span class="dv">1</span>, p<span class="sc">/</span><span class="dv">2</span> ), <span class="fu">rep</span>( <span class="sc">-</span><span class="dv">1</span>, p<span class="sc">/</span><span class="dv">2</span> ) )</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">rbind</span>(X_1, X_2, X_3)</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(X)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 60 50</code></pre>
+</div>
+</div>
+<p><br>
+</p>
+<section id="task-1a" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="task-1a"><strong>Task 1a</strong></h3>
+<p>Perform K-means clustering on the observations with <span class="math inline">\(K = 3\)</span>. How well do the clusters that you obtained in K-means clustering compare to the true class labels? Use <code>fviz_cluster</code> function for visualisation.<br>
+</p>
+<strong>Solution to Task 1a</strong>
+<details>
+<summary>
+Click for solution
+</summary>
+<p><br>
+</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Kmeans on the original data</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(factoextra)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: ggplot2</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Welcome! Want to learn more? See two factoextra-related books at https://goo.gl/ve3WBa</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>Xs <span class="ot">&lt;-</span> <span class="fu">scale</span>(X) </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>kmean.out <span class="ot">=</span> <span class="fu">kmeans</span>(Xs, <span class="at">centers=</span><span class="dv">3</span>, <span class="at">nstart=</span><span class="dv">25</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_cluster</span>(kmean.out, Xs, <span class="at">ellipse.type =</span> <span class="st">"norm"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lab7_Kmeans_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+What is clear from this result is that the clusters are well separated. Indeed we generated non-overlapping clusters.
+</details>
+<p><br>
+</p>
+</section>
+<section id="task-1b" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="task-1b"><strong>Task 1b</strong></h3>
+<p>To check the optimal number of clusters, we perform the silhouette analysis. First run <span class="math inline">\(K\)</span>-means clustering for different sizes of <span class="math inline">\(K = 2, 3, \ldots, 6\)</span>.</p>
+<p><br>
+</p>
+<strong>Solution to Task 1b</strong>
+<details>
+<summary>
+Click for solution
+</summary>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>kmean1 <span class="ot">=</span> <span class="fu">kmeans</span>(Xs, <span class="at">centers=</span><span class="dv">1</span>, <span class="at">nstart=</span><span class="dv">25</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>kmean2 <span class="ot">=</span> <span class="fu">kmeans</span>(Xs, <span class="at">centers=</span><span class="dv">2</span>, <span class="at">nstart=</span><span class="dv">25</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>kmean3 <span class="ot">=</span> <span class="fu">kmeans</span>(Xs, <span class="at">centers=</span><span class="dv">3</span>, <span class="at">nstart=</span><span class="dv">25</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>kmean4 <span class="ot">=</span> <span class="fu">kmeans</span>(Xs, <span class="at">centers=</span><span class="dv">4</span>, <span class="at">nstart=</span><span class="dv">25</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>kmean5 <span class="ot">=</span> <span class="fu">kmeans</span>(Xs, <span class="at">centers=</span><span class="dv">5</span>, <span class="at">nstart=</span><span class="dv">25</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>kmean6 <span class="ot">=</span> <span class="fu">kmeans</span>(Xs, <span class="at">centers=</span><span class="dv">6</span>, <span class="at">nstart=</span><span class="dv">25</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Or there is another way of doing this.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2023</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>){</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">assign</span>(<span class="fu">paste</span>(<span class="st">"kmean"</span>, i, <span class="at">sep=</span><span class="st">""</span>), <span class="fu">kmeans</span>(Xs, <span class="at">centers=</span>i, <span class="at">nstart=</span><span class="dv">25</span>))</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</details>
+<p><br>
+</p>
+</section>
+<section id="task-1c" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="task-1c"><strong>Task 1c</strong></h3>
+<p>Now we compute the silhouette width for each clustering output and plot it to find the optimal <span class="math inline">\(K\)</span> where the silhouette width is maximised.</p>
+<p><br>
+</p>
+<strong>Solution to Task 1c</strong>
+<details>
+<summary>
+Click for solution
+</summary>
+<p>Here we can use the for loop again.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cluster)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>sil.width <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="dv">6</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>sil.width[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">6</span>){</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  kmean.out <span class="ot">&lt;-</span> <span class="fu">get</span>(<span class="fu">paste</span>(<span class="st">"kmean"</span>, i, <span class="at">sep=</span><span class="st">""</span>))</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  sil <span class="ot">&lt;-</span> <span class="fu">silhouette</span>(kmean.out<span class="sc">$</span>cluster, <span class="fu">dist</span>(Xs))</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  sil.width[i] <span class="ot">&lt;-</span> <span class="fu">summary</span>(sil)<span class="sc">$</span>avg.width</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>,  sil.width, <span class="at">type=</span><span class="st">"b"</span>, <span class="at">pch=</span><span class="dv">19</span>, <span class="at">xlab=</span><span class="st">"k"</span>, <span class="at">ylab=</span><span class="st">"silhouette width"</span>)</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="fu">which.max</span>(sil.width), <span class="at">col=</span><span class="dv">2</span>, <span class="at">lty=</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab7_Kmeans_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>It seems that <span class="math inline">\(k=3\)</span> is a reasonable choice. We can get the similar plot by running the code below.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mclust)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Package 'mclust' version 6.1.1
+Type 'citation("mclust")' for citing this R package in publications.</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">#K-means</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_nbclust</span>(Xs, kmeans, <span class="at">method =</span> <span class="st">"silhouette"</span>)<span class="sc">+</span><span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"K-means"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lab7_Kmeans_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>However, the silhouette width is maximised at <span class="math inline">\(k=2\)</span> here. Why? because the function <em>fviz_nbclust()</em> use the <em>kmeans()</em> inside but with the default inputs e.g.&nbsp;nstart is set to 1 and iter.max is set to 10. If we run the above code built on <em>silhouette()</em> function after tweaking the objects kmean1, kmean2, …, kmean6 again <em>without</em> set.seed() and using different nstart e.g.&nbsp;nstart=1, then it will give different results whenever you run the code. To get a robust result, it is important to try different initial clusters and select the best results which you can control by changing <em>nstart</em> option in <em>kmeans()</em> function.</p>
+</details>
+<p><br>
+</p>
+</section>
+<section id="task-1d" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="task-1d"><strong>Task 1d</strong></h3>
+<p>Repeat the previous Tasks with the updated data shown below (only the variables <span class="math inline">\(X_2\)</span> and <span class="math inline">\(X_3\)</span> are updated).</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Part (a) generate data:</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>K <span class="ot">=</span> <span class="dv">3</span>  <span class="co"># the number of classes</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="dv">20</span> <span class="co"># the number of samples per class</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>p <span class="ot">=</span> <span class="dv">50</span> <span class="co"># the number of variables</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Create data for class 1:</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>X_1 <span class="ot">=</span> <span class="fu">matrix</span>( <span class="fu">rnorm</span>(n<span class="sc">*</span>p), <span class="at">nrow=</span>n, <span class="at">ncol=</span>p )</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>( row <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n ){</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  X_1[row,] <span class="ot">=</span> X_1[row,] <span class="sc">+</span> <span class="fu">rep</span>( <span class="dv">1</span>, p )</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Create data for class 2:</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>X_2 <span class="ot">=</span> <span class="fu">matrix</span>( <span class="fu">rnorm</span>(n<span class="sc">*</span>p), <span class="at">nrow=</span>n, <span class="at">ncol=</span>p )</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>( row <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n ){</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>  X_2[row,] <span class="ot">=</span> X_2[row,] <span class="sc">+</span> <span class="fu">rep</span>( <span class="sc">-</span><span class="dv">5</span>, p )</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Create data for class 3:</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>X_3 <span class="ot">=</span> <span class="fu">matrix</span>( <span class="fu">rnorm</span>(n<span class="sc">*</span>p), <span class="at">nrow=</span>n, <span class="at">ncol=</span>p )</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>( row <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n ){</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>  X_3[row,] <span class="ot">=</span> X_3[row,] <span class="sc">+</span> <span class="fu">c</span>( <span class="fu">rep</span>( <span class="dv">5</span>, p<span class="sc">/</span><span class="dv">2</span> ), <span class="fu">rep</span>( <span class="sc">-</span><span class="dv">5</span>, p<span class="sc">/</span><span class="dv">2</span> ) )</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">rbind</span>(X_1, X_2, X_3)</span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>Xs <span class="ot">&lt;-</span> <span class="fu">scale</span>(X) </span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>kmean.out <span class="ot">=</span> <span class="fu">kmeans</span>(Xs, <span class="at">centers=</span><span class="dv">3</span>, <span class="at">nstart=</span><span class="dv">25</span>)</span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_cluster</span>(kmean.out, Xs, <span class="at">ellipse.type =</span> <span class="st">"norm"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab7_Kmeans_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br>
+</p>
+<p>Are the optimal <span class="math inline">\(K\)</span>s obtained from the two methods above the same or do they differ?</p>
+<details>
+<summary>
+Click for solution
+</summary>
+<p>It is highly likely that the optimal <span class="math inline">\(K\)</span>s are the same due to stronger signal (i.e.&nbsp;clusters are more clearly detected even by eyes), but there is a low chance of discrepancy due to the randomness of initial choices of centroids.</p>
+</details>
+<p><br>
+</p>
+</section>
+</section>
+<section id="exercise-2" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="exercise-2">Exercise 2</h2>
+<p>Start by reading and exploring the <code>UK elections</code> dataset<br>
+</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>ele <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">'UK_elections.csv'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The number of variables in this data set (58!) is too high to explore them all at once (unless they all belonged to the same low dimensional vector space). It is also too diverse, containing a range of different socio-economic variables (e.g.&nbsp;car ownership, rental status, SeC, work seeking) and demographic variables (age, cohabitation, lone parents, household size) on top of election results. The most obvious thing is to do a cluster analysis on a subset of variables, for example the results in the 2017 election.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># We will create an object that contains only 'Name' (of the constituency) </span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co"># and number of votes per party</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>ele_sub <span class="ot">&lt;-</span> ele[,<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">6</span><span class="sc">:</span><span class="dv">13</span>)] </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="task-2a" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="task-2a"><strong>Task 2a</strong></h3>
+<p>For each party in each constituency, convert raw numbers of votes into a percentage share of votes, to take account of differences in population between constituencies.</p>
+<strong>Solution to Task 2a</strong>
+<details>
+<summary>
+Click for solution
+</summary>
+<p><br>
+</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate how many total votes were cast in each constituency </span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>ele2017_total <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(ele_sub[,<span class="dv">2</span><span class="sc">:</span><span class="dv">9</span>])</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate what percentage of votes went to each party in each constituency</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>percent2017 <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">apply</span>(ele_sub[,<span class="dv">2</span><span class="sc">:</span><span class="dv">9</span>], <span class="dv">2</span>, <span class="cf">function</span>(x) (x<span class="sc">/</span>ele2017_total)<span class="sc">*</span><span class="dv">100</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</details>
+<p>The resulting data shows that two parties (Conservative and Labour) dominate the elections in most constituencies. It makes sense to start our cluster analysis using only these two numerical variables.</p>
+</section>
+<section id="task-2b" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="task-2b"><strong>Task 2b</strong></h3>
+<p>Compute the optimal number of clusters and perform k-means cluster analysis on the data set where only the Labour and Conservative votes are considered.</p>
+<strong>Solution to Task 2b</strong>
+<details>
+<summary>
+Click for solution
+</summary>
+<p><br>
+We start by analyzing the optimal number of clusters:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(factoextra)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>perc17.scaled <span class="ot">&lt;-</span> <span class="fu">scale</span>(percent2017[,(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)])</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_nbclust</span>(perc17.scaled, kmeans, <span class="at">method =</span> <span class="st">"wss"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab7_Kmeans_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_nbclust</span>(perc17.scaled, kmeans, <span class="at">method =</span> <span class="st">"silhouette"</span>)<span class="sc">+</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"K-means"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab7_Kmeans_files/figure-html/unnamed-chunk-11-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>There seems to be little doubt that 2 is an ideal number of clusters. Let us see how they look like in the data space.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>km.res <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(perc17.scaled, <span class="dv">2</span>, <span class="at">nstart =</span> <span class="dv">25</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualise kmeans clustering</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_cluster</span>(km.res, perc17.scaled, <span class="at">ellipse.type =</span> <span class="st">"norm"</span>) <span class="sc">+</span> </span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">intercept =</span> <span class="fl">0.3</span>, <span class="at">slope =</span> <span class="fl">1.1</span>, <span class="at">col=</span><span class="st">"blue"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lab7_Kmeans_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+Interpretation is not too difficult here: cluster 1 corresponds to constituencies where Conservative votes are higher, while cluster 2 corresponds to constituencies where Labour votes are higher.
+</details>
+<p>Clustering on Labour and Conservative votes is not particularly useful, as there is quite a simple relationship between them: when one goes up, the other will usually go down. So before we assess our results further, we will include the other political parties.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(factoextra)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>percent17.scaled <span class="ot">&lt;-</span> <span class="fu">scale</span>(percent2017)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_nbclust</span>(percent17.scaled, kmeans, <span class="at">method =</span> <span class="st">"wss"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab7_Kmeans_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_nbclust</span>(percent17.scaled, kmeans, <span class="at">method =</span> <span class="st">"silhouette"</span>)<span class="sc">+</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"K-means"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab7_Kmeans_files/figure-html/unnamed-chunk-13-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>In this case, there does not seem to be an optimal number of clusters as above. No clear elbow, a faint indication that 8 is the number that optimizes the algorithm. This is an example of a situation where hyerarchical clustering might be useful, but we haven’t seen how to perform that, so just keep this in mind for the next workshop.</p>
+</section>
+<section id="task-2c" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="task-2c"><strong>Task 2c</strong></h3>
+<p>Perform k-medoids cluster analysis on the data set where all the parties are considered for 4, 5 and 6 clusters. For each output, compare size and centers.</p>
+<strong>Solution to Task 2c</strong>
+<details>
+<summary>
+Click for solution
+</summary>
+<p><br>
+</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cluster)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>pam.res4 <span class="ot">&lt;-</span> <span class="fu">clara</span>(percent17.scaled, <span class="at">k=</span><span class="dv">4</span>)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>pam.res5 <span class="ot">&lt;-</span> <span class="fu">clara</span>(percent17.scaled, <span class="at">k=</span><span class="dv">5</span>)</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>pam.res6 <span class="ot">&lt;-</span> <span class="fu">clara</span>(percent17.scaled, <span class="at">k=</span><span class="dv">6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>To find the size of clusters, you should look into the <code>clusinfo</code> category of output:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>pam.res4<span class="sc">$</span>clusinfo</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     size  max_diss  av_diss isolation
+[1,]  205 10.322825 2.025727  5.466321
+[2,]  202 16.371215 2.041803 10.930066
+[3,]  165  9.391773 1.763984  6.270316
+[4,]    1  0.000000 0.000000  0.000000</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>pam.res5<span class="sc">$</span>clusinfo</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     size  max_diss  av_diss isolation
+[1,]  196 10.227159 1.876164  4.348961
+[2,]  272 16.399774 1.682666  6.973782
+[3,]   68  4.090901 1.873592  1.282469
+[4,]   36  7.489162 1.927639  1.620978
+[5,]    1  0.000000 0.000000  0.000000</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>pam.res6<span class="sc">$</span>clusinfo</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     size  max_diss  av_diss isolation
+[1,]  194  6.518499 1.786001 2.7719036
+[2,]  270 16.399774 1.616775 6.9737821
+[3,]   68  4.090901 1.873592 1.2824688
+[4,]    7  5.205576 3.089669 0.5089953
+[5,]   33  2.794454 1.586896 0.5651787
+[6,]    1  0.000000 0.000000 0.0000000</code></pre>
+</div>
+</div>
+<p>To look at the centers, look at the <code>i.med</code> category of output:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>pam.res4<span class="sc">$</span>i.med</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 569 203 450  76</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>pam.res5<span class="sc">$</span>i.med</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 166 351 511 106  76</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>pam.res6<span class="sc">$</span>i.med</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 166 351 511   8 116  76</code></pre>
+</div>
+</div>
+<p>At five clusters the situation seems to get stable (4 out of 5 of the centers are in common with the six clusters analysis). To understand the clusters, we can look at the centers as prototypical constituencies for the corresponding cluster.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>pam.res5<span class="sc">$</span>medoids</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         X17CON     X17LAB     X17LIB    X17UKIP    X17Green    X17NAT
+[1,] -1.0488208  1.2798079 -0.5524193 -0.1774475 -0.10718192 -0.191713
+[2,]  0.6327855 -0.2765234 -0.4204159  0.3319728 -0.04995112 -0.191713
+[3,]  0.8549990 -0.9475646  0.3063692  0.2632802  0.37454950 -0.191713
+[4,] -0.3887219 -1.4057111  3.8959074 -0.9937119 -0.27287256 -0.191713
+[5,] -1.6666415 -0.9340065 -0.8322616 -0.4853175 19.58942683 -0.191713
+        X17MIN     X17OTH
+[1,] -0.215237 -0.6053822
+[2,] -0.215237 -0.6053822
+[3,] -0.215237  2.3883482
+[4,]  0.179807  0.2555066
+[5,] -0.215237  0.9016834</code></pre>
+</div>
+</div>
+<p>From this information we gather that:</p>
+<ul>
+<li>Cluster 1 seems to be associated with Labour voters</li>
+<li>Cluster 2 seems to be associated with a mix of Conservative and UKIP voters</li>
+<li>Cluster 3 seems to be associated with Conservative voters not counted in cluster 2 (likely “moderate conservatives”)</li>
+<li>Cluster 4 seems to be associated with LiberalDemocratic votes</li>
+<li>Cluster 5 seems to be associated with Green votes (this is a funny one because it consists of a single point, quite less informative than the others).</li>
+</ul>
+<p>To plot the result of our cluster analysis, <em>fviz_cluster()</em> is not an ideal command (PC1 and PC2 do not encode enough variability). With a little effort, we can figure out how to do this by hand:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(percent17.scaled)</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot results</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(df<span class="sc">$</span>X17CON, df<span class="sc">$</span>X17LAB, <span class="at">type=</span><span class="st">"n"</span>, <span class="at">xlab=</span><span class="st">"Conservative"</span>, <span class="at">ylab=</span><span class="st">"Labour"</span>)</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="at">x=</span>df<span class="sc">$</span>X17CON, <span class="at">y=</span>df<span class="sc">$</span>X17LAB, <span class="at">labels=</span>ele<span class="sc">$</span>Name,    <span class="at">col=</span>pam.res5<span class="sc">$</span>cluster<span class="sc">+</span><span class="dv">1</span>, <span class="at">cex=</span><span class="fl">0.75</span>)</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topright"</span>, <span class="fu">c</span>(<span class="st">"1"</span>,<span class="st">"2"</span>,<span class="st">"3"</span>,<span class="st">"4"</span>,<span class="st">"5"</span>), <span class="at">col=</span><span class="fu">c</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">6</span>), <span class="at">lwd=</span><span class="dv">5</span>, <span class="at">cex=</span><span class="fl">0.5</span>)</span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="dv">0</span>, <span class="at">col=</span><span class="dv">1</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="dv">0</span>, <span class="at">col=</span><span class="dv">1</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lab7_Kmeans_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>There are too many data points to make this readable, so an appropriate selection might be a wiser choice:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(percent17.scaled)[(<span class="dv">76</span><span class="sc">:</span><span class="dv">111</span>),]</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot results</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(df<span class="sc">$</span>X17CON, df<span class="sc">$</span>X17LAB, <span class="at">type=</span><span class="st">"n"</span>, <span class="at">xlab=</span><span class="st">"Conservative"</span>, <span class="at">ylab=</span><span class="st">"Labour"</span>)</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="at">x=</span>df<span class="sc">$</span>X17CON, <span class="at">y=</span>df<span class="sc">$</span>X17LAB, <span class="at">labels=</span>ele<span class="sc">$</span>Name[<span class="dv">76</span><span class="sc">:</span><span class="dv">111</span>], <span class="at">col=</span>pam.res5<span class="sc">$</span>cluster[<span class="dv">76</span><span class="sc">:</span><span class="dv">111</span>]<span class="sc">+</span><span class="dv">1</span>, <span class="at">cex=</span><span class="fl">0.75</span>)</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topright"</span>, <span class="fu">c</span>(<span class="st">"1"</span>,<span class="st">"2"</span>,<span class="st">"3"</span>,<span class="st">"4"</span>,<span class="st">"5"</span>), <span class="at">col=</span><span class="fu">c</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">6</span>), <span class="at">lwd=</span><span class="dv">5</span>, <span class="at">cex=</span><span class="fl">0.5</span>)</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="dv">0</span>, <span class="at">col=</span><span class="dv">1</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="dv">0</span>, <span class="at">col=</span><span class="dv">1</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lab7_Kmeans_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</details>
+</section>
+</section>
+<section id="exercise-3" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="exercise-3">Exercise 3</h2>
+<p>Finding clusters is a good things in itself: it allows to uncover hidden pattern in a data set as long as it is done in a reasonable way (e.g.&nbsp;encoding enough variance or using prior knowledge that the observations are naturally split into groups). However, once appropriate clusters are discovered, they can be used for additional data exploration. In this exercise you will see how to apply the results of cluster analysis obtained in Exercise 2 to analyze your data in a more structured way.</p>
+<section id="task-3a" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="task-3a"><strong>Task 3a</strong></h3>
+<p>Perform the k-medoids cluster analysis shown above using the 2019 election data and comment on possible differences with respect to the the 2017 data.</p>
+<p><strong>Solution to Task 3a</strong></p>
+<details>
+<summary>
+Click for solution
+</summary>
+<p><br>
+You first prepare the data:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>ele<span class="fl">.19</span> <span class="ot">&lt;-</span> ele[,<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">15</span><span class="sc">:</span><span class="dv">22</span>)] </span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>ele2019_total <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(ele<span class="fl">.19</span>[,<span class="dv">2</span><span class="sc">:</span><span class="dv">9</span>])</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate what percentage of votes went to each party in each constituency</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>percent2019 <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">apply</span>(ele<span class="fl">.19</span>[,<span class="dv">2</span><span class="sc">:</span><span class="dv">9</span>], <span class="dv">2</span>, <span class="cf">function</span>(x) (x<span class="sc">/</span>ele2019_total)<span class="sc">*</span><span class="dv">100</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Then scale it and perform k-medoid clustering</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(factoextra)</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cluster)</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>percent19.scaled <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">scale</span>(percent2019))</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_nbclust</span>(percent19.scaled, kmeans, <span class="at">method =</span> <span class="st">"wss"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab7_Kmeans_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_nbclust</span>(percent19.scaled, clara, <span class="at">method =</span> <span class="st">"silhouette"</span>)<span class="sc">+</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"K-medoids"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab7_Kmeans_files/figure-html/unnamed-chunk-21-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Again, any number from two to five seems to be a reasonable choice (seven clusters look fine too, but the analysis risks to be cumbersome).</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>pam.res2 <span class="ot">&lt;-</span> <span class="fu">clara</span>(percent19.scaled, <span class="at">k=</span><span class="dv">2</span>)</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>pam.res3 <span class="ot">&lt;-</span> <span class="fu">clara</span>(percent19.scaled, <span class="at">k=</span><span class="dv">3</span>)</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>pam.res4 <span class="ot">&lt;-</span> <span class="fu">clara</span>(percent19.scaled, <span class="at">k=</span><span class="dv">4</span>)</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>pam.res5 <span class="ot">&lt;-</span> <span class="fu">clara</span>(percent19.scaled, <span class="at">k=</span><span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Size of clusters and centers</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>pam.res2<span class="sc">$</span>clusinfo</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     size max_diss  av_diss isolation
+[1,]  277 11.86485 2.080532   3.95653
+[2,]  296 17.49336 1.869738   5.83345</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>pam.res3<span class="sc">$</span>clusinfo</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     size max_diss  av_diss isolation
+[1,]  298 11.87253 2.083716  4.419493
+[2,]  274 13.07943 1.728457  4.868756
+[3,]    1  0.00000 0.000000  0.000000</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>pam.res4<span class="sc">$</span>clusinfo</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     size  max_diss  av_diss isolation
+[1,]  269 11.872530 2.068149  4.706319
+[2,]  194 13.055427 1.497947  6.761947
+[3,]  109  9.383266 1.586106  4.859983
+[4,]    1  0.000000 0.000000  0.000000</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>pam.res5<span class="sc">$</span>clusinfo</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     size  max_diss  av_diss isolation
+[1,]  264  9.000684 1.921623 3.5679077
+[2,]  194 13.055427 1.497947 6.7619474
+[3,]  109  9.383266 1.586106 4.8599829
+[4,]    5  4.849306 2.438202 0.4084476
+[5,]    1  0.000000 0.000000 0.0000000</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>pam.res2<span class="sc">$</span>i.med</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 192  73</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>pam.res3<span class="sc">$</span>i.med</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 460 298  76</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>pam.res4<span class="sc">$</span>i.med</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 460 454 349  76</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>pam.res5<span class="sc">$</span>i.med</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 460 454 349 164  76</code></pre>
+</div>
+</div>
+<p>This situation looks even stabler than the one for 2017: from three clusters on, adding one cluster essentially splits a big cluster into two. By contrast, from two to three, a new cluster containing a mix of the previous two seem to emerge (hinting that a third party with a profile between Labour and Conservative was not accounted for in the “two clusters scenario”).</p>
+<p>Now it is reasonable to make a choice of clusters (from 3 to 5) and explore their features. A good choice is 4, since in the 5 clusters scenario there is a cluster of size 5 that we might want to ignore (it might be a good idea to remove the observation n.76 too, but you have to do it manually and doesn’t change the final outcome).</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>pam.res4<span class="sc">$</span>medoids</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         X19CON     X19LAB     X19LIB  X19Brexit   X19Green     X19NAT
+[1,] -0.6460132  0.8111299 -0.3596244  0.2243878  0.1197174 -0.1771745
+[2,]  1.0283159 -0.7612310  0.0335357 -0.5994159  0.3101897 -0.1771745
+[3,]  1.0500274 -0.7673488 -0.1296122 -0.5994159  0.1141432 -0.1771745
+[4,] -1.7810188 -0.7287781 -1.1196533 -0.2901117 17.3546892 -0.1771745
+         X19MIN     X19OTH
+[1,] -0.1498742 -0.2407367
+[2,] -0.1498742 -0.7083936
+[3,] -0.1498742  1.2052729
+[4,] -0.1498742  0.4192323</code></pre>
+</div>
+</div>
+<p>According to this analysis:</p>
+<ul>
+<li>Cluster 1 seems to be associated with Labour voters</li>
+<li>Cluster 2 seems to be associated with a mix of Conservative, Liberal and Green voters</li>
+<li>Cluster 3 seems to be associated with Conservative voters not counted in cluster 2 (possibly “social conservatives”, since they are farther away from liberal democratics)</li>
+<li>Cluster 4 seems to be associated with Green votes (the usual Brighton Pavillion constituency).</li>
+</ul>
+<p>Plotting some of the labelled observation gives an idea of the positioning of these clusters.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(percent19.scaled)[(<span class="dv">76</span><span class="sc">:</span><span class="dv">111</span>),]</span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot results</span></span>
+<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(df<span class="sc">$</span>X19CON, df<span class="sc">$</span>X19LAB, <span class="at">type=</span><span class="st">"n"</span>, <span class="at">xlab=</span><span class="st">"Conservative"</span>, <span class="at">ylab=</span><span class="st">"Labour"</span>)</span>
+<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="at">x=</span>df<span class="sc">$</span>X19CON, <span class="at">y=</span>df<span class="sc">$</span>X19LAB, <span class="at">labels=</span>ele<span class="fl">.19</span><span class="sc">$</span>Name[<span class="dv">76</span><span class="sc">:</span><span class="dv">111</span>], <span class="at">col=</span>pam.res4<span class="sc">$</span>cluster[<span class="dv">76</span><span class="sc">:</span><span class="dv">111</span>]<span class="sc">+</span><span class="dv">1</span>, <span class="at">cex=</span><span class="fl">0.75</span>)</span>
+<span id="cb61-6"><a href="#cb61-6" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topright"</span>, <span class="fu">c</span>(<span class="st">"1"</span>,<span class="st">"2"</span>,<span class="st">"3"</span>,<span class="st">"4"</span>,<span class="st">"5"</span>), <span class="at">col=</span><span class="fu">c</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">6</span>), <span class="at">lwd=</span><span class="dv">5</span>, <span class="at">cex=</span><span class="fl">0.5</span>)</span>
+<span id="cb61-7"><a href="#cb61-7" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="dv">0</span>, <span class="at">col=</span><span class="dv">1</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb61-8"><a href="#cb61-8" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="dv">0</span>, <span class="at">col=</span><span class="dv">1</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lab7_Kmeans_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Several things can be said about the difference with 2017. The most interesting might be the different divide between conservatives. This is mainly due to Brexit Party in 2019 being much less popular than UKIP in 2017.</p>
+A word of caution: the cluster associated with Labour votes in 2019 is much bigger than the one in 2017. <strong>This doesn’t mean that Labour performed better</strong>, just that the constituencies that had a higher percentage of labour votes were more similar to each other, so the algorithm clustered them together. But those red labels don’t correspond to seats won by labour by any means!
+</details>
+<p>Clustering gives you a way to associate a new categorical variable (the cluster type) to your observations. This, in turn, allows to use Correspondence Analysis to check association of the cluster type with other categorical variables. Unfortunately, the original <code>Elections_UK</code> data set contains only numerical variables. Fortunately, we can easily turn these into categorical ones.</p>
+</section>
+<section id="task-3b" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="task-3b"><strong>Task 3b</strong></h3>
+<p>Choose a variable that you want to know if it is associated with any particular cluster (The solution will use <code>X.seekingwork</code> associated with people seeking work, and <code>X.Students</code> associated with student population). Change the value of each observation for that variable from numerical to categorical. A good way to do this is to put observations into buckets (e.g.&nbsp;“Low”, “Average” ,“High” number of students) according to their numerical values.</p>
+<strong>Solution to Task 3b</strong>
+<details>
+<summary>
+Click for solution
+</summary>
+<p><br>
+You need to add a new variable to the <code>ele</code> data frame. You can do this using the <em>within()</em> command.</p>
+<p>Here is an example that uses the <code>X.seekingwork</code> variable:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>ele <span class="ot">&lt;-</span> <span class="fu">within</span>(ele, {   </span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>  seekingwork.cat <span class="ot">&lt;-</span> <span class="cn">NA</span> <span class="co"># need to initialize variable</span></span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>  seekingwork.cat[X.seekingwork <span class="sc">&lt;</span> <span class="fu">quantile</span>(ele<span class="sc">$</span>X.seekingwork)[<span class="dv">2</span>]] <span class="ot">&lt;-</span> <span class="st">"Low"</span></span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a>  seekingwork.cat[X.seekingwork <span class="sc">&gt;=</span> <span class="fu">quantile</span>(ele<span class="sc">$</span>X.seekingwork)[<span class="dv">2</span>] <span class="sc">&amp;</span> X.seekingwork <span class="sc">&lt;</span> <span class="fu">quantile</span>(ele<span class="sc">$</span>X.seekingwork)[<span class="dv">3</span>]] <span class="ot">&lt;-</span> <span class="st">"Below Average"</span></span>
+<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a>  seekingwork.cat[X.seekingwork <span class="sc">&gt;=</span> <span class="fu">quantile</span>(ele<span class="sc">$</span>X.seekingwork)[<span class="dv">3</span>] <span class="sc">&amp;</span> X.seekingwork <span class="sc">&lt;</span> <span class="fu">quantile</span>(ele<span class="sc">$</span>X.seekingwork)[<span class="dv">4</span>]] <span class="ot">&lt;-</span> <span class="st">"Above Average"</span></span>
+<span id="cb62-6"><a href="#cb62-6" aria-hidden="true" tabindex="-1"></a>  seekingwork.cat[X.seekingwork <span class="sc">&gt;=</span> <span class="fu">quantile</span>(ele<span class="sc">$</span>X.seekingwork)[<span class="dv">4</span>]] <span class="ot">&lt;-</span> <span class="st">"High"</span></span>
+<span id="cb62-7"><a href="#cb62-7" aria-hidden="true" tabindex="-1"></a>   } )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Same can be done with the <code>X.Students</code> variable</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>ele <span class="ot">&lt;-</span> <span class="fu">within</span>(ele, {   </span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>  Students.cat <span class="ot">&lt;-</span> <span class="cn">NA</span> <span class="co"># need to initialize variable</span></span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>  Students.cat[X.Students <span class="sc">&lt;</span> <span class="fu">quantile</span>(ele<span class="sc">$</span>X.Students)[<span class="dv">2</span>]] <span class="ot">&lt;-</span> <span class="st">"Low"</span></span>
+<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a>  Students.cat[X.Students <span class="sc">&gt;=</span> <span class="fu">quantile</span>(ele<span class="sc">$</span>X.Students)[<span class="dv">2</span>] <span class="sc">&amp;</span> X.Students <span class="sc">&lt;</span> <span class="fu">quantile</span>(ele<span class="sc">$</span>X.Students)[<span class="dv">3</span>]] <span class="ot">&lt;-</span> <span class="st">"Below Average"</span></span>
+<span id="cb63-5"><a href="#cb63-5" aria-hidden="true" tabindex="-1"></a>  Students.cat[X.Students <span class="sc">&gt;=</span> <span class="fu">quantile</span>(ele<span class="sc">$</span>X.Students)[<span class="dv">3</span>] <span class="sc">&amp;</span> X.Students <span class="sc">&lt;</span> <span class="fu">quantile</span>(ele<span class="sc">$</span>X.Students)[<span class="dv">4</span>]] <span class="ot">&lt;-</span> <span class="st">"Above Average"</span></span>
+<span id="cb63-6"><a href="#cb63-6" aria-hidden="true" tabindex="-1"></a>  Students.cat[X.Students <span class="sc">&gt;=</span> <span class="fu">quantile</span>(ele<span class="sc">$</span>X.Students)[<span class="dv">4</span>]] <span class="ot">&lt;-</span> <span class="st">"High"</span></span>
+<span id="cb63-7"><a href="#cb63-7" aria-hidden="true" tabindex="-1"></a>   } )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</details>
+<p>We are now almost ready for the correspondence analysis.</p>
+</section>
+<section id="task-3c" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="task-3c"><strong>Task 3c</strong></h3>
+<p>Create a contingency table where rows are clusters and columns the buckets (e.g.&nbsp;“Very Low”, “Low”, “Average” ,“High”, “Very High” number of students) created earlier. Finally, perform CA to analyze association between cluster type and your chosen variable.</p>
+<strong>Solution to Task 3c</strong>
+<details>
+<summary>
+Click for solution
+</summary>
+<p><br>
+First, we</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(ele<span class="sc">$</span>Students.cat, pam.res4<span class="sc">$</span>cluster)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>               
+                  1   2   3   4
+  Above Average  78  42  23   0
+  Below Average  49  68  26   0
+  High          119  16   8   1
+  Low            23  68  52   0</code></pre>
+</div>
+</div>
+<p>Then we perform CA and plot the results.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(FactoMineR)</span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(factoextra)</span>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a>tab <span class="ot">&lt;-</span> <span class="fu">table</span>(ele<span class="sc">$</span>Students.cat, pam.res4<span class="sc">$</span>cluster)</span>
+<span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a>student.ca <span class="ot">&lt;-</span> <span class="fu">CA</span>(tab[,<span class="sc">-</span><span class="dv">4</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab7_Kmeans_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The correspondence analysis highlights an association between conservative votes (especially Cluster 3 consisting of socially conservative votes) and low number of students registered in the area, while progressive votes live in areas with a high student population.</p>
+<p>You can do the same with any variable of your choice, of course:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>tab2 <span class="ot">&lt;-</span> <span class="fu">table</span>(ele<span class="sc">$</span>seekingwork.cat, pam.res4<span class="sc">$</span>cluster)</span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>seekingwork.ca <span class="ot">&lt;-</span> <span class="fu">CA</span>(tab2[,<span class="sc">-</span><span class="dv">4</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab7_Kmeans_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+Similarly, progressive votes are higher in areas with high unemployment rates, while conservative votes are higher in areas with low employment rates. Interestingly, there is not a big difference between socially conservative and conservative votes here.
+</details>
+
+
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

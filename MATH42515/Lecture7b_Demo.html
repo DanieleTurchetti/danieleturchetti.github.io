@@ -6,9 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Daniele Turchetti">
 
-<title>DEVUL 2025/26 – DEVUL Course Notes</title>
+<title>Lecture7b: Hierarchical clustering – DEVUL Course Notes</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +19,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -70,6 +104,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -92,7 +155,7 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="./index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item dropdown ">
@@ -232,20 +295,8 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#welcome-to-math42515" id="toc-welcome-to-math42515" class="nav-link active" data-scroll-target="#welcome-to-math42515">Welcome to MATH42515</a>
-  <ul class="collapse">
-  <li><a href="#content" id="toc-content" class="nav-link" data-scroll-target="#content">Content</a>
-  <ul class="collapse">
-  <li><a href="#week-1" id="toc-week-1" class="nav-link" data-scroll-target="#week-1">Week 1</a></li>
-  <li><a href="#week-2" id="toc-week-2" class="nav-link" data-scroll-target="#week-2">Week 2</a></li>
-  <li><a href="#week-3" id="toc-week-3" class="nav-link" data-scroll-target="#week-3">Week 3</a></li>
-  <li><a href="#week-4" id="toc-week-4" class="nav-link" data-scroll-target="#week-4">Week 4</a></li>
-  <li><a href="#week-5-reading-week-no-new-material" id="toc-week-5-reading-week-no-new-material" class="nav-link" data-scroll-target="#week-5-reading-week-no-new-material">Week 5 (Reading week, no new material)</a></li>
-  <li><a href="#week-6" id="toc-week-6" class="nav-link" data-scroll-target="#week-6">Week 6</a></li>
-  <li><a href="#week-7" id="toc-week-7" class="nav-link" data-scroll-target="#week-7">Week 7</a></li>
-  <li><a href="#week-8" id="toc-week-8" class="nav-link" data-scroll-target="#week-8">Week 8</a></li>
-  </ul></li>
-  </ul></li>
+  <li><a href="#a-small-sample-of-generated-data" id="toc-a-small-sample-of-generated-data" class="nav-link active" data-scroll-target="#a-small-sample-of-generated-data">A small sample of generated data</a></li>
+  <li><a href="#usarrests-data" id="toc-usarrests-data" class="nav-link" data-scroll-target="#usarrests-data">USArrests data</a></li>
   </ul>
 </nav>
     </div>
@@ -254,19 +305,13 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">DEVUL 2025/26</h1>
+<h1 class="title">Lecture7b: Hierarchical clustering</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Daniele Turchetti </p>
-          </div>
-  </div>
     
   
     
@@ -277,80 +322,143 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="welcome-to-math42515" class="level1 unnumbered">
-<h1 class="unnumbered">Welcome to MATH42515</h1>
-<p>This website contains the HTML version of lecture notes for the module in 2025/26. Use the left bar to navigate through the different lectures and the right bar to navigate through different sections in the same lecture.</p>
-<p>The content of these notes integrates the material of previous lecturers of this module (Jonathan Cummings, Emmanuel Ogundimu and Hyeyoung Maeng). Without their input, the overall quality of the material would be much worse. It shall be noted however that any mistake in the notes is my responsibility: if you spot one, please let me know at <strong>daniele.turchetti@durham.ac.uk</strong>.</p>
-<section id="content" class="level2">
-<h2 class="anchored" data-anchor-id="content">Content</h2>
-<section id="week-1" class="level3">
-<h3 class="anchored" data-anchor-id="week-1">Week 1</h3>
-<ul>
-<li><a href="./Lecture1a_IntroViz.html">Lecture 1a</a></li>
-<li><a href="./Lecture1b_Variables.html">Lecture 1b</a></li>
-<li><a href="./Lab1_ExplContVar.html">Practical 1</a></li>
-<li><a href="./Workshop1_CategoricalVariables.html">Workshop 1</a></li>
-</ul>
+<section id="a-small-sample-of-generated-data" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="a-small-sample-of-generated-data">A small sample of generated data</h2>
+<p>Let us generate 8 data points in the plane to see how hierarchical clustering is performed on them:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>,<span class="sc">-</span><span class="dv">4</span>,<span class="sc">-</span><span class="dv">6</span>,<span class="dv">0</span>,<span class="dv">3</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">8</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>Y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">5</span>,<span class="dv">9</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>otto.dat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(X,Y)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Remember that the input is going to be given by the dissimilarity matrix, not the data set.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>diss <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(<span class="fu">dist</span>(otto.dat))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The smallest distance is between point 6 and point 7 then the algorithm clusters them together. We are now ready to make up an <strong>updated</strong> data matrix. The entries will now be the clusters, and the distance will be the linkage between them. To illustrate this, let us choose <em>complete linkage</em>. This amounts to replacing rows and columns <span class="math inline">\(6\)</span> and <span class="math inline">\(7\)</span> with a single one, representing the maximum of the entries.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>diss[<span class="dv">6</span>,] <span class="ot">&lt;-</span> <span class="fu">pmax</span>(diss[<span class="dv">6</span>,], diss[<span class="dv">7</span>,])</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>diss[,<span class="dv">6</span>] <span class="ot">&lt;-</span> <span class="fu">pmax</span>(diss[<span class="dv">6</span>,], diss[<span class="dv">7</span>,])</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>diss[<span class="dv">6</span>,<span class="dv">6</span>] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>diss2 <span class="ot">&lt;-</span> diss[<span class="sc">-</span><span class="dv">7</span>,<span class="sc">-</span><span class="dv">7</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>We then agglomerate together clusters 1 and 2. Since we need to repeat the same procedure as above, it seems wise to create a specific function that does the job for us.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>agglomerate <span class="ot">&lt;-</span> <span class="cf">function</span>(M,a,b){</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  M[a,] <span class="ot">&lt;-</span> <span class="fu">pmax</span>(M[a,], M[b,])</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>M[,a] <span class="ot">&lt;-</span> <span class="fu">pmax</span>(M[a,], M[b,])</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>M[a,a] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">return</span>(M[<span class="sc">-</span>b,<span class="sc">-</span>b])</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Let us check if this works:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>diss2 <span class="ot">&lt;-</span> <span class="fu">agglomerate</span>(diss,<span class="dv">6</span>,<span class="dv">7</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>diss3 <span class="ot">&lt;-</span> <span class="fu">agglomerate</span>(diss2, <span class="dv">1</span>, <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>It is now the turn of agglomerating clusters {4} and {5} (which are now the third and fourth rows/columns in the matrix!)</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>diss4 <span class="ot">&lt;-</span> <span class="fu">agglomerate</span>(diss3, <span class="dv">3</span>, <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Then is the turn of {6,7} and {8}</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>diss5 <span class="ot">&lt;-</span> <span class="fu">agglomerate</span>(diss4, <span class="dv">4</span>, <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Then is the turn of {1,2} and {3}</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>diss6 <span class="ot">&lt;-</span> <span class="fu">agglomerate</span>(diss5, <span class="dv">1</span>, <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Then is the turn of {1,2,3} and {4,5}</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>diss7 <span class="ot">&lt;-</span> <span class="fu">agglomerate</span>(diss6, <span class="dv">1</span>, <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Finally, we create a unique cluster containing everything:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>diss8 <span class="ot">&lt;-</span> <span class="fu">agglomerate</span>(diss7, <span class="dv">1</span>, <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Let’s now check that our algorithm coincides with the one implemented in <code>R</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>hc <span class="ot">&lt;-</span> <span class="fu">hclust</span>(<span class="fu">dist</span>(otto.dat), <span class="at">method =</span> <span class="st">"complete"</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(hc, <span class="at">bty=</span><span class="st">"7"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lecture7b_Demo_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 </section>
-<section id="week-2" class="level3">
-<h3 class="anchored" data-anchor-id="week-2">Week 2</h3>
-<ul>
-<li><a href="./Lecture2a_ManyCatVar.html">Lecture 2a</a></li>
-<li><a href="./Lecture2b_ManyContVar.html">Lecture 2b</a></li>
-<li><a href="./Lab2_ManyCatVariables.html">Practical 2</a></li>
-<li><a href="./Workshop2_DepRelAss.html">Workshop 2</a></li>
-</ul>
-</section>
-<section id="week-3" class="level3">
-<h3 class="anchored" data-anchor-id="week-3">Week 3</h3>
-<ul>
-<li><a href="./Lecture3a_SmoothingKDE.html">Lecture 3a</a></li>
-<li><a href="./Lecture3b_TimeSeries.html">Lecture 3b</a></li>
-<li><a href="./Lab3_Smoothing.html">Practical 3</a></li>
-<li><a href="./Workshop3_TimeSeries.html">Workshop 3</a></li>
-</ul>
-</section>
-<section id="week-4" class="level3">
-<h3 class="anchored" data-anchor-id="week-4">Week 4</h3>
-<ul>
-<li><a href="./Lecture4a_CompDataQual.html">Lecture 4a</a></li>
-<li><a href="./Lecture4b_MissingData.html">Lecture 4b</a></li>
-<li><a href="./Lab4_MissingData.html">Practical 4</a></li>
-<li><a href="./Workshop4_AdvancedFunctions.html">Workshop 4</a></li>
-</ul>
-</section>
-<section id="week-5-reading-week-no-new-material" class="level3">
-<h3 class="anchored" data-anchor-id="week-5-reading-week-no-new-material">Week 5 (Reading week, no new material)</h3>
-</section>
-<section id="week-6" class="level3">
-<h3 class="anchored" data-anchor-id="week-6">Week 6</h3>
-<ul>
-<li><a href="./Lecture5_PCA.html">Lecture 5a</a></li>
-<li><a href="./Lecture5_PCA.html">Lecture 5b</a></li>
-<li><a href="./Lab5_PCA.html">Practical 5</a></li>
-<li><a href="./Workshop5_PCA.html">Workshop 5</a></li>
-</ul>
-</section>
-<section id="week-7" class="level3">
-<h3 class="anchored" data-anchor-id="week-7">Week 7</h3>
-<ul>
-<li><a href="./Lecture6b_CA.html">Lecture 6b</a></li>
-<li><a href="./Lab6_CA.html">Practical 6</a></li>
-<li><a href="./Workshop6_FA.html">Workshop 6</a></li>
-</ul>
-</section>
-<section id="week-8" class="level3">
-<h3 class="anchored" data-anchor-id="week-8">Week 8</h3>
-<ul>
-<li><a href="./Lecture7a_Kmeans.html">Lecture 7a</a></li>
-<li><a href="./Lecture7b_Demo.html">Lecture 7b</a></li>
-<li><a href="./Lab7_Kmeans.html">Practical 7</a></li>
-<li><a href="./Workshop7_Clustering.html">Workshop 7</a></li>
-</ul>
+<section id="usarrests-data" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="usarrests-data">USArrests data</h2>
+<p>Let us now get a taste of how hierarchical clustering works on real worlds data sets. For our convenience, we’ll try it on a bulit-in data set, the <code>USArrests</code> one.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"USArrests"</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute distances and hierarchical clustering</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>dd <span class="ot">&lt;-</span> <span class="fu">dist</span>(<span class="fu">scale</span>(USArrests), <span class="at">method =</span> <span class="st">"euclidean"</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>hc <span class="ot">&lt;-</span> <span class="fu">hclust</span>(dd, <span class="at">method =</span> <span class="st">"complete"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>hcut <span class="ot">&lt;-</span> <span class="fu">cutree</span>(hc, <span class="at">k =</span> <span class="dv">4</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(hcut)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Alabama     Alaska    Arizona   Arkansas California   Colorado 
+         1          1          2          3          2          2 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(hcut)<span class="co"># Number of members in each cluster</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>hcut
+ 1  2  3  4 
+ 8 11 21 10 </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the names for the members of cluster 1</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(USArrests)[hcut <span class="sc">==</span> <span class="dv">1</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Alabama"        "Alaska"         "Georgia"        "Louisiana"     
+[5] "Mississippi"    "North Carolina" "South Carolina" "Tennessee"     </code></pre>
+</div>
+</div>
+<p>As for visualization, we have different options.</p>
+<p>We can plot the output as a <strong>dendrogram</strong></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(hc, <span class="at">hang =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">cex =</span> <span class="fl">0.6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lecture7b_Demo_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We can plot the output as a <strong>circular dendrogram</strong></p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">'ape'</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>colors <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"red"</span>, <span class="st">"blue"</span>, <span class="st">"green"</span>, <span class="st">"black"</span>)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>clus4 <span class="ot">=</span> <span class="fu">cutree</span>(hc, <span class="dv">4</span>)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">as.phylo</span>(hc), <span class="at">type =</span> <span class="st">"fan"</span>, <span class="at">tip.color =</span> colors[clus4],<span class="at">label.offset =</span> <span class="fl">0.1</span>, <span class="at">cex =</span> <span class="fl">0.7</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Lecture7b_Demo_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We can plot the output as an unrooted <strong>binary tree</strong></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">as.phylo</span>(hc), <span class="at">type =</span> <span class="st">"unrooted"</span>, <span class="at">tip.color =</span> colors[clus4], <span class="at">cex =</span> <span class="fl">0.6</span>,</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">no.margin =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lecture7b_Demo_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 
 
-</section>
-</section>
 </section>
 
 </main> <!-- /main -->

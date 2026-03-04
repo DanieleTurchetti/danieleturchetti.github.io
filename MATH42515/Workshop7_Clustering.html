@@ -1,0 +1,1331 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Emmanuel Ogundimu">
+
+<title>Workshop 2: Clustering – DEVUL Course Notes</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-e3b7bb8e06e71ba88653cd3334f68afa.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">DEVUL Course Notes</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-notes" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Notes</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-notes">    
+        <li>
+    <a class="dropdown-item" href="./Lecture1a_IntroViz.html">
+ <span class="dropdown-text">Lecture 1a</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lecture1b_Variables.html">
+ <span class="dropdown-text">Lecture 1b</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lab1_ExplContVar.html">
+ <span class="dropdown-text">Practical 1</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Workshop1_CategoricalVariables.html">
+ <span class="dropdown-text">Workshop 1</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lecture2a_ManyCatVar.html">
+ <span class="dropdown-text">Lecture 2a</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lecture2b_ManyContVar.html">
+ <span class="dropdown-text">Lecture 2b</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lab2_ManyCatVariables.html">
+ <span class="dropdown-text">Practical 2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Workshop2_DepRelAss.html">
+ <span class="dropdown-text">Workshop 2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lecture3a_SmoothingKDE.html">
+ <span class="dropdown-text">Lecture 3a</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lecture3b_TimeSeries.html">
+ <span class="dropdown-text">Lecture 3b</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lab3_Smoothing.html">
+ <span class="dropdown-text">Practical 3</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Workshop3_TimeSeries.html">
+ <span class="dropdown-text">Workshop 3</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lecture4a_CompDataQual.html">
+ <span class="dropdown-text">Lecture 4a</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lecture4b_MissingData.html">
+ <span class="dropdown-text">Lecture 4b</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lab4_MissingData.html">
+ <span class="dropdown-text">Practical 4</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Workshop4_AdvancedFunctions.html">
+ <span class="dropdown-text">Workshop 4</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lecture5_PCA.html">
+ <span class="dropdown-text">Lecture 5a</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lecture5_PCA.html">
+ <span class="dropdown-text">Lecture 5b</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lab5_PCA.html">
+ <span class="dropdown-text">Practical 5</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Workshop5_PCA.html">
+ <span class="dropdown-text">Workshop 5</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lecture6b_CA.html">
+ <span class="dropdown-text">Lecture 6b - R Demo</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lab6_CA.html">
+ <span class="dropdown-text">Practical 6</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Workshop6_FA.html">
+ <span class="dropdown-text">Workshop 6</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lecture7a_Kmeans.html">
+ <span class="dropdown-text">Lecture 7a</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lecture7b_Demo.html">
+ <span class="dropdown-text">Lecture 7b - R Demo</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Lab7_Kmeans.html">
+ <span class="dropdown-text">Practical 7</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Workshop7_Clustering.html">
+ <span class="dropdown-text">Workshop 7</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#k-means" id="toc-k-means" class="nav-link active" data-scroll-target="#k-means">K-means</a>
+  <ul class="collapse">
+  <li><a href="#task-does-scaling-make-sense-to-you-why" id="toc-task-does-scaling-make-sense-to-you-why" class="nav-link" data-scroll-target="#task-does-scaling-make-sense-to-you-why"><strong>Task: Does scaling make sense to you? Why?</strong></a></li>
+  <li><a href="#task" id="toc-task" class="nav-link" data-scroll-target="#task"><strong>Task</strong></a></li>
+  </ul></li>
+  <li><a href="#k-medoids" id="toc-k-medoids" class="nav-link" data-scroll-target="#k-medoids">K-medoids</a>
+  <ul class="collapse">
+  <li><a href="#task-1" id="toc-task-1" class="nav-link" data-scroll-target="#task-1"><strong>Task</strong></a></li>
+  </ul></li>
+  <li><a href="#silhouette-measure" id="toc-silhouette-measure" class="nav-link" data-scroll-target="#silhouette-measure">Silhouette measure</a></li>
+  <li><a href="#model-based-clustering-the-gaussian-mixture-model-optional" id="toc-model-based-clustering-the-gaussian-mixture-model-optional" class="nav-link" data-scroll-target="#model-based-clustering-the-gaussian-mixture-model-optional">Model-based clustering: the Gaussian mixture model (optional)</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Workshop 2: Clustering</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Emmanuel Ogundimu </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Clustering is one of the main tools in unsupervised learning. It provides a powerful and versatile technique for discovering hidden patterns and inherent structures within data sets. Clustering algorithms group similar data points together based on inherent similarities or distances, revealing natural subdivisions within the data set. By facilitating the automatic exploration of data relationships, clustering contributes to a deeper understanding of complex datasets and supports informed decision-making processes in various real-world applications.</p>
+<p>There are many clustering algorithms. We will begin by exploring the most popular ones, starting with K-means and K-medoids (a robust alternative to K-means). We will examine the algorithm behind K-means and learn how to combine PCA with K-means clustering for more effective visualization. By the end of the workshop, we will also understand why K-medoids is robust to outliers. If time permits, we will explore model-based clustering, specifically the Gaussian mixture model.</p>
+<p><br>
+</p>
+<section id="k-means" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="k-means">K-means</h2>
+<p><br>
+</p>
+<p>Here we use Iris dataset to apply the K-means clustering. Recall that iris data set has a natural category for the species (<code>three levels: Setosa, Versicolor, Virginica</code>), which is helpful for clustering. A natural motivating question for our exploration is:</p>
+<div id="hello" class="greeting message" style="color: blue;">
+<p>How does the output of our clustering compares with the natural grouping of the species?</p>
+</div>
+<p><br>
+</p>
+<p>We first scale the data.</p>
+<p><br>
+</p>
+<section id="task-does-scaling-make-sense-to-you-why" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="task-does-scaling-make-sense-to-you-why"><strong>Task: Does scaling make sense to you? Why?</strong></h3>
+<p><br>
+</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>iris.scaled <span class="ot">&lt;-</span> <span class="fu">scale</span>(iris[, <span class="sc">-</span><span class="dv">5</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>We will use the <em>kmeans()</em> command, which is already implemented in <code>R</code>. Let’s explore its features:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>?kmeans</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>We can see that the command requires us to specify the “centers”, or at least the number of clusters.</p>
+<div id="hello" class="greeting message" style="color: blue;">
+<p>How do we choose a suitable number of clusters?</p>
+</div>
+<p><br>
+We use a screeplot measuring the effectiveness of the clusters weighted by the number of clusters.</p>
+<p>In practice, this is accomplished using the <em>fviz_nbclust()</em> function from the <code>factoextra</code> package.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(factoextra)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_nbclust</span>(iris.scaled, kmeans, <span class="at">method =</span> <span class="st">"wss"</span>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Workshop7_Clustering_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This Figure is treated the same way as we did with the <strong>scree plot</strong>. We locate the bend (elbow) in the plot. This seems to be at <span class="math inline">\(k=3\)</span>. So we will use three clusters for the analysis.</p>
+<p>The model can be fitted as follows:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute k-means with k = 3</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>km.res <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(iris.scaled, <span class="dv">3</span>, <span class="at">nstart =</span> <span class="dv">25</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><br>
+The option <code>nstart = 25</code> means that <code>R</code> will try 25 different random initial cluster assignments and then select the best results corresponding to the one with the lowest within cluster variation (more of this in lectures).</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(km.res)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "cluster"      "centers"      "totss"        "withinss"     "tot.withinss"
+[6] "betweenss"    "size"         "iter"         "ifault"      </code></pre>
+</div>
+</div>
+<p>The output of clustering consists of 9 categories. The most important are:</p>
+<ul>
+<li>“cluster”: the assignment of a number from 1 to 3 (the cluster) to each observation</li>
+<li>“centers”: the cluster means for each cluster. The algorithm minimizes the distances from these centers</li>
+<li>“withinss” : the sum of square distances of points from centers of a cluster for each cluster</li>
+</ul>
+<p>One measure of effectiveness is the variability accounted for with this clustering method.</p>
+</section>
+<section id="task" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="task"><strong>Task</strong></h3>
+<p>Extract appropriate quantity from the object <em>km.res</em> to compute the percentage variability explained by the clusters. Interpret the results.</p>
+<p><br>
+</p>
+<p><strong>Solution</strong></p>
+<p><br>
+</p>
+<p><br>
+</p>
+<p><br>
+</p>
+<p><em>We can use the <code>table()</code> function in R to compare the true class labels to the class labels obtained by clustering.</em></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(iris<span class="sc">$</span>Species, km.res<span class="sc">$</span>cluster)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            
+              1  2  3
+  setosa     50  0  0
+  versicolor  0 39 11
+  virginica   0 14 36</code></pre>
+</div>
+</div>
+<p>All 50 Setosa observations are correctly assigned by this clustering. Out of the 50 observations from Versicolor, 39 agree with the label while 11 observations are labeled as Virginica. 36 observations from Virginica are put in the correct cluster. Overall, 83.3% correct classification is obtained from the algorithm (((50+39+36)/150)*100).</p>
+<p><br>
+</p>
+<p>If the number of variables is greater than 2, then visualization is a bit of a challenge. However, when two principal components explain a good portion of the variability, we can use PCA to gain an effective visualization. This is what <em>fviz_cluster()</em> does in practice:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualise kmeans clustering</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_cluster</span>(km.res, iris[, <span class="sc">-</span><span class="dv">5</span>], <span class="at">ellipse.type =</span> <span class="st">"norm"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Workshop7_Clustering_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br>
+This visualization is not perfect, and we should always remember that clustering is computed in the original feature space, not in the plane spanned by <code>PC1</code> and <code>PC2</code>.</p>
+<p><br>
+</p>
+</section>
+</section>
+<section id="k-medoids" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="k-medoids">K-medoids</h2>
+<p><br>
+</p>
+<p>K-medoids algorithm is a clustering approach related to K-means clustering for partitioning a data set into <span class="math inline">\(k\)</span> clusters. In K-medoids clustering, each center is represented by one of the data point in the cluster. These points are named cluster <code>medoids</code>. Medoid corresponds to the most centrally located point in the cluster. While K-means takes the average (centroid) of the <span class="math inline">\(k^\text{th}\)</span> cluster to minimise the total within cluster variation, K-medoids replaces this by an optimisation step which restricts the search space to the observations within the <span class="math inline">\(k^\text{th}\)</span> cluster (see lectures for precise details).</p>
+<p><br>
+</p>
+<section id="task-1" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="task-1"><strong>Task</strong></h3>
+<p>The main advantage of K-medoids over K-means clustering is that it is less sensitive to noise and outliers. Can you think of why?</p>
+<p><br>
+</p>
+<p><strong>Solution</strong><br>
+</p>
+<p><br>
+</p>
+<p>The most common K-medoids clustering methods is the <em>PAM algorithm (Partitioning Around Medoids)</em>. We will use a faster implementation of PAM using the <code>CLARA (Clustering Large Applications)</code> function within the <code>cluster</code> package in this workshop. Other packages for K-medoids in R are <em>kmedoids()</em> function in <code>clue</code> package (Cluster Ensembles) and <em>pamk()</em> in the <code>fpc</code> package.</p>
+<p>The model is fitted as:</p>
+<p><code>clara(x, k, metric="euclidean" stand=FALSE)</code></p>
+<p>where:</p>
+<ul>
+<li><p>x: data matrix or dissimilarity matrix</p></li>
+<li><p>k: number of clusters</p></li>
+<li><p>metric: <code>euclidean</code> or <code>manhattan</code> distance</p></li>
+<li><p>stand: if set to TRUE, the variables are scaled to have unit variance before the analysis takes place.</p></li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cluster)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>iris.scaled <span class="ot">&lt;-</span> <span class="fu">scale</span>(iris[, <span class="sc">-</span><span class="dv">5</span>])</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>pam.res <span class="ot">&lt;-</span> <span class="fu">clara</span>(iris.scaled, <span class="at">k=</span><span class="dv">3</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(pam.res)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "sample"     "medoids"    "i.med"      "clustering" "objective" 
+ [6] "clusinfo"   "diss"       "call"       "silinfo"    "data"      </code></pre>
+</div>
+</div>
+<p>We are especially interested in <code>medoids</code> which shows the objects representing cluster and <code>clustering</code> which gives a vector containing the cluster number of each object.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>pam.res<span class="sc">$</span>medoids</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     Sepal.Length Sepal.Width Petal.Length   Petal.Width
+[1,]  -0.89767388   0.7861738  -1.27910398 -1.3110521482
+[2,]  -0.05233076  -0.8198233   0.08043967  0.0008746178
+[3,]   0.79301235  -0.1315388   0.81685914  1.0504160307</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>pam.res<span class="sc">$</span>i.med</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  40  83 148</code></pre>
+</div>
+</div>
+<p>Observe that the flowers n.&nbsp;40, 83 and 148 from the scaled iris data correspond to the medoids shown above. You can easily check this as <code>iris.scaled[c(40,83,148),]</code></p>
+<p>The cluster for the observations can be obtained as:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>pam.res<span class="sc">$</span>clustering</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ [38] 1 1 1 1 2 1 1 1 1 1 1 1 1 3 3 3 2 3 2 3 2 3 2 2 2 2 2 2 3 2 2 2 2 3 2 2 2
+ [75] 2 3 3 3 2 2 2 2 2 2 2 3 3 2 2 2 2 2 2 2 2 2 2 2 2 2 3 3 3 3 3 3 2 3 3 3 3
+[112] 3 3 2 3 3 3 3 3 2 3 3 3 3 3 3 3 3 3 3 3 3 3 3 2 3 3 3 3 3 3 3 3 3 3 3 3 3
+[149] 3 3</code></pre>
+</div>
+</div>
+<p>We use the <em>table()</em> function to compare the true class labels and the class labels obtained by K-medoids clustering. Does this result offer any improvement over the K-means results obtained above?<br>
+</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(iris<span class="sc">$</span>Species, pam.res<span class="sc">$</span>clustering)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            
+              1  2  3
+  setosa     49  1  0
+  versicolor  0 37 13
+  virginica   0  4 46</code></pre>
+</div>
+</div>
+<p>An alternative option to get the same result:</p>
+<p>We notice that our clustering misclassifies 1 of the setosa species as versicolor (49 out of 50 correctly classified). Virginica species got some improvement over the previous K-means results, only 4 observations are misclassified whereas 14 observations are misclassified in K-means. Overall, 88% ((49+37+46)/150*100) correct classification is obtained under K-medoids whereas 83.3% correct classification was obtained for K-means.</p>
+<p><br>
+We can use the <code>fviz_cluster</code> function to visualise the clusters as before.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(factoextra)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_cluster</span>(pam.res, iris[, <span class="sc">-</span><span class="dv">5</span>], <span class="at">ellipse.type =</span> <span class="st">"norm"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Workshop7_Clustering_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br>
+</p>
+<p>We show in the figure below that the medoids are indeed a data point whereas centroids are not.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Workshop7_Clustering_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br>
+</p>
+</section>
+</section>
+<section id="silhouette-measure" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="silhouette-measure">Silhouette measure</h2>
+<p><br>
+</p>
+<p>We were introduced to the <em>Silhouette measure</em> in Practical 1. It is a method commonly used to determine the optimal number of clusters. Let us now revisit the solutions to the practicals and review a few lecture slides on the theory behind it, using the Iris dataset.</p>
+<p>We will then demonstrate how to visualise this method for the Iris dataset using the following three algorithms: K-means, K-medoids, and Hierarchical clustering (with appropriate linkage).</p>
+<p><br>
+Silhouette width is a quantity associated with every observation inside a cluster. For each algorithm, we can compute the overall average silhouette width inside each cluster. The maximum of these values gives the optimal number of cluster (for each algorithm).</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">#K-means</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_nbclust</span>(iris.scaled, kmeans, <span class="at">method =</span> <span class="st">"silhouette"</span>)<span class="sc">+</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"K-means"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Workshop7_Clustering_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co">#K-medoids</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_nbclust</span>(iris.scaled, clara, <span class="at">method =</span> <span class="st">"silhouette"</span>)<span class="sc">+</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"K-medoids"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Workshop7_Clustering_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Hierarchical</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_nbclust</span>(iris.scaled, hcut, <span class="at">method =</span> <span class="st">"silhouette"</span>)<span class="sc">+</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Hierarchical"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Workshop7_Clustering_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br>
+The optimal number of clusters is two!</p>
+<p>It is not so surprising, given that the observations from the <em>Versicolor</em> and <em>Virginica</em> varieties cluster well together. The real reason we chose 3 clusters in the analysis of the Iris data set is that we knew there were three different varieties. So, prior knowledge is an important factor in choosing the number of clusters as much as quantitative measures such as Silhouette.</p>
+<p><br>
+</p>
+<p>We used the Silhouette measure to select optimal number of clusters within a method. We can select the optimal number of clusters as well as the optimal algorithm using a general validation method implemented in the <em>clValid</em> package. For more info about this, see<a href="https://www.jstatsoft.org/article/view/v025i04"> HERE</a>.</p>
+</section>
+<section id="model-based-clustering-the-gaussian-mixture-model-optional" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="model-based-clustering-the-gaussian-mixture-model-optional">Model-based clustering: the Gaussian mixture model (optional)</h2>
+<p><br>
+The clustering methods that we have discussed so far neither involve any sort of model nor are based on a density estimate. Model-based clustering considers the data as coming from a distribution that is a mixture of two or more clusters. In the Gaussian mixture model, each cluster <span class="math inline">\(C_k\)</span> is modelled by a random variable with a multivariate normal distribution <span class="math inline">\(N_p(\mu_{k}, \Sigma_{k})\)</span>. Recall that we have:</p>
+<ul>
+<li><span class="math inline">\(\mu_{k}:\)</span> mean vector for the <span class="math inline">\(k\)</span>-th cluster</li>
+<li><span class="math inline">\(\Sigma_{k}:\)</span> covariance matrix for the <span class="math inline">\(k\)</span>-th cluster</li>
+</ul>
+<details>
+<summary>
+Aside
+</summary>
+<p>To get a better idea of how such a distribution looks like, we can visualize the joint probability distribution in some simple cases, such as the one of 3 clusters and 2 variables.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Part (a) generate data:</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>K <span class="ot">=</span> <span class="dv">3</span>  <span class="co"># the number of classes</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="dv">20</span> <span class="co"># the number of samples per class</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>p <span class="ot">=</span> <span class="dv">2</span> <span class="co"># the number of variables</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Create data for class 1:</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>X_1 <span class="ot">=</span> <span class="fu">matrix</span>( <span class="fu">rnorm</span>(n<span class="sc">*</span>p), <span class="at">nrow=</span>n, <span class="at">ncol=</span>p )</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>( row <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n ){</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>  X_1[row,] <span class="ot">=</span> X_1[row,] <span class="sc">+</span> <span class="fu">rep</span>( <span class="dv">2</span>, p )</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Create data for class 2:</span></span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>X_2 <span class="ot">=</span> <span class="fu">matrix</span>( <span class="fu">rnorm</span>(n<span class="sc">*</span>p), <span class="at">nrow=</span>n, <span class="at">ncol=</span>p )</span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>( row <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n ){</span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>  X_2[row,] <span class="ot">=</span> X_2[row,] <span class="sc">+</span> <span class="fu">rep</span>( <span class="sc">-</span><span class="dv">2</span>, p )</span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Create data for class 3:</span></span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>X_3 <span class="ot">=</span> <span class="fu">matrix</span>( <span class="fu">rnorm</span>(n<span class="sc">*</span>p), <span class="at">nrow=</span>n, <span class="at">ncol=</span>p )</span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>( row <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n ){</span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a>  X_3[row,] <span class="ot">=</span> X_3[row,] <span class="sc">+</span> <span class="fu">c</span>( <span class="fu">rep</span>( <span class="dv">1</span>, p<span class="sc">/</span><span class="dv">2</span> ), <span class="fu">rep</span>( <span class="sc">-</span><span class="dv">1</span>, p<span class="sc">/</span><span class="dv">2</span> ) )</span>
+<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">rbind</span>(X_1, X_2, X_3)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mclust)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>ex.mc <span class="ot">&lt;-</span> <span class="fu">Mclust</span>(X, <span class="at">G=</span><span class="dv">3</span>)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ex.mc, <span class="at">what =</span> <span class="st">"density"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Workshop7_Clustering_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</details>
+<p>The model parameters <span class="math inline">\(\mu_{k}\)</span> and <span class="math inline">\(\Sigma_{k}\)</span> can be estimated using the Expectation-Maximisation (EM) algorithm. As a result, each observation point <span class="math inline">\(x\)</span> comes with a probability of belonging to a cluster <span class="math inline">\(p_k(x)\)</span>. These probabilities satisfy</p>
+<p><span class="math display">\[p_1(x)+\dots+p_n(x)=1,\]</span> where <span class="math inline">\(n\)</span> is the total number of clusters, as we are assuming that all points belong to some cluster. This method has been implemented in the <code>mclust</code> package in R.<br>
+<br>
+</p>
+<p>Since the model is based on maximum likelihood estimation, criteria such as BIC (Bayesian Information Criterion) and AIC (Akaike Information Criterion) can be used for the selection of the number of clusters.</p>
+<p>We briefly recall the form of these two criteria:</p>
+<p><span class="math display">\[AIC = -2logL +2p\]</span> <span class="math display">\[BIC = -2logL +log(n)p\]</span> where <span class="math inline">\(logL\)</span> is the model log-likelihood, <span class="math inline">\(p\)</span> is the number of parameters and <span class="math inline">\(n\)</span> is the number of observations. In general, we want these quantities to be small. The model with the smallest value of the criterion is selected as the best.</p>
+<p>BIC is often used for selecting the number of clusters.</p>
+<p>Let us see how good model based clustering is on the iris data set.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>iris.scaled <span class="ot">&lt;-</span> <span class="fu">scale</span>(iris[, <span class="sc">-</span><span class="dv">5</span>]) <span class="co"># Standardise the data</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>mc <span class="ot">&lt;-</span> <span class="fu">Mclust</span>(iris.scaled, <span class="at">G =</span> <span class="dv">3</span>) <span class="co"># Model-based-clustering, G=3 indicates a request for 3 clusters</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mc)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>---------------------------------------------------- 
+Gaussian finite mixture model fitted by EM algorithm 
+---------------------------------------------------- 
+
+Mclust VVV (ellipsoidal, varying volume, shape, and orientation) model with 3
+components: 
+
+ log-likelihood   n df      BIC       ICL
+      -288.5255 150 44 -797.519 -800.7391
+
+Clustering table:
+ 1  2  3 
+50 45 55 </code></pre>
+</div>
+</div>
+<p>The result indicates that there are 50 observations in cluster 1, 45 in cluster 2 and 55 in cluster 3.</p>
+<p>We can examine the variables created within object <code>mc</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(mc)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "call"           "data"           "modelName"      "n"             
+ [5] "d"              "G"              "BIC"            "loglik"        
+ [9] "df"             "bic"            "icl"            "hypvol"        
+[13] "parameters"     "z"              "classification" "uncertainty"   </code></pre>
+</div>
+</div>
+<p>The value that is of utmost importance in the object created is <code>classification</code>. These are the newly created clusters.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>mc<span class="sc">$</span>classification</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ [38] 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 3 2 3 2 3 2
+ [75] 2 2 2 3 2 2 2 2 2 3 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 3 3 3 3 3 3 3 3 3 3 3
+[112] 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
+[149] 3 3</code></pre>
+</div>
+</div>
+<p><br>
+</p>
+<p>As a small task, use the <code>table()</code> function in R to compare the true class labels to the class labels obtained from <code>mclust</code>. Does this result offer any improvement over the K-means clustering results?</p>
+<p><br>
+</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>            
+              1  2  3
+  setosa     50  0  0
+  versicolor  0 45  5
+  virginica   0  0 50</code></pre>
+</div>
+</div>
+<p>If you implemented this correctly, then Setosa is correctly classified (50 out of 50 correctly classified). 5 observations are misclassified in Versicolor (45 out of 50 correctly classified). Overall, 97% correct classification is obtained under the model-based clustering, whereas it was 88% under K-medoids and 83.3% under K-means.</p>
+<p>You can obtain four different types of plot from the <code>mc</code> object that was created.</p>
+<p>Model-based clustering plots:</p>
+<p>1: BIC</p>
+<p>2: classification</p>
+<p>3: uncertainty</p>
+<p>4: density</p>
+<p>We can plot the classification as follows:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mc, <span class="at">what =</span> <span class="st">"classification"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Workshop7_Clustering_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Let us compare the former plot with the one given by selecting the “uncertainty” option:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mc, <span class="at">what =</span> <span class="st">"uncertainty"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Workshop7_Clustering_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>In the second one, the classification uncertainty of a point is highlighted by the dimension of the corresponding dot.<br>
+</p>
+<p>We can identify the 5 observations that were misclassified and calculate the classification error rate as follows.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">classError</span>(mc<span class="sc">$</span>classification, iris[,<span class="dv">5</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$misclassified
+[1] 69 71 73 78 84
+
+$errorRate
+[1] 0.03333333</code></pre>
+</div>
+</div>
+<p><br>
+Then, we can have a look at the plot of density functions:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mc, <span class="at">what =</span> <span class="st">"density"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Workshop7_Clustering_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>These are the probability density functions of the multivariate normals appearing in the model.</p>
+<p><br>
+</p>
+<p>Finally, here is the BIC plot:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mc, <span class="at">what =</span> <span class="st">"BIC"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Workshop7_Clustering_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The available model options in <code>mclust</code> package, are represented by identifiers including: <code>EII, VII, EEI, VEI, EVI, VVI, EEE, EEV, VEV and VVV</code>. So, VVV has been used for our example as the option with the best BIC, but the plot shows that there are different options that return a similar value.</p>
+<p>What do these letters mean? The first identifier refers to volume, the second to shape and the third to orientation. E stands for “equal”, V for “variable” and I for “coordinate axes”. VEI, for example, implies that the clusters have variable volume, the same shape and orientation equal to coordinate axes. EEE means that the clusters have the same volume, shape and orientation in p-dimensional space. More on this in the Lab!</p>
+<p>To enforce <code>VEV</code> as a model option, for example, you can do the following:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>mc_option <span class="ot">&lt;-</span> <span class="fu">Mclust</span>(iris.scaled, <span class="at">G =</span> <span class="dv">3</span>, <span class="at">modelNames =</span> <span class="st">"VEV"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Now, let us try to compare the performance of model options VEV, EVE and VEI to VVV.</p>
+<p>You are required to fit the models using the three model options, create a classification table and compare the percentage of correct classification with what we obtained for VVV.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>mc_option_VEV <span class="ot">&lt;-</span> <span class="fu">Mclust</span>(iris.scaled, <span class="at">G =</span> <span class="dv">3</span>, <span class="at">modelNames =</span> <span class="st">"VEV"</span>)</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(iris[,<span class="dv">5</span>], mc_option_VEV<span class="sc">$</span>classification)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            
+              1  2  3
+  setosa     50  0  0
+  versicolor  0  0 50
+  virginica   0 34 16</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>(<span class="dv">50</span><span class="sc">+</span><span class="dv">50</span><span class="sc">+</span><span class="dv">34</span>)<span class="sc">/</span><span class="dv">150</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.8933333</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>mc_option_EVE <span class="ot">&lt;-</span> <span class="fu">Mclust</span>(iris.scaled, <span class="at">G =</span> <span class="dv">3</span>, <span class="at">modelNames =</span> <span class="st">"EVE"</span>)</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(iris[,<span class="dv">5</span>], mc_option_EVE<span class="sc">$</span>classification)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            
+              1  2  3
+  setosa     50  0  0
+  versicolor  0 50  0
+  virginica   0 16 34</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>(<span class="dv">50</span><span class="sc">+</span><span class="dv">50</span><span class="sc">+</span><span class="dv">34</span>)<span class="sc">/</span><span class="dv">150</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.8933333</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>mc_option_VEI <span class="ot">&lt;-</span> <span class="fu">Mclust</span>(iris.scaled, <span class="at">G =</span> <span class="dv">3</span>, <span class="at">modelNames =</span> <span class="st">"VEI"</span>)</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(iris[,<span class="dv">5</span>], mc_option_VEI<span class="sc">$</span>classification)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            
+              1  2  3
+  setosa     50  0  0
+  versicolor  0 48  2
+  virginica   0  4 46</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>(<span class="dv">50</span><span class="sc">+</span><span class="dv">48</span><span class="sc">+</span><span class="dv">46</span>)<span class="sc">/</span><span class="dv">150</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.96</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>mc_option_VVV <span class="ot">&lt;-</span> <span class="fu">Mclust</span>(iris.scaled, <span class="at">G =</span> <span class="dv">3</span>, <span class="at">modelNames =</span> <span class="st">"VVV"</span>)</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(iris[,<span class="dv">5</span>], mc_option_VVV<span class="sc">$</span>classification)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            
+              1  2  3
+  setosa     50  0  0
+  versicolor  0 45  5
+  virginica   0  0 50</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>(<span class="dv">50</span><span class="sc">+</span><span class="dv">45</span><span class="sc">+</span><span class="dv">50</span>)<span class="sc">/</span><span class="dv">150</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.9666667</code></pre>
+</div>
+</div>
+<p>The automatically selected model option, <code>VVV</code> is the best with 97% classification accuracy. This is followed by <code>VEI</code> at 96% accuracy. The worst are the first two at 89.3%, although they are still better than all the previous clustering methods (K-means, K-medoids and Hierarchical). Unsurprisingly, model based clustering performs much better when natural clusters are present in the data!</p>
+<p><br>
+</p>
+<p>One should use the BIC criterion (<em>higher values are desirable</em>) to select the number of clusters (<code>G</code>). Consider the case below:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>mc_bic <span class="ot">&lt;-</span> <span class="fu">Mclust</span>(iris.scaled, <span class="at">G =</span> <span class="dv">3</span>)</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>mc_bic<span class="sc">$</span>BIC</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Bayesian Information Criterion (BIC): 
+        EII       VII       EEI       VEI       EVI       VVI       EEE
+3 -1214.525 -1222.844 -1029.733 -995.8343 -1014.515 -961.3205 -849.6448
+       VEE       EVE       VVE       EEV       VEV       EVV      VVV
+3 -822.076 -862.9077 -828.8731 -875.3724 -797.5483 -872.7515 -797.519
+
+Top 3 models based on the BIC criterion: 
+    VVV,3     VEV,3     VEE,3 
+-797.5190 -797.5483 -822.0760 </code></pre>
+</div>
+</div>
+<p>You will observe that the results included the top 3 model options based on the BIC criterion. In fact, if no number of clusters is specified, the algorithm naturally selects the best options using BIC. The downside of this method is that it takes much longer to run:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>mc_bic <span class="ot">&lt;-</span> <span class="fu">Mclust</span>(iris.scaled)</span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>mc_bic<span class="sc">$</span>BIC</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Bayesian Information Criterion (BIC): 
+        EII       VII        EEI        VEI        EVI        VVI        EEE
+1 -1723.766 -1723.766 -1738.7979 -1738.7979 -1738.7979 -1738.7979 -1046.6559
+2 -1344.053 -1325.273 -1259.6457 -1172.9600 -1223.9860 -1074.2293  -904.7750
+3 -1214.525 -1222.844 -1029.7330  -995.8343 -1014.5146  -961.3205  -849.6448
+4 -1177.163 -1139.392 -1044.1118  -965.1348 -1054.2229  -967.7021  -862.7323
+5 -1135.642 -1107.791  -958.6219  -905.0241  -983.5054  -928.1301  -821.5159
+6 -1131.245 -1102.864  -910.4787  -892.8517  -990.7497  -923.9756  -826.5558
+7 -1119.876 -1053.274  -929.8709  -897.4180 -1030.2038  -983.3316  -849.1854
+8 -1124.299 -1059.090  -908.1008  -896.1450  -957.1355  -980.8747  -855.9594
+9 -1114.899 -1060.444  -912.9422  -918.7055  -984.5159  -972.5093  -869.7734
+         VEE        EVE        VVE        EEV        VEV        EVV        VVV
+1 -1046.6559 -1046.6559 -1046.6559 -1046.6559 -1046.6559 -1046.6559 -1046.6559
+2  -873.0048  -906.9282  -880.7933  -873.6590  -802.5253  -875.0084  -790.6956
+3  -822.0760  -862.9077  -828.8731  -875.3724  -797.5483  -872.7515  -797.5190
+4  -821.5149  -902.9964  -881.1270  -930.1693  -821.4057  -941.9898  -847.2777
+5         NA  -901.9539  -853.4148  -877.2201  -837.6111         NA  -893.2973
+6  -826.2392  -873.0654  -865.1217  -905.4942  -879.2801         NA  -971.4786
+7         NA  -913.1458  -898.7411  -953.7660  -920.8553 -1026.5234 -1023.6106
+8  -871.9319  -934.3770  -908.8799  -955.7741  -939.3449 -1048.4311 -1047.3167
+9         NA  -955.8249  -947.9984  -990.5646  -987.1010 -1099.1226 -1100.3729
+
+Top 3 models based on the BIC criterion: 
+    VVV,2     VVV,3     VEV,3 
+-790.6956 -797.5190 -797.5483 </code></pre>
+</div>
+</div>
+<p>In summary: model-based clustering allows for mixing between clusters, it is useful to give precise metrics of mis-clustering (hence easier to manage outliers), and more flexibility as we are assigning a probability rather than a certainty.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

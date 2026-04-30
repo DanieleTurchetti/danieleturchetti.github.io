@@ -1,0 +1,93 @@
+[
+  {
+    "objectID": "ChipFiring.html",
+    "href": "ChipFiring.html",
+    "title": "Year 3 project – The mathematics of chip-firing",
+    "section": "",
+    "text": "This project explores chip-firing on graphs, a deceptively simple game whose theory reveals deep connections with various areas of mathematics including combinatorics, algebra, geometry, and mathematical physics.\n\n\nThe fundamental idea of chip-firing is simple: given a graph where each vertex holds a certain number of “chips,” a vertex can “fire” by distributing one chip to each of its neighbours. If you want to see this in practice here you can play a videogame inspired by chip-firing.\nDespite its elementary rules, chip-firing gives rise to complex behaviours, making it a fascinating subject in discrete mathematics. One of the most famous incarnations of chip-firing is the abelian sandpile model, which originated in theoretical physics as a model for self-organized criticality. This model leads to remarkable limit shapes with fractal-like structure and has been widely studied. The study of recurrent configurations in sandpile models reveals deep connections with algebraic structures such as the Jacobian group of a graph, an abelian group whose order is given by the number of spanning trees of the graph, and the Laplacian matrix of the graph, which governs the dynamics of chip-firing.\n\n\n\nIn the group project, we will learn the algebraic foundations of the theory, starting from the first three chapters of the book by Corry and Perkinson [CP]. The books has some nice exercises, and further questions might arise along the way. By the end of the group project, we will have learned:\n\nThe relationship between divisors and chip firing\nThe definition of the Picard and Jacobian groups\nThe definition of the Laplacian matrix and how to use it to compute Picard and Jacobian groups\nAlgorithms to determine if a chip-firing game can be won and – if that is the case – a strategy for winning.\n\nDepending on the interests of the group, we might explore some extra topics in combinatorics (such as chapter 4 of [CP]) or algebra (such as chapter 5 of [CP]).\n\n\nYou will be asked to present a section of the book each, and engage with each other’s presentation of the book’s material at our regular meetings. The work produced through solving problems, exploring examples, and investigating theoretical applications will form the content of your group presentation. Your work will be assessed on clear communication of the material in both written and oral formats.\n\n\n\n\nThe individual project will build on the knowledge you have gained in the group project and will explore additional advanced topics. In algebraic and tropical geometry, chip-firing appears through the lens of divisors on graphs, which serve as a discrete analogue of divisors on algebraic curves. The Riemann-Roch theorem for graphs, developed by Baker and Norine, mirrors its classical counterpart in algebraic geometry but in a purely combinatorial setting. This perspective has led to applications in Brill-Noether theory, moduli spaces of curves, and tropical geometry, where chip-firing plays a role in understanding metric graphs and degeneration techniques in algebraic geometry.\nA few examples of topics you will be able to choose from are: * Studying sandpile dynamics and recurrent configurations on different graph structures. * Investigating combinatorial games related to chip-firing and analyzing winning strategies. * Exploring the algebraic structure of the Jacobian group and its connections to spanning trees. * Examining the Riemann-Roch theorem for graphs and its implications in tropical geometry.\n\n\nThe project will revolve around learning through reading with focus on the underlying theory, mathematical rigour, and the development of deep conceptual understanding. Students will demonstrate their understanding by solving relevant problems, exploring examples and theoretical applications of the material, and clearly communicating it in both written and oral formats.\n\n\n\n\nIt is essential that students have taken Algebra II and Complex Analysis II. It is suggested (but not essential) that students take one of Geometry III or Decision Theory III (depending on the students interest) during the course of the project.\n\n\n\nThe first part of the project is at the intersection of algebra and combinatorics, but potential topics for the individual project span a larger set of mathematical knowledge (including dynamical systems and mathematical physics). As such, I have not indicated a research area for it. You are welcome to contact me for more information.\n\n\n\n\n[CP] - Divisors and Sandpiles: An Introduction to Chip-Firing by Scott Corry and David Perkinson Link\n[LP] - What is… a sandpile? by Lionel Levine and James Propp Link\n[K] “The mathematics of chip-firing” by Caroline Klivans Durham University Library link"
+  },
+  {
+    "objectID": "ChipFiring.html#background-and-motivation",
+    "href": "ChipFiring.html#background-and-motivation",
+    "title": "Year 3 project – The mathematics of chip-firing",
+    "section": "",
+    "text": "The fundamental idea of chip-firing is simple: given a graph where each vertex holds a certain number of “chips,” a vertex can “fire” by distributing one chip to each of its neighbours. If you want to see this in practice here you can play a videogame inspired by chip-firing.\nDespite its elementary rules, chip-firing gives rise to complex behaviours, making it a fascinating subject in discrete mathematics. One of the most famous incarnations of chip-firing is the abelian sandpile model, which originated in theoretical physics as a model for self-organized criticality. This model leads to remarkable limit shapes with fractal-like structure and has been widely studied. The study of recurrent configurations in sandpile models reveals deep connections with algebraic structures such as the Jacobian group of a graph, an abelian group whose order is given by the number of spanning trees of the graph, and the Laplacian matrix of the graph, which governs the dynamics of chip-firing."
+  },
+  {
+    "objectID": "ChipFiring.html#group-project",
+    "href": "ChipFiring.html#group-project",
+    "title": "Year 3 project – The mathematics of chip-firing",
+    "section": "",
+    "text": "In the group project, we will learn the algebraic foundations of the theory, starting from the first three chapters of the book by Corry and Perkinson [CP]. The books has some nice exercises, and further questions might arise along the way. By the end of the group project, we will have learned:\n\nThe relationship between divisors and chip firing\nThe definition of the Picard and Jacobian groups\nThe definition of the Laplacian matrix and how to use it to compute Picard and Jacobian groups\nAlgorithms to determine if a chip-firing game can be won and – if that is the case – a strategy for winning.\n\nDepending on the interests of the group, we might explore some extra topics in combinatorics (such as chapter 4 of [CP]) or algebra (such as chapter 5 of [CP]).\n\n\nYou will be asked to present a section of the book each, and engage with each other’s presentation of the book’s material at our regular meetings. The work produced through solving problems, exploring examples, and investigating theoretical applications will form the content of your group presentation. Your work will be assessed on clear communication of the material in both written and oral formats."
+  },
+  {
+    "objectID": "ChipFiring.html#individual-project",
+    "href": "ChipFiring.html#individual-project",
+    "title": "Year 3 project – The mathematics of chip-firing",
+    "section": "",
+    "text": "The individual project will build on the knowledge you have gained in the group project and will explore additional advanced topics. In algebraic and tropical geometry, chip-firing appears through the lens of divisors on graphs, which serve as a discrete analogue of divisors on algebraic curves. The Riemann-Roch theorem for graphs, developed by Baker and Norine, mirrors its classical counterpart in algebraic geometry but in a purely combinatorial setting. This perspective has led to applications in Brill-Noether theory, moduli spaces of curves, and tropical geometry, where chip-firing plays a role in understanding metric graphs and degeneration techniques in algebraic geometry.\nA few examples of topics you will be able to choose from are: * Studying sandpile dynamics and recurrent configurations on different graph structures. * Investigating combinatorial games related to chip-firing and analyzing winning strategies. * Exploring the algebraic structure of the Jacobian group and its connections to spanning trees. * Examining the Riemann-Roch theorem for graphs and its implications in tropical geometry.\n\n\nThe project will revolve around learning through reading with focus on the underlying theory, mathematical rigour, and the development of deep conceptual understanding. Students will demonstrate their understanding by solving relevant problems, exploring examples and theoretical applications of the material, and clearly communicating it in both written and oral formats."
+  },
+  {
+    "objectID": "ChipFiring.html#prerequisites-and-co-requisites",
+    "href": "ChipFiring.html#prerequisites-and-co-requisites",
+    "title": "Year 3 project – The mathematics of chip-firing",
+    "section": "",
+    "text": "It is essential that students have taken Algebra II and Complex Analysis II. It is suggested (but not essential) that students take one of Geometry III or Decision Theory III (depending on the students interest) during the course of the project."
+  },
+  {
+    "objectID": "ChipFiring.html#additional-information",
+    "href": "ChipFiring.html#additional-information",
+    "title": "Year 3 project – The mathematics of chip-firing",
+    "section": "",
+    "text": "The first part of the project is at the intersection of algebra and combinatorics, but potential topics for the individual project span a larger set of mathematical knowledge (including dynamical systems and mathematical physics). As such, I have not indicated a research area for it. You are welcome to contact me for more information."
+  },
+  {
+    "objectID": "ChipFiring.html#references",
+    "href": "ChipFiring.html#references",
+    "title": "Year 3 project – The mathematics of chip-firing",
+    "section": "",
+    "text": "[CP] - Divisors and Sandpiles: An Introduction to Chip-Firing by Scott Corry and David Perkinson Link\n[LP] - What is… a sandpile? by Lionel Levine and James Propp Link\n[K] “The mathematics of chip-firing” by Caroline Klivans Durham University Library link"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "This site has been made with Quarto. It is the repository of notes for the Data Visualisation, Exploration and Unsupervised Learning course led by Daniele Turchetti at Durham University."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Final Year Projects",
+    "section": "",
+    "text": "Here’s a list of dissertation topics I have supervised at Durham University. Topics offered at other institutions can be found in my CV.\n\n\n\nHands-on algebraic geometry\nThe mathematics of chip firing\n\n\n\n\n\nAlgebraic curves\nTropical curves\n\n\n\n\n\nFunding research data analysis\nWhat is good mathematical outreach?"
+  },
+  {
+    "objectID": "index.html#year-3-projects",
+    "href": "index.html#year-3-projects",
+    "title": "Final Year Projects",
+    "section": "",
+    "text": "Hands-on algebraic geometry\nThe mathematics of chip firing"
+  },
+  {
+    "objectID": "index.html#year-4-projects",
+    "href": "index.html#year-4-projects",
+    "title": "Final Year Projects",
+    "section": "",
+    "text": "Algebraic curves\nTropical curves"
+  },
+  {
+    "objectID": "index.html#master-projects",
+    "href": "index.html#master-projects",
+    "title": "Final Year Projects",
+    "section": "",
+    "text": "Funding research data analysis\nWhat is good mathematical outreach?"
+  },
+  {
+    "objectID": "TropicalCurves.html",
+    "href": "TropicalCurves.html",
+    "title": "Year 4 project – Tropical curves",
+    "section": "",
+    "text": "Year 4 project – Tropical curves\nThis project is about the emerging field of tropical geometry, a piecewise-linear shadow of classical algebraic geometry whose surprisingly rich structure reveals deep connections with combinatorics, algebraic geometry, and number theory.\n\nBackground and motivation\nThe fundamental idea of tropical geometry is to replace the classical operations of addition and multiplication with the tropical operations \\(a \\oplus b = \\min(a, b)\\) and \\(a \\odot b = a + b\\). Under this substitution, polynomial equations become piecewise-linear functions, and classical algebraic curves — defined by polynomial equations — become tropical curves: combinatorial objects made up of line segments and rays meeting at vertices, living in \\(\\mathbb{R}^n\\). Despite their simpler structure, tropical curves retain a surprising amount of geometric information about their classical counterparts.\nOne way to make this precise is through the notion of amoebas: the image of a classical algebraic curve under the coordinatewise logarithm map, which converges to a tropical curve in a well-defined limit. This limiting process, known as Maslov dequantization, is one of the conceptual cornerstones of the subject.\nA central theme of the project is understanding the correspondence between tropical and classical curves. Key tools here include the Newton polygon of a polynomial, which encodes the combinatorial structure of a tropical curve, and Viro’s patchworking theorem, which shows how tropical and classical curves can be related in a controlled and explicit way. These tools lead to striking applications in enumerative geometry, solving questions such as: how many algebraic curves of a given degree and genus pass through a prescribed set of points? Such counts can often be computed purely combinatorially via tropical methods.\n\n\nReading list\nA great friendly introduction to tropical curves is in the paper [BS] by Brugallé and Shaw. To learn the theory more in details, we will use [B] as a first reference for the foundations of the subject, and [BIMS] for a longer one on advanced topics. To situate the theory in the broader context of tropical geometry, we will use the standard tropical reference book [MS], by Maclagan and Sturmfels. Potential advanced topics for dissertation include:\n\nStudying the combinatorial structure of tropical plane curves and their dual Newton subdivisions.\nInvestigating tropical intersection theory and the tropical Bézout theorem.\nExploring Viro’s patchworking theorem and its applications to the topology of real algebraic curves.\nApplying floor diagrams to classical and tropical curve counting problems in enumerative geometry.\n\n\n\nMode of operation & evidence of learning\nThe project will revolve around learning through reading with focus on the underlying theory, mathematical rigour, and the development of deep conceptual understanding. Students will demonstrate their understanding by solving relevant problems, exploring examples and theoretical applications of the material, and clearly communicating it in both written and oral formats.\n\n\nPrerequisites and Co-requisites\nIt is essential that students have taken Algebra II, Topology II and Geometry III. Helpful modules are Galois Theory III and Codes & Cryptography III, but they are not essential for the success of the project.\n\n\nReferences\n\n[B] E. Brugallé - “Some aspects of tropical geometry” Link\n[BS] E. Brugallé and K. Shaw - “A Bit of Tropical Geometry” Link\n[BIMS] E. Brugallé, I. Itenberg, G. Mikhalkin, and K. Shaw - “Brief introduction to tropical geometry” Link\n[MS] D. Maclagan and B. Sturmfels - “Introduction to tropical geometry” Link"
+  }
+]
